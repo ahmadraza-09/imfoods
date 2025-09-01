@@ -1,141 +1,167 @@
 import React, { useState } from "react";
-import { Menu, X, ChevronDown } from "lucide-react";
-import logo from "../assets/logo/logo.png";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { ChevronDown, Menu, X, Leaf } from "lucide-react";
+import Logo from "../assets/logo/logo.png";
 
 const Header = () => {
-  const navigate = useNavigate();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProductsOpen, setIsProductsOpen] = useState(false);
+
+  const products = [
+    { name: "Spices", path: "/products/spices" },
+    { name: "Pulses", path: "/products/pulses" },
+    { name: "Fresh Fruits", path: "/products/fresh-fruits" },
+    { name: "Fresh Vegetables", path: "/products/fresh-vegetables" },
+    { name: "Tea", path: "/products/tea" },
+    { name: "Coffee", path: "/products/coffee" },
+    { name: "Grains", path: "/products/grains" },
+    { name: "Oil", path: "/products/oil" },
+  ];
 
   return (
-    <header className="h-14 w-full sticky top-0 z-50 bg-white shadow-md">
-      <div className="max-w-7xl mx-auto h-full px-4 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex-shrink-0">
-          <a onClick={() => navigate("/")} title="Pisum logo">
-            <img src={logo} alt="Pisum Logo" className="h-16 w-auto" />
-          </a>
-        </div>
+    <header className="bg-white shadow-lg sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2">
+            <img src={Logo} alt="logo" className="w-20" />
+            <span className="text-2xl font-bold text-green-700">IM FOODS</span>
+          </Link>
 
-        {/* Desktop Menu */}
-        <nav className="hidden lg:flex space-x-8 font-medium">
-          <a
-            onClick={() => navigate("/")}
-            className="text-red-600 hover:text-red-800 cursor-pointer"
-          >
-            Home
-          </a>
-          <a
-            href="about-us/index.html"
-            className="hover:text-red-600 cursor-pointer"
-          >
-            About Us
-          </a>
-
-          <div className="group relative">
-            <button className="hover:text-red-600 flex items-center cursor-pointer">
-              Products
-              <ChevronDown size={16} className="ml-1" />
-            </button>
-            <ul className="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition">
-              {[
-                "Grains and Cereal",
-                "Pulses",
-                "Spices",
-                "Fruits",
-                "Vegetables",
-                "Oilseeds",
-                "Floriculture",
-                "Herbs",
-                "Dry Fruits",
-                "Beverages",
-                "Dehydrated Products",
-              ].map((item) => (
-                <li key={item}>
-                  <a
-                    href={`/${item
-                      .toLowerCase()
-                      .replace(/\s+/g, "-")}/index.html`}
-                    className="block px-4 py-2 hover:bg-gray-100"
-                  >
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <a href="certificates/index.html" className="hover:text-red-600">
-            Certificates
-          </a>
-          <a href="blog/index.html" className="hover:text-red-600">
-            Blogs
-          </a>
-          <a href="contact-us/index.html" className="hover:text-red-600">
-            Contact Us
-          </a>
-        </nav>
-
-        {/* Mobile Menu Button */}
-        <div className="lg:hidden">
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 text-gray-700"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-white shadow-md">
-          <nav className="px-4 pt-4 pb-6 space-y-4 font-medium">
-            <a href="index.html" className="block hover:text-red-600">
-              Home
-            </a>
-            <a href="about-us/index.html" className="block hover:text-red-600">
-              About Us
-            </a>
-
-            <details>
-              <summary className="cursor-pointer hover:text-red-600">
-                Products
-              </summary>
-              <ul className="pl-4 mt-2 space-y-2">
-                {[].map((item) => (
-                  <li key={item}>
-                    <a
-                      href={`/${item
-                        .toLowerCase()
-                        .replace(/\s+/g, "-")}/index.html`}
-                      className="block hover:text-red-600"
-                    >
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </details>
-
-            <a
-              href="certificates/index.html"
-              className="block hover:text-red-600"
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-8">
+            <Link
+              to="/"
+              className="block px-3 py-2 text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium"
+              onClick={() => setIsMenuOpen(false)}
             >
-              Certificates
-            </a>
-            <a href="blog/index.html" className="block hover:text-red-600">
+              Home
+            </Link>
+            <div className="relative">
+              <button
+                onMouseEnter={() => setIsProductsOpen(true)}
+                onMouseLeave={() => setIsProductsOpen(false)}
+                className="flex items-center space-x-1 text-gray-700 hover:text-green-700 transition-colors duration-200 py-2"
+              >
+                <span className="font-medium">Products</span>
+                <ChevronDown className="h-4 w-4" />
+              </button>
+
+              {/* Products Dropdown */}
+              <div
+                onMouseEnter={() => setIsProductsOpen(true)}
+                onMouseLeave={() => setIsProductsOpen(false)}
+                className={`absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-100 transition-all duration-200 ${
+                  isProductsOpen
+                    ? "opacity-100 visible transform translate-y-0"
+                    : "opacity-0 invisible transform -translate-y-2"
+                }`}
+              >
+                <div className="py-2">
+                  {products.map((product) => (
+                    <Link
+                      key={product.path}
+                      to={product.path}
+                      className="block px-4 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors duration-150"
+                    >
+                      {product.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <Link
+              to="/blogs"
+              className="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium"
+            >
               Blogs
-            </a>
-            <a
-              href="contact-us/index.html"
-              className="block hover:text-red-600"
+            </Link>
+            <Link
+              to="/about"
+              className="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium"
+            >
+              About Us
+            </Link>
+            <Link
+              to="/contact"
+              className="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium"
             >
               Contact Us
-            </a>
+            </Link>
           </nav>
+
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden p-2 rounded-md text-gray-700 hover:text-green-700 hover:bg-gray-100 transition-colors duration-200"
+          >
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
         </div>
-      )}
+
+        {/* Mobile Navigation */}
+        <div
+          className={`md:hidden transition-all duration-300 ${
+            isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+          } overflow-hidden`}
+        >
+          <div className="py-4 space-y-2 border-t border-gray-100">
+            <div>
+              <button
+                onClick={() => setIsProductsOpen(!isProductsOpen)}
+                className="flex items-center justify-between w-full px-3 py-2 text-gray-700 hover:text-green-700 transition-colors duration-200"
+              >
+                <span className="font-medium">Products</span>
+                <ChevronDown
+                  className={`h-4 w-4 transition-transform duration-200 ${
+                    isProductsOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              {isProductsOpen && (
+                <div className="pl-6 space-y-1">
+                  {products.map((product) => (
+                    <Link
+                      key={product.path}
+                      to={product.path}
+                      className="block px-3 py-2 text-gray-600 hover:text-green-700 transition-colors duration-150"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {product.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+            <Link
+              to="/blogs"
+              className="block px-3 py-2 text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Blogs
+            </Link>
+            <Link
+              to="/about"
+              className="block px-3 py-2 text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              About Us
+            </Link>
+            <Link
+              to="/contact"
+              className="block px-3 py-2 text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Contact Us
+            </Link>
+          </div>
+        </div>
+      </div>
     </header>
   );
 };

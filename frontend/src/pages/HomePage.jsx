@@ -1,24 +1,24 @@
 import React from "react";
 import Header from "../components/header";
 import Footer from "../components/footer";
-import HeroSlider from "../components/hero-slider";
-import PopularProducts from "../components/popular-products";
-import WhyChooseUs from "../components/why-choose-us";
-import ProductRange from "../components/product-range";
-import YoutubeVideo from "../components/youtube-video";
-import ClientSection from "../components/cleints-section";
+import HeroSection from "../components/HeroSection";
+import StatsSection from "../components/StatsSection";
+import FeaturesSection from "../components/FeaturesSection";
+import CategoryShowcase from "../components/CategoryShowcase";
+import TestimonialsSection from "../components/TestimonialsSection";
+import CommitmentSection from "../components/CommitmentSection ";
+import NewsLetterSignupSection from "../components/NewsLetterSignupSection";
 
 const HomePage = () => {
   return (
     <>
-      <Header />
-      <HeroSlider />
-      <PopularProducts />
-      <WhyChooseUs />
-      <ProductRange />
-      <YoutubeVideo />
-      <ClientSection />
-      <Footer />
+      <HeroSection />
+      <StatsSection />
+      <FeaturesSection />
+      <CategoryShowcase />
+      <TestimonialsSection />
+      <CommitmentSection />
+      <NewsLetterSignupSection />
     </>
   );
 };

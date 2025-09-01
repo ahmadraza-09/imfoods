@@ -1,204 +1,235 @@
-import React, { useState } from "react";
-import {
-  Facebook,
-  Twitter,
-  Linkedin,
-  Instagram,
-  Youtube,
-  MapPin,
-  Phone,
-  Mail,
-  ChevronRight,
-} from "lucide-react";
+import React from "react";
+import { Leaf, Twitter, Facebook, Instagram, Linkedin } from "lucide-react";
+import Logo from "../assets/logo/logo.png";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  const navigate = useNavigate();
   return (
-    <>
-      <footer className="bg-gray-900 text-gray-200">
-        {/* Main Footer */}
-        <div className="py-16 px-6 lg:px-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-            {/* Information */}
-            <div>
-              <h3 className="text-xl font-semibold mb-4">Information</h3>
-              <ul className="space-y-2">
-                {[
-                  { name: "Home", link: "index.html" },
-                  { name: "About Us", link: "about-us/index.html" },
-                  { name: "Certificates", link: "certificates/index.html" },
-                  { name: "Products Range", link: "product-range/index.html" },
-                  { name: "Become Supplier", link: "#" },
-                  { name: "Blogs", link: "blog/index.html" },
-                  { name: "Careers", link: "careers/index.html" },
-                  { name: "Contact Us", link: "contact-us/index.html" },
-                ].map((item) => (
-                  <li key={item.name}>
-                    <a
-                      href={item.link}
-                      className="flex items-center hover:text-white"
-                    >
-                      <ChevronRight size={14} className="mr-2" />
-                      {item.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+    <footer className="bg-gray-900 text-white py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+          {/* Brand */}
+          <div>
+            <div className="flex items-center space-x-3 mb-6">
+              <img src={Logo} alt="Logo" className="w-14" />
+              <span className="text-2xl font-bold">IM FOODS</span>
             </div>
-
-            {/* Product Range */}
-            <div>
-              <h3 className="text-xl font-semibold mb-4">Products Range</h3>
-              <ul className="space-y-2">
-                {[
-                  "Grains and Cereal",
-                  "Pulses",
-                  "Spices",
-                  "Fruits",
-                  "Vegetables",
-                  "Oilseeds",
-                  "Floriculture",
-                  "Herbs",
-                  "Dry Fruits",
-                  "Beverages",
-                  "Dehydrated Products",
-                ].map((item) => (
-                  <li key={item}>
-                    <a
-                      href={`/${item
-                        .toLowerCase()
-                        .replace(/\s+/g, "-")}/index.html`}
-                      className="flex items-center hover:text-white"
-                    >
-                      <ChevronRight size={14} className="mr-2" />
-                      {item}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Branches */}
-            <div>
-              <h3 className="text-xl font-semibold mb-4">Branches</h3>
-              <ul className="space-y-2">
-                {["Pune", "Mumbai", "Bangalore"].map((branch) => (
-                  <li key={branch}>
-                    <a
-                      href="contact-us/index.html#branches"
-                      className="flex items-center hover:text-white"
-                    >
-                      <ChevronRight size={14} className="mr-2" />
-                      {branch}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Stay Connected */}
-            <div>
-              <h3 className="text-xl font-semibold mb-4">Stay Connected</h3>
-              <div className="space-y-4 text-sm">
-                <div className="flex items-start">
-                  <MapPin className="mr-3 mt-1" size={18} />
-                  <p>
-                    <strong>Registered address:</strong>
-                    <br />
-                    33/15, Prashant Bunglow,
-                    <br />
-                    Opp. Garware College,
-                    <br />
-                    Karve Road, Pune 411004 India
-                  </p>
-                </div>
-                <div className="flex items-center">
-                  <Phone className="mr-3" size={18} />
-                  <p>9765758899 / 7219115858</p>
-                </div>
-                <div className="flex items-center">
-                  <Mail className="mr-3" size={18} />
-                  <a
-                    href="mailto:inquiry@pisumfoods.com"
-                    className="hover:text-white"
-                  >
-                    inquiry@pisumfoods.com
-                  </a>
-                </div>
+            <p className="text-gray-400 leading-relaxed mb-6">
+              Your trusted partner for fresh, natural, and premium quality food
+              products sourced from the finest farms worldwide.
+            </p>
+            <div className="flex space-x-4">
+              <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-green-700 transition-colors cursor-pointer">
+                <span className="text-sm font-bold">
+                  <Instagram />
+                </span>
+              </div>
+              <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-green-700 transition-colors cursor-pointer">
+                <span className="text-sm font-bold">
+                  <Facebook />
+                </span>
+              </div>
+              <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-green-700 transition-colors cursor-pointer">
+                <span className="text-sm font-bold">
+                  <Twitter />
+                </span>
+              </div>
+              <div className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-green-700 transition-colors cursor-pointer">
+                <span className="text-sm font-bold">
+                  <Linkedin />
+                </span>
               </div>
             </div>
           </div>
 
-          {/* Social Links */}
-          <div className="mt-10 flex justify-center space-x-6">
-            <a
-              href="https://www.youtube.com/channel/UC5J8ax1tO3F5jDPhGFql-ZQ"
-              target="_blank"
-              rel="noopener"
-              className="hover:text-red-500"
-            >
-              <Youtube size={22} />
-            </a>
-            <a
-              href="https://www.facebook.com/pisumfoods"
-              target="_blank"
-              rel="noopener"
-              className="hover:text-blue-500"
-            >
-              <Facebook size={22} />
-            </a>
-            <a
-              href="https://twitter.com/pisumfoods"
-              target="_blank"
-              rel="noopener"
-              className="hover:text-sky-400"
-            >
-              <Twitter size={22} />
-            </a>
-            <a
-              href="https://www.linkedin.com/company/pisum-food-services"
-              target="_blank"
-              rel="noopener"
-              className="hover:text-blue-400"
-            >
-              <Linkedin size={22} />
-            </a>
-            <a
-              href="https://www.instagram.com/pisumfoods/"
-              target="_blank"
-              rel="noopener"
-              className="hover:text-pink-500"
-            >
-              <Instagram size={22} />
-            </a>
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-xl font-bold mb-6">Quick Links</h4>
+            <ul className="space-y-3">
+              <li>
+                <a
+                  onClick={() => navigate("/")}
+                  className="text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  Home
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => navigate("/about")}
+                  className="text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  About Us
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => navigate("/contact")}
+                  className="text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  Contact Us
+                </a>
+              </li>
+              <li>
+                <a
+                  onClick={() => navigate("/blogs")}
+                  className="text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  Blog & Recipes
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  Customer Support
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  Track Your Order
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Product Categories */}
+          <div>
+            <h4 className="text-xl font-bold mb-6">Product Categories</h4>
+            <ul className="space-y-3">
+              <li>
+                <a
+                  href="/products/spices"
+                  className="text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  Pulses
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/products/spices"
+                  className="text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  Spices
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/products/fresh-fruits"
+                  className="text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  Fresh Fruits
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/products/fresh-vegetables"
+                  className="text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  Fresh Vegetables
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/products/tea"
+                  className="text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  Tea
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/products/grains"
+                  className="text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  Grains
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/products/grains"
+                  className="text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  Coffee
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/products/grains"
+                  className="text-gray-400 hover:text-green-400 transition-colors"
+                >
+                  Oil
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h4 className="text-xl font-bold mb-6">Contact Info</h4>
+            <div className="text-gray-400 space-y-4">
+              <div>
+                <p className="font-medium text-white mb-1">Email</p>
+                <p>info@imfoods.com</p>
+              </div>
+              <div>
+                <p className="font-medium text-white mb-1">Phone</p>
+                <p>+1 (555) 123-4567</p>
+              </div>
+              <div>
+                <p className="font-medium text-white mb-1">Address</p>
+                <p>
+                  123 Fresh Market Street
+                  <br />
+                  Farm City, FC 12345
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Copyright */}
-        <div className="bg-gray-800 py-6 text-center text-sm">
-          <p>
-            Copyright © 2020{" "}
-            <a
-              href="http://www.btwgroup.co/"
-              target="_blank"
-              rel="noopener"
-              className="underline hover:text-white"
-            >
-              A BTW Group Company
-            </a>{" "}
-            | Designed by{" "}
-            <a
-              href="https://wgbl.co/"
-              target="_blank"
-              rel="noopener"
-              className="underline hover:text-white"
-            >
-              WGBL India
-            </a>{" "}
-            - Design Agency
-          </p>
+        {/* Bottom Bar */}
+        <div className="border-t border-gray-800 mt-12 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-400 mb-4 md:mb-0">
+              &copy; 2025 IM Foods. All rights reserved.
+            </p>
+            <div className="flex space-x-6 text-sm">
+              <a
+                href="#"
+                className="text-gray-400 hover:text-green-400 transition-colors"
+              >
+                Privacy Policy
+              </a>
+              <a
+                href="#"
+                className="text-gray-400 hover:text-green-400 transition-colors"
+              >
+                Terms of Service
+              </a>
+              <a
+                href="#"
+                className="text-gray-400 hover:text-green-400 transition-colors"
+              >
+                Shipping Policy
+              </a>
+              <a
+                href="#"
+                className="text-gray-400 hover:text-green-400 transition-colors"
+              >
+                Return Policy
+              </a>
+            </div>
+          </div>
         </div>
-      </footer>
-    </>
+      </div>
+    </footer>
   );
 };
 
