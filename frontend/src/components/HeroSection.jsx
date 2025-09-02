@@ -20,7 +20,7 @@ const HeroSection = () => {
   }, [images.length]);
 
   return (
-    <section className="relative bg-gradient-to-br from-green-800 via-green-700 to-green-600 text-white overflow-hidden">
+    <section className="relative bg-gradient-to-br from-green-800 via-green-700 to-green-600 text-white overflow-hidden pt-12">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div
