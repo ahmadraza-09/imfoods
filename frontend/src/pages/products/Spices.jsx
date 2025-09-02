@@ -1,6 +1,7 @@
 import React from "react";
 import ProductCard from "../../components/ProductCard";
 import { Filter, Grid, List } from "lucide-react";
+import Banner from "../../components/Banner";
 
 const Spices = () => {
   const spices = [
@@ -111,13 +112,20 @@ const Spices = () => {
     "Premium",
   ];
   return (
-    <div className="min-h-screen py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen ">
+      {/* Banner */}
+      <Banner
+        title="Premium Spices"
+        bgImage="https://images.pexels.com/photos/277253/pexels-photo-277253.jpeg?auto=compress&cs=tinysrgb&w=400"
+        breadcrumbs={[
+          { label: "Home", path: "/" },
+          { label: "Products", path: "/products" },
+          { label: "Premium Spices" },
+        ]}
+      />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-            Premium Spices
-          </h1>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
             Discover our extensive collection of authentic spices sourced from
             the finest spice gardens around the world. Each spice is carefully

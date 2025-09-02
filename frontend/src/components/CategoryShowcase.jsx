@@ -10,7 +10,6 @@ const CategoryShowcase = () => {
       image:
         "https://images.pexels.com/photos/277253/pexels-photo-277253.jpeg?auto=compress&cs=tinysrgb&w=400",
       description: "Authentic spices from around the world",
-      productCount: 45,
     },
     {
       name: "Pulses",
@@ -18,7 +17,6 @@ const CategoryShowcase = () => {
       image:
         "https://images.pexels.com/photos/4224259/pexels-photo-4224259.jpeg?auto=compress&cs=tinysrgb&w=400",
       description: "Protein-rich lentils and legumes",
-      productCount: 32,
     },
     {
       name: "Fresh Fruits",
@@ -26,7 +24,6 @@ const CategoryShowcase = () => {
       image:
         "https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=400",
       description: "Farm-fresh seasonal fruits",
-      productCount: 28,
     },
     {
       name: "Fresh Vegetables",
@@ -34,7 +31,6 @@ const CategoryShowcase = () => {
       image:
         "https://images.pexels.com/photos/1458694/pexels-photo-1458694.jpeg?auto=compress&cs=tinysrgb&w=400",
       description: "Garden-fresh organic vegetables",
-      productCount: 38,
     },
     {
       name: "Tea",
@@ -42,7 +38,6 @@ const CategoryShowcase = () => {
       image:
         "https://images.pexels.com/photos/1638280/pexels-photo-1638280.jpeg?auto=compress&cs=tinysrgb&w=400",
       description: "Premium tea blends and varieties",
-      productCount: 24,
     },
     {
       name: "Coffee",
@@ -50,7 +45,6 @@ const CategoryShowcase = () => {
       image:
         "https://images.pexels.com/photos/894695/pexels-photo-894695.jpeg?auto=compress&cs=tinysrgb&w=400",
       description: "Expertly roasted coffee beans",
-      productCount: 18,
     },
     {
       name: "Grains",
@@ -58,7 +52,6 @@ const CategoryShowcase = () => {
       image:
         "https://images.pexels.com/photos/1192037/pexels-photo-1192037.jpeg?auto=compress&cs=tinysrgb&w=400",
       description: "Wholesome ancient and modern grains",
-      productCount: 22,
     },
     {
       name: "Oil",
@@ -66,7 +59,6 @@ const CategoryShowcase = () => {
       image:
         "https://images.pexels.com/photos/33783/olive-oil-salad-dressing-cooking-olive.jpg?auto=compress&cs=tinysrgb&w=400",
       description: "Pure, cold-pressed cooking oils",
-      productCount: 15,
     },
   ];
   return (
@@ -98,11 +90,6 @@ const CategoryShowcase = () => {
                   className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 text-white">
-                  <span className="text-sm font-medium">
-                    {category.productCount} Products
-                  </span>
-                </div>
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-900 group-hover:text-green-700 transition-colors duration-200 mb-2">

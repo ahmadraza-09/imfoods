@@ -1,4 +1,5 @@
 import React from "react";
+import Banner from "../../components/Banner";
 
 const FreshVegetables = () => {
   const vegetables = [
@@ -47,12 +48,19 @@ const FreshVegetables = () => {
   ];
 
   return (
-    <div className="min-h-screen py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen ">
+      {/* Banner */}
+      <Banner
+        title="Fresh Vegetables"
+        bgImage="https://images.pexels.com/photos/128536/pexels-photo-128536.jpeg?auto=compress&cs=tinysrgb&w=400"
+        breadcrumbs={[
+          { label: "Home", path: "/" },
+          { label: "Products", path: "/products" },
+          { label: "Fresh Vegetables" },
+        ]}
+      />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Fresh Vegetables
-          </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Garden-fresh vegetables harvested at peak ripeness. Our vegetables
             are grown using sustainable farming practices to ensure the best

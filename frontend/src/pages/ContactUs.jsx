@@ -1,5 +1,6 @@
 import React from "react";
 import { MapPin, Phone, Mail, Clock, MessageSquare } from "lucide-react";
+import Banner from "../components/Banner";
 
 const ContactUs = () => {
   const contactInfo = [
@@ -18,13 +19,17 @@ const ContactUs = () => {
   ];
 
   return (
-    <div className="min-h-screen py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen ">
+      {/* Banner */}
+      <Banner
+        title="Contact Us"
+        bgImage="https://images.pexels.com/photos/1092730/pexels-photo-1092730.jpeg"
+        breadcrumbs={[{ label: "Home", path: "/" }, { label: "Contact" }]}
+      />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Contact Us
-          </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
             We'd love to hear from you! Get in touch with our team for any
             questions, feedback, or support you might need.
@@ -124,11 +129,17 @@ const ContactUs = () => {
           {/* Map and Additional Info */}
           <div className="space-y-8">
             {/* Map Placeholder */}
-            <div className="bg-gray-200 h-64 rounded-2xl flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-2" />
-                <p className="text-gray-500">Interactive Map Would Go Here</p>
-              </div>
+            <div className="bg-gray-200 h-46 rounded-2xl flex items-center justify-center">
+              <iframe
+                title="Google Maps"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d321555.8161586449!2d76.76354931726667!3d28.64428744177972!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x37205b715389640!2sDelhi!5e1!3m2!1sen!2sin!4v1756838140232!5m2!1sen!2sin"
+                width="100%"
+                height="200"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                className="rounded-lg shadow-md"
+              ></iframe>
             </div>
 
             {/* Additional Info */}

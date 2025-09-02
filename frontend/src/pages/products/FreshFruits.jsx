@@ -1,4 +1,5 @@
 import React from "react";
+import Banner from "../../components/Banner";
 
 const FreshFruits = () => {
   const fruits = [
@@ -47,12 +48,19 @@ const FreshFruits = () => {
   ];
 
   return (
-    <div className="min-h-screen py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen ">
+      {/* Banner */}
+      <Banner
+        title=" Fresh Fruits"
+        bgImage="https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=400"
+        breadcrumbs={[
+          { label: "Home", path: "/" },
+          { label: "Products", path: "/products" },
+          { label: " Fresh Fruits" },
+        ]}
+      />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Fresh Fruits
-          </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Handpicked fresh fruits delivered daily from local farms. Packed
             with vitamins, minerals, and natural sweetness for a healthy

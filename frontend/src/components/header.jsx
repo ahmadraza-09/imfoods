@@ -19,23 +19,31 @@ const Header = () => {
   ];
 
   return (
-    <header className="bg-white shadow-lg sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="bg-white shadow-lg sticky top-0 z-50 ">
+      <div className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <img src={Logo} alt="logo" className="w-20" />
-            <span className="text-2xl font-bold text-green-700">IM FOODS</span>
+          <Link to="/" className="flex items-center space-x-1">
+            <img src={Logo} alt="logo" className="w-18" />
+            <span className="text-2xl sm:font-bold font-extrabold text-green-700">
+              IM FOODS
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               to="/"
-              className="block px-3 py-2 text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium"
+              className="relative text-gray-700 hover:text-green-700 font-medium transition-colors duration-200 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-green-600 after:transition-all after:duration-300 hover:after:w-full"
               onClick={() => setIsMenuOpen(false)}
             >
               Home
+            </Link>
+            <Link
+              to="/about"
+              className="relative text-gray-700 hover:text-green-700 font-medium transition-colors duration-200 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-green-600 after:transition-all after:duration-300 hover:after:w-full"
+            >
+              About Us
             </Link>
             <div className="relative">
               <button
@@ -73,19 +81,14 @@ const Header = () => {
 
             <Link
               to="/blogs"
-              className="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium"
+              className="relative text-gray-700 hover:text-green-700 font-medium transition-colors duration-200 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-green-600 after:transition-all after:duration-300 hover:after:w-full"
             >
               Blogs
             </Link>
-            <Link
-              to="/about"
-              className="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium"
-            >
-              About Us
-            </Link>
+
             <Link
               to="/contact"
-              className="text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium"
+              className="relative text-gray-700 hover:text-green-700 font-medium transition-colors duration-200 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-green-600 after:transition-all after:duration-300 hover:after:w-full"
             >
               Contact Us
             </Link>
@@ -111,6 +114,20 @@ const Header = () => {
           } overflow-hidden`}
         >
           <div className="py-4 space-y-2 border-t border-gray-100">
+            <Link
+              to="/"
+              className="block px-3 py-2 text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              to="/about"
+              className="block px-3 py-2 text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              About Us
+            </Link>
             <div>
               <button
                 onClick={() => setIsProductsOpen(!isProductsOpen)}
@@ -145,13 +162,7 @@ const Header = () => {
             >
               Blogs
             </Link>
-            <Link
-              to="/about"
-              className="block px-3 py-2 text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              About Us
-            </Link>
+
             <Link
               to="/contact"
               className="block px-3 py-2 text-gray-700 hover:text-green-700 transition-colors duration-200 font-medium"

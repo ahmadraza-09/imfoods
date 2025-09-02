@@ -1,8 +1,24 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart, Play, Star } from "lucide-react";
 
 const HeroSection = () => {
+  const images = [
+    "https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/1132040/pexels-photo-1132040.jpeg?auto=compress&cs=tinysrgb&w=800",
+    "https://images.pexels.com/photos/1213710/pexels-photo-1213710.jpeg?auto=compress&cs=tinysrgb&w=800",
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 3000); // 3s interval
+    return () => clearInterval(interval);
+  }, [images.length]);
+
   return (
     <section className="relative bg-gradient-to-br from-green-800 via-green-700 to-green-600 text-white overflow-hidden">
       {/* Background Pattern */}
@@ -12,7 +28,7 @@ const HeroSection = () => {
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           }}
-        ></div>
+        />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-14">
@@ -45,28 +61,31 @@ const HeroSection = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Link
-                to="/products/spices"
+                to="/products"
                 className="inline-flex items-center px-8 py-4 bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold rounded-xl transition-all duration-200 transform hover:scale-105 shadow-xl text-lg"
               >
                 <ShoppingCart className="mr-3 h-6 w-6" />
-                Shop Now
+                Explore Our Services
               </Link>
-              <button className="inline-flex items-center px-8 py-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold rounded-xl transition-all duration-200 border border-white/30 text-lg">
+              {/* <button className="inline-flex items-center px-8 py-4 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-semibold rounded-xl transition-all duration-200 border border-white/30 text-lg">
                 <Play className="mr-3 h-6 w-6" />
                 Watch Our Story
-              </button>
+              </button> */}
             </div>
           </div>
 
-          {/* Hero Image */}
-          <div className="relative">
-            <div className="relative z-10">
+          {/* Hero Image with Fade Transition */}
+          <div className="relative w-full h-[400px] lg:h-[500px] group">
+            {images.map((img, index) => (
               <img
-                src="https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=800"
-                alt="Fresh produce collection"
-                className="rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500"
+                key={index}
+                src={img}
+                alt="Fresh produce"
+                className={`absolute inset-0 w-full transform group-hover:rotate-0 rotate-3 transition-transform duration-500 h-full object-cover rounded-2xl z-30 shadow-2xl ease-in-out ${
+                  index === currentIndex ? "opacity-100" : "opacity-0"
+                }`}
               />
-            </div>
+            ))}
             <div className="absolute -top-4 -right-4 w-full h-full bg-yellow-400/20 rounded-2xl"></div>
           </div>
         </div>

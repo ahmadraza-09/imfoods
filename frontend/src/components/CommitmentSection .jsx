@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const CommitmentSection = () => {
+  const navigate = useNavigate();
   return (
     <section className="py-20 bg-gradient-to-r from-green-50 to-blue-50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -36,14 +38,14 @@ const CommitmentSection = () => {
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row sm:space-x-4 space-y-4 sm:space-y-0">
               <a
-                href="/about"
+                onClick={() => navigate("/contact")}
                 className="inline-flex items-center justify-center px-6 py-3 bg-green-700 hover:bg-green-800 text-white font-semibold rounded-xl transition-all duration-200"
               >
                 Learn More About Us
               </a>
               <a
-                href="/contact"
                 className="inline-flex items-center justify-center px-6 py-3 border-2 border-green-700 text-green-700 hover:bg-green-700 hover:text-white font-semibold rounded-xl transition-all duration-200"
+                onClick={() => navigate("/contact")}
               >
                 Get In Touch
               </a>

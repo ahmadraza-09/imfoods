@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import BlogPage from "./pages/BlogsPage";
+import BlogDetailsPage from "./pages/BlogDetailsPage";
 
 // Product Pages
 import Spices from "./pages/products/Spices";
@@ -17,17 +18,22 @@ import Grains from "./pages/products/Grains";
 import Oil from "./pages/products/Oil";
 import Footer from "./components/footer";
 import Header from "./components/header";
+import ScrollToTop from "./components/ScrollToTop";
+import CategoryShowcase from "./components/CategoryShowcase";
 
 function App() {
   return (
     <>
       <BrowserRouter>
         <Header />
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/products" element={<CategoryShowcase />} />
+          <Route path="/blogs/:id" element={<BlogDetailsPage />} />
           <Route path="/products/spices" element={<Spices />} />
           <Route path="/products/pulses" element={<Pulses />} />
           <Route path="/products/fresh-fruits" element={<FreshFruits />} />

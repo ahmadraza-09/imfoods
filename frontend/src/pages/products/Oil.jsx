@@ -1,4 +1,5 @@
 import React from "react";
+import Banner from "../../components/Banner";
 
 const Oil = () => {
   const oils = [
@@ -47,12 +48,19 @@ const Oil = () => {
   ];
 
   return (
-    <div className="min-h-screen py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen ">
+      {/* Banner */}
+      <Banner
+        title="Premium Cooking Oils"
+        bgImage="https://images.pexels.com/photos/33783/olive-oil-salad-dressing-cooking-olive.jpg?auto=compress&cs=tinysrgb&w=400"
+        breadcrumbs={[
+          { label: "Home", path: "/" },
+          { label: "Products", path: "/products" },
+          { label: "Premium Cooking Oils" },
+        ]}
+      />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Premium Cooking Oils
-          </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
             High-quality cooking oils for every culinary need. From
             heart-healthy olive oil to traditional mustard oil, we offer pure,

@@ -1,7 +1,9 @@
 import React from "react";
 import { Calendar, User, ArrowRight, Clock } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const BlogCard = ({
+  id,
   title,
   excerpt,
   author,
@@ -11,16 +13,18 @@ const BlogCard = ({
   readTime,
   featured = false,
 }) => {
+  const navigate = useNavigate();
+
   if (featured) {
     return (
       <article className="bg-white rounded-2xl shadow-lg overflow-hidden mb-12 group">
         <div className="grid grid-cols-1 lg:grid-cols-2">
           {/* Image */}
-          <div className="aspect-[16/12] lg:aspect-[16/16] overflow-hidden">
+          <div className="aspect-[16/12] lg:aspect-[16/12] overflow-hidden">
             <img
               src={image}
               alt={title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              className="w-full h-full group-hover:scale-105 transition-transform duration-500"
             />
           </div>
 
@@ -59,7 +63,10 @@ const BlogCard = ({
                 </div>
               </div>
 
-              <button className="flex items-center text-green-700 hover:text-green-800 font-semibold transition-colors duration-200 group">
+              <button
+                className="flex items-center text-green-700 hover:text-green-800 font-semibold transition-colors duration-200 group"
+                onClick={() => navigate(`/blogs/${id}`)}
+              >
                 Read Article
                 <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
               </button>
@@ -77,7 +84,7 @@ const BlogCard = ({
         <img
           src={image}
           alt={title}
-          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
       </div>
 
@@ -110,7 +117,10 @@ const BlogCard = ({
             <User className="h-4 w-4 text-gray-400" />
             <span className="text-gray-600 text-sm">{author}</span>
           </div>
-          <button className="flex items-center text-green-700 hover:text-green-800 text-sm font-medium transition-colors duration-200 group">
+          <button
+            className="flex items-center cursor-pointer text-green-700 hover:text-green-800 text-sm font-medium transition-colors duration-200 group"
+            onClick={() => navigate(`/blogs/${id}`)}
+          >
             Read More
             <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" />
           </button>

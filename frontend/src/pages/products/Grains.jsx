@@ -1,4 +1,5 @@
 import React from "react";
+import Banner from "../../components/Banner";
 
 const Grains = () => {
   const grains = [
@@ -47,12 +48,19 @@ const Grains = () => {
   ];
 
   return (
-    <div className="min-h-screen py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen ">
+      {/* Banner */}
+      <Banner
+        title="Wholesome Grains"
+        bgImage="https://images.pexels.com/photos/4198431/pexels-photo-4198431.jpeg?auto=compress&cs=tinysrgb&w=400"
+        breadcrumbs={[
+          { label: "Home", path: "/" },
+          { label: "Products", path: "/products" },
+          { label: "Wholesome Grains" },
+        ]}
+      />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Wholesome Grains
-          </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Nutrient-rich whole grains that form the foundation of healthy
             meals. Our grains are carefully processed to retain their natural

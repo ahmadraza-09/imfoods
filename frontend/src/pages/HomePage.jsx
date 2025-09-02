@@ -8,17 +8,23 @@ import CategoryShowcase from "../components/CategoryShowcase";
 import TestimonialsSection from "../components/TestimonialsSection";
 import CommitmentSection from "../components/CommitmentSection ";
 import NewsLetterSignupSection from "../components/NewsLetterSignupSection";
+import AboutSection from "../components/AboutSection";
+import BlogSection from "../components/BlogSection";
+import ContactUsSection from "../components/ContactUsSection";
 
 const HomePage = () => {
   return (
     <>
       <HeroSection />
       <StatsSection />
-      <FeaturesSection />
+      <AboutSection />
       <CategoryShowcase />
-      <TestimonialsSection />
+      <FeaturesSection />
+      <BlogSection />
       <CommitmentSection />
+      <TestimonialsSection />
       <NewsLetterSignupSection />
+      <ContactUsSection />
     </>
   );
 };

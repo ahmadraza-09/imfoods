@@ -1,5 +1,6 @@
 import React from "react";
 import { Users, Award, Leaf, Heart } from "lucide-react";
+import Banner from "../components/Banner";
 
 const AboutUs = () => {
   const values = [
@@ -26,13 +27,16 @@ const AboutUs = () => {
   ];
 
   return (
-    <div className="min-h-screen py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen ">
+      {/* Banner */}
+      <Banner
+        title="About Im Foods"
+        bgImage="https://images.pexels.com/photos/1092730/pexels-photo-1092730.jpeg"
+        breadcrumbs={[{ label: "Home", path: "/" }, { label: "About" }]}
+      />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            About Im Foods
-          </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             For over two decades, Im Foods has been your trusted partner in
             bringing the finest natural foods from farm to your table. We
@@ -45,22 +49,28 @@ const AboutUs = () => {
           <div>
             <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
             <p className="text-gray-700 mb-4 leading-relaxed">
-              Founded in 2003, Im Foods began as a small family business with a
-              simple mission: to provide access to the highest quality natural
-              foods. What started as a local venture has grown into a trusted
-              name in premium food products.
+              IMFoods Pvt. Ltd. is a global export company committed to
+              delivering the finest quality raw food products from India to the
+              world. With deep roots in agriculture and a passion for purity, we
+              specialize in sourcing and exporting a diverse range of natural
+              food commodities including spices, pulses, edible oils, fresh
+              fruits, vegetables, tea, coffee, and grains.
             </p>
             <p className="text-gray-700 mb-4 leading-relaxed">
-              We work directly with farmers and growers who share our commitment
-              to sustainable agriculture and ethical practices. This direct
-              relationship ensures that our customers receive the freshest, most
-              flavorful products while supporting farming communities.
+              At IMFoods, we take pride in our rigorous quality standards,
+              ethical sourcing, and strong supply chain network. Whether you're
+              a wholesaler, distributor, or food manufacturer, we offer
+              customized export solutions tailored to your needs — ensuring
+              freshness, consistency, and timely delivery every time.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              Today, we serve thousands of families who trust us for their daily
-              nutritional needs, and we continue to expand our offerings while
-              maintaining our core values of quality, sustainability, and
-              community support.
+              Driven by trust, transparency, and long-term partnerships, our
+              mission is to bring the richness of India’s natural harvests to
+              kitchens and markets across the globe.
+            </p>
+            <p className="text-gray-700 leading-relaxed">
+              Let IMFoods be your trusted partner in global food trade —
+              wherever you are in the world.
             </p>
           </div>
           <div>
