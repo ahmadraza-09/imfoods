@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import { MapPin, Phone, Mail, Clock, MessageSquare } from "lucide-react";
 import Banner from "../components/Banner";
 
@@ -20,6 +21,53 @@ const ContactUs = () => {
 
   return (
     <div className="min-h-screen ">
+      {/* Helmet SEO Meta Tags */}
+      <Helmet>
+        <title>
+          Contact IMFoods | Global Food Products Exporter from India
+        </title>
+        <meta
+          name="description"
+          content="Get in touch with IMFoods Pvt. Ltd. for inquiries about exporting Indian spices, fruits, vegetables, pulses, grains, oils, tea & coffee worldwide. Contact us today for B2B partnerships and bulk food exports."
+        />
+        <meta
+          name="keywords"
+          content="Contact IMFoods, food export contact India, Indian food exporters inquiries, bulk food orders, B2B food trade, wholesale food supply India, organic food export contact, spices exporter India, fruits exporter India, vegetables exporter India, pulses grains exporter India"
+        />
+        <link rel="canonical" href="https://imfoods.com/contact" />
+
+        {/* Open Graph Tags */}
+        <meta
+          property="og:title"
+          content="Contact IMFoods | Global Food Exporter from India"
+        />
+        <meta
+          property="og:description"
+          content="Reach IMFoods for bulk food exports and global trade partnerships. Exporting spices, fruits, vegetables, pulses, grains, tea, coffee & oils worldwide."
+        />
+        <meta
+          property="og:image"
+          content="https://imfoods.com/images/contact-og.jpg"
+        />
+        <meta property="og:url" content="https://imfoods.com/contact" />
+        <meta property="og:type" content="website" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Contact IMFoods | Global Food Exporter from India"
+        />
+        <meta
+          name="twitter:description"
+          content="Looking to import Indian food products? Contact IMFoods for quality exports of spices, vegetables, fruits, grains, pulses, oils, tea & coffee."
+        />
+        <meta
+          name="twitter:image"
+          content="https://imfoods.com/images/contact-og.jpg"
+        />
+      </Helmet>
+
       {/* Banner */}
       <Banner
         title="Contact Us"
@@ -27,6 +75,7 @@ const ContactUs = () => {
         breadcrumbs={[{ label: "Home", path: "/" }, { label: "Contact" }]}
       />
 
+      {/* Rest of your content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="text-center mb-12">

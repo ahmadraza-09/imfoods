@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import Banner from "../../components/Banner";
 
 const Oil = () => {
@@ -48,7 +49,24 @@ const Oil = () => {
   ];
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen">
+      {/* Helmet for SEO */}
+      <Helmet>
+        <title>Premium Cooking Oils | IMFoods Exporter India</title>
+        <meta
+          name="description"
+          content="Discover IMFoods' premium selection of cooking oils including olive oil, coconut oil, avocado oil, sesame oil, sunflower oil, and mustard oil. Pure, cold-pressed, and exported globally."
+        />
+        <meta
+          name="keywords"
+          content="IMFoods, oil exporter India, olive oil export, coconut oil supplier, avocado oil India, sesame oil exporter, sunflower oil wholesale, mustard oil supplier, cooking oil export"
+        />
+        <link
+          rel="canonical"
+          href="https://www.imfoods.com/premium-cooking-oils"
+        />
+      </Helmet>
+
       {/* Banner */}
       <Banner
         title="Premium Cooking Oils"
@@ -59,6 +77,7 @@ const Oil = () => {
           { label: "Premium Cooking Oils" },
         ]}
       />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">

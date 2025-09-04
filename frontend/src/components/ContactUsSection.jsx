@@ -27,7 +27,7 @@ const ContactUsSection = () => {
           </p>
           <button
             onClick={() => navigate("/contact")}
-            className="inline-flex items-center px-8 py-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition-all duration-200 transform hover:scale-105 shadow-xl text-lg"
+            className="inline-flex cursor-pointer items-center px-8 py-4 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition-all duration-200 transform hover:scale-105 shadow-xl text-lg"
           >
             <SquareArrowRight className="mr-3 h-6 w-6" />
             Contact Us

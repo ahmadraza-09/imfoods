@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import Banner from "../../components/Banner";
 
 const Grains = () => {
@@ -48,7 +49,21 @@ const Grains = () => {
   ];
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen">
+      {/* Helmet for SEO */}
+      <Helmet>
+        <title>Wholesome Grains | IMFoods Exporter India</title>
+        <meta
+          name="description"
+          content="Explore IMFoods' premium selection of wholesome grains including basmati rice, quinoa, oats, barley, millet, and brown rice. Exported worldwide with quality assurance."
+        />
+        <meta
+          name="keywords"
+          content="IMFoods, grain exporter India, basmati rice export, quinoa exporter, brown rice India, wholesale oats, barley supplier, millet export, bulk grains, Indian grain exporters"
+        />
+        <link rel="canonical" href="https://www.imfoods.com/wholesome-grains" />
+      </Helmet>
+
       {/* Banner */}
       <Banner
         title="Wholesome Grains"
@@ -59,6 +74,7 @@ const Grains = () => {
           { label: "Wholesome Grains" },
         ]}
       />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">

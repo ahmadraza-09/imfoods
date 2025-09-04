@@ -1,5 +1,6 @@
 import React from "react";
 import Banner from "../../components/Banner";
+import { Helmet } from "react-helmet";
 
 const Pulses = () => {
   const pulses = [
@@ -49,6 +50,19 @@ const Pulses = () => {
 
   return (
     <div className="min-h-screen ">
+      {/* Meta SEO */}
+      <Helmet>
+        <title>Premium Pulses & Lentils | Healthy Plant Protein</title>
+        <meta
+          name="description"
+          content="Buy premium pulses & lentils like kidney beans, chickpeas, moong dal, masoor dal, black lentils, and split peas. Rich in protein and fiber, perfect for healthy meals."
+        />
+        <meta
+          name="keywords"
+          content="pulses, lentils, kidney beans, chickpeas, moong dal, masoor dal, black lentils, split peas, vegetarian protein, organic pulses, healthy legumes"
+        />
+      </Helmet>
+
       {/* Banner */}
       <Banner
         title="Premium Pulses & Lentils"

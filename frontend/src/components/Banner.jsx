@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Banner = ({ title, breadcrumbs, bgImage }) => {
   return (
     <div
-      className="w-full h-[200px] md:h-[300px] bg-cover bg-center relative flex justify-center items-center"
+      className="w-full h-[300px] md:h-[300px] bg-cover bg-center relative flex justify-center items-center"
       style={{ backgroundImage: `url(${bgImage})` }}
     >
       {/* Overlay for glassmorphism effect */}

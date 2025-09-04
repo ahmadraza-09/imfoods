@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import Banner from "../../components/Banner";
 
 const Tea = () => {
@@ -49,6 +50,22 @@ const Tea = () => {
 
   return (
     <div className="min-h-screen">
+      {/* Helmet for SEO */}
+      <Helmet>
+        <title>
+          Premium Tea Exporter in India | Organic Tea Collection | imFoods
+        </title>
+        <meta
+          name="description"
+          content="Discover imFoods' premium tea collection including Green Tea, Earl Grey, Chamomile, Masala Chai, and Oolong. Exporting organic teas globally with rich aroma & authentic taste."
+        />
+        <meta
+          name="keywords"
+          content="Tea exporter India, Organic Green Tea export, Masala Chai exporter, Black Tea India, Oolong Tea supplier, White Tea export, Herbal Tea exporter, imFoods Tea collection"
+        />
+        <link rel="canonical" href="https://www.imfoods.com/products/tea" />
+      </Helmet>
+
       {/* Banner */}
       <Banner
         title="Premium Tea Collection"
@@ -59,7 +76,9 @@ const Tea = () => {
           { label: "Premium Tea Collection" },
         ]}
       />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  py-12">
+
+      {/* Intro */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Discover our curated selection of premium teas from renowned tea
@@ -68,6 +87,7 @@ const Tea = () => {
           </p>
         </div>
 
+        {/* Tea Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {teas.map((tea, index) => (
             <div
@@ -99,6 +119,7 @@ const Tea = () => {
           ))}
         </div>
 
+        {/* Extra Section: Tea Brewing Tips */}
         <div className="mt-16 bg-green-50 rounded-2xl p-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -131,6 +152,19 @@ const Tea = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Extra Section: Why Our Tea? */}
+        <div className="mt-16 bg-white shadow-lg rounded-2xl p-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+            Why Choose imFoods Tea?
+          </h2>
+          <ul className="space-y-4 text-gray-700 text-lg max-w-3xl mx-auto">
+            <li>🌱 100% Organic and sustainably sourced</li>
+            <li>🍃 Direct partnerships with premium tea estates</li>
+            <li>🌍 Exported globally with strict quality checks</li>
+            <li>💧 Rich in antioxidants, natural aroma, and authentic taste</li>
+          </ul>
         </div>
       </div>
     </div>

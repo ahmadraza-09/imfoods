@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import BlogCard from "../components/BlogCard";
 import { Search, TrendingUp } from "lucide-react";
 import NewsLetterSignupSection from "../components/NewsLetterSignupSection";
@@ -24,6 +25,29 @@ const Blogs = () => {
 
   return (
     <div className="min-h-screen ">
+      {/* Helmet for SEO */}
+      <Helmet>
+        <title>Food & Wellness Blog | Healthy Recipes, Tips & Nutrition</title>
+        <meta
+          name="description"
+          content="Explore Food & Wellness blogs covering nutrition, recipes, sustainable farming, coffee culture, and healthy living tips."
+        />
+        <meta
+          name="keywords"
+          content="Food blog, Healthy recipes, Nutrition tips, Sustainable farming, Coffee culture, Wellness"
+        />
+        <meta property="og:title" content="Food & Wellness Blog" />
+        <meta
+          property="og:description"
+          content="Stay updated with nutrition, sustainable farming, recipes & healthy living insights."
+        />
+        <meta
+          property="og:image"
+          content="https://images.pexels.com/photos/1092730/pexels-photo-1092730.jpeg"
+        />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
       {/* Banner */}
       <Banner
         title="Food & Wellness Blog"

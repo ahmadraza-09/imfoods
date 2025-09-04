@@ -1,6 +1,7 @@
 import React from "react";
 import { Users, Award, Leaf, Heart } from "lucide-react";
 import Banner from "../components/Banner";
+import { Helmet } from "react-helmet";
 
 const AboutUs = () => {
   const values = [
@@ -26,14 +27,45 @@ const AboutUs = () => {
     },
   ];
 
+  const pageUrl = "https://yourwebsite.com/about";
+
   return (
     <div className="min-h-screen ">
+      {/* SEO Helmet */}
+      <Helmet>
+        <title>About IMFoods | Leading Food Exporter from India</title>
+        <meta
+          name="description"
+          content="Learn more about IMFoods Pvt. Ltd., a global exporter of high-quality Indian food products including spices, fruits, vegetables, pulses, oils, tea, and coffee. Discover our story, values, and mission."
+        />
+        <meta
+          name="keywords"
+          content="About IMFoods, food export company India, Indian food exporters, organic food supplier, wholesale food distribution, Indian spices, fruits export, vegetables export, pulses export, global food trade"
+        />
+        <meta
+          property="og:title"
+          content="About IMFoods | Leading Food Exporter from India"
+        />
+        <meta
+          property="og:description"
+          content="IMFoods Pvt. Ltd. brings the richness of India's natural harvests to global kitchens. Learn about our story, values, and mission."
+        />
+        <meta
+          property="og:image"
+          content="https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=600"
+        />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:type" content="website" />
+        <link rel="canonical" href={pageUrl} />
+      </Helmet>
+
       {/* Banner */}
       <Banner
         title="About Im Foods"
         bgImage="https://images.pexels.com/photos/1092730/pexels-photo-1092730.jpeg"
         breadcrumbs={[{ label: "Home", path: "/" }, { label: "About" }]}
       />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section */}
         <div className="text-center mb-16">

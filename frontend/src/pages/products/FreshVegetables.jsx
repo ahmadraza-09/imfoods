@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import Banner from "../../components/Banner";
 
 const FreshVegetables = () => {
@@ -48,7 +49,21 @@ const FreshVegetables = () => {
   ];
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen">
+      {/* Helmet for SEO */}
+      <Helmet>
+        <title>Fresh Vegetables | IMFoods Exporter India</title>
+        <meta
+          name="description"
+          content="Discover IMFoods' premium fresh vegetables like tomatoes, spinach, bell peppers, carrots, broccoli, and onions. Sustainably grown and exported worldwide."
+        />
+        <meta
+          name="keywords"
+          content="IMFoods, fresh vegetables export, organic vegetables India, vegetable exporter India, wholesale vegetables, broccoli, tomatoes, spinach, carrots, onions, bell peppers, farm fresh vegetables"
+        />
+        <link rel="canonical" href="https://www.imfoods.com/fresh-vegetables" />
+      </Helmet>
+
       {/* Banner */}
       <Banner
         title="Fresh Vegetables"
@@ -59,6 +74,7 @@ const FreshVegetables = () => {
           { label: "Fresh Vegetables" },
         ]}
       />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="text-center mb-12">
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">

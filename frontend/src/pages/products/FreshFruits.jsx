@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import Banner from "../../components/Banner";
 
 const FreshFruits = () => {
@@ -48,19 +49,42 @@ const FreshFruits = () => {
   ];
 
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen">
+      {/* SEO Meta Tags */}
+      <Helmet>
+        <title>Fresh Organic Fruits | Apples, Bananas, Mangoes & More</title>
+        <meta
+          name="description"
+          content="Buy fresh organic fruits online including apples, bananas, oranges, mangoes, grapes, and berries. Handpicked from local farms and delivered within 24 hours."
+        />
+        <meta
+          name="keywords"
+          content="fresh fruits, organic fruits, apples, bananas, oranges, mangoes, grapes, berries, farm fresh fruits, healthy fruits online"
+        />
+        <meta name="author" content="IM Foods" />
+        <link
+          rel="canonical"
+          href="https://www.imfoods.com/products/fresh-fruits"
+        />
+      </Helmet>
+
       {/* Banner */}
       <Banner
-        title=" Fresh Fruits"
+        title="Fresh Fruits"
         bgImage="https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=400"
         breadcrumbs={[
           { label: "Home", path: "/" },
           { label: "Products", path: "/products" },
-          { label: " Fresh Fruits" },
+          { label: "Fresh Fruits" },
         ]}
       />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Intro Section */}
         <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Fresh Organic Fruits Online
+          </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Handpicked fresh fruits delivered daily from local farms. Packed
             with vitamins, minerals, and natural sweetness for a healthy
@@ -68,38 +92,44 @@ const FreshFruits = () => {
           </p>
         </div>
 
+        {/* Fruits Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {fruits.map((fruit, index) => (
-            <div
+            <article
               key={index}
               className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group"
             >
               <div className="aspect-w-16 aspect-h-12 overflow-hidden">
                 <img
                   src={fruit.image}
-                  alt={fruit.name}
+                  alt={`${fruit.name} - ${fruit.description}`}
                   className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">
                   {fruit.name}
-                </h3>
+                </h2>
                 <p className="text-gray-600 mb-4">{fruit.description}</p>
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-bold text-green-700">
                     {fruit.price}
                   </span>
-                  <button className="px-4 py-2 bg-green-700 hover:bg-green-800 text-white rounded-lg transition-colors duration-200 font-medium">
+                  <button
+                    aria-label={`Add ${fruit.name} to cart`}
+                    className="px-4 py-2 bg-green-700 hover:bg-green-800 text-white rounded-lg transition-colors duration-200 font-medium"
+                  >
                     Add to Cart
                   </button>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
 
-        <div className="mt-16 bg-orange-50 rounded-2xl p-8">
+        {/* Farm to Table Section */}
+        <section className="mt-16 bg-orange-50 rounded-2xl p-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Farm to Table Freshness
@@ -110,7 +140,7 @@ const FreshFruits = () => {
               freshness and nutritional value.
             </p>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

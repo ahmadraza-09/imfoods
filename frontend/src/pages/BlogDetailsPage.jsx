@@ -1,19 +1,40 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Calendar, User, Share2, Tag } from "lucide-react";
+import { Helmet } from "react-helmet";
+import { Calendar, User, Tag } from "lucide-react";
 import { blogs } from "../data/Blog";
 
 const BlogDetailsPage = () => {
   const { id } = useParams();
 
-  const blog = blogs.find((b) => b.id === id);
+  const blog = blogs.find((b) => String(b.id) === String(id));
 
   if (!blog) {
     return <p className="text-center mt-10 text-red-500">Blog not found!</p>;
   }
 
+  const metaDescription = blog.content.split("\n")[0].slice(0, 160) + "..."; // first line as meta description
+  const pageUrl = `https://imfoods.com/blog/${blog.id}`;
+
   return (
     <div className="bg-gray-50 min-h-screen py-12">
+      {/* Helmet for SEO */}
+      <Helmet>
+        <title>{blog.title} | Food & Wellness Blog</title>
+        <meta name="description" content={metaDescription} />
+        <meta
+          name="keywords"
+          content={`${blog.category}, ${blog.tags.join(", ")}, Food, Wellness`}
+        />
+        <meta property="og:title" content={blog.title} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:image" content={blog.image} />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:type" content="article" />
+        <meta name="author" content={blog.author} />
+        <link rel="canonical" href={pageUrl} />
+      </Helmet>
+
       <div className="max-w-4xl mx-auto px-6">
         {/* Cover Image */}
         <div className="overflow-hidden rounded-2xl shadow-lg mb-8">
@@ -74,29 +95,6 @@ const BlogDetailsPage = () => {
             </span>
           ))}
         </div>
-
-        {/* Author Box */}
-        {/* <div className="bg-white mt-12 p-6 rounded-xl shadow-md flex items-center gap-4">
-          <div className="w-14 h-14 rounded-full bg-green-200 flex items-center justify-center text-lg font-bold text-green-800">
-            {blog.author.charAt(0)}
-          </div>
-          <div>
-            <p className="font-semibold text-gray-900">{blog.author}</p>
-            <p className="text-sm text-gray-600">
-              Passionate about {blog.category.toLowerCase()} and sharing
-              knowledge with the world.
-            </p>
-          </div>
-        </div> */}
-
-        {/* Share Section */}
-        {/* <div className="mt-10 border-t pt-6 flex justify-between items-center">
-          <p className="text-gray-600 font-medium">Share this article:</p>
-          <button className="flex items-center gap-2 text-green-700 hover:text-green-800 font-semibold">
-            <Share2 className="h-5 w-5" />
-            Share
-          </button>
-        </div> */}
       </div>
     </div>
   );
