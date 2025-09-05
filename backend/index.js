@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const productRoute = require("./routes/ProductRoute");
+const blogRoute = require("./routes/BlogRoute");
 require("dotenv").config();
 
 const app = express();
@@ -18,6 +19,7 @@ mongoose
     });
 
 app.use("/product", productRoute);
+app.use("/blog", blogRoute);
 
 app.get("/", (req, res) => {
     res.json("Welcome to the Imfoods API");
