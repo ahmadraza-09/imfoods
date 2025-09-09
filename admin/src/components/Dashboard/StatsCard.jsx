@@ -1,4 +1,5 @@
 import React from "react";
+import { TrendingUp, TrendingDown } from "lucide-react";
 
 const StatsCard = ({ title, value, icon: Icon, color, trend }) => {
   const colorClasses = {
@@ -22,15 +23,21 @@ const StatsCard = ({ title, value, icon: Icon, color, trend }) => {
           <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
           <p className="text-3xl font-bold text-gray-900">{value}</p>
           {trend && (
-            <p
-              className={`text-sm mt-2 ${
+            <div
+              className={`flex w-full items-start gap-1 text-sm mt-2 ${
                 trend.isUp ? "text-green-600" : "text-red-600"
               }`}
             >
-              {trend.isUp ? "↗️" : "↘️"} {trend.value}% from last month
-            </p>
+              {trend.isUp ? (
+                <TrendingUp size={25} />
+              ) : (
+                <TrendingDown size={25} />
+              )}
+              <span>{trend.value}% from last month</span>
+            </div>
           )}
         </div>
+
         <div className={`p-3 rounded-full ${bgColorClasses[color]}`}>
           <Icon className={`h-6 w-6 ${colorClasses[color].split(" ")[1]}`} />
         </div>
