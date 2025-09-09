@@ -8,6 +8,7 @@ const contactSchema = new Schema(
         phone: { type: Number },
         subject: { type: String },
         message: { type: String },
+        status: { type: String, enum: ["new", "responded", "resolved"], default: "new" },
     },
     { timestamps: true } // createdAt, updatedAt
 );

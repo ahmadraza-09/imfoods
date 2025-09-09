@@ -1,5 +1,6 @@
 require("dotenv").config();
 const Product = require("../models/ProductModel");
+const Activity = require("../models/ActivityModel");
 
 
 exports.getAllProducts = async (req, res) => {
@@ -27,17 +28,13 @@ exports.getSingleProduct = async (req, res) => {
 };
 
 exports.addProduct = async (req, res) => {
-    const { name, price, originalPrice, image, description, category, rating, reviews, badge, inStock } = req.body;
+    const { name, image, description, category, badge, inStock } = req.body;
 
     if (
         !name ||
-        !price ||
-        !originalPrice ||
         !image ||
         !description ||
         !category ||
-        !rating ||
-        !reviews ||
         !badge ||
         !inStock
     ) {
@@ -47,18 +44,18 @@ exports.addProduct = async (req, res) => {
     try {
         const product = new Product({
             name,
-            price,
-            originalPrice,
             image,
             description,
             category,
-            rating,
-            reviews,
             badge,
             inStock
         });
 
         await product.save();
+        await Activity.create({
+            type: "product",
+            message: `New product "${product.name}" added`,
+        });
         res.status(200).json({ message: "Product Added Successfully", product });
     } catch (error) {
         console.log(error);
@@ -83,18 +80,14 @@ exports.deleteProduct = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
     const { id } = req.params;
-    const { name, price, originalPrice, image, description, category, rating, reviews, badge, inStock } = req.body;
+    const { name, image, description, category, badge, inStock } = req.body;
 
     try {
         const product = await Product.findByIdAndUpdate(id, {
             name,
-            price,
-            originalPrice,
             image,
             description,
             category,
-            rating,
-            reviews,
             badge,
             inStock
         });

@@ -49,6 +49,10 @@ exports.addContact = async (req, res) => {
         });
 
         await contact.save();
+        await Activity.create({
+            type: "query",
+            message: `New query from "${query.name}"`,
+        });
         res.status(200).json({ message: "Contact Added Successfully", contact });
     } catch (error) {
         console.log(error);
@@ -56,7 +60,7 @@ exports.addContact = async (req, res) => {
     }
 };
 
-exports.deleteContacgt = async (req, res) => {
+exports.deleteContact = async (req, res) => {
     const { id } = req.params;
 
     try {

@@ -1,5 +1,6 @@
 require("dotenv").config();
 const Blog = require("../models/BlogModel");
+const Activity = require("../models/ActivityModel");
 
 
 exports.getAllBlogs = async (req, res) => {
@@ -27,7 +28,7 @@ exports.getSingleBlog = async (req, res) => {
 };
 
 exports.addBlog = async (req, res) => {
-    const { title, image, description, category, author, badge } = req.body;
+    const { title, image, description, category, author, badge, content } = req.body;
 
     if (
         !title ||
@@ -35,7 +36,8 @@ exports.addBlog = async (req, res) => {
         !description ||
         !category ||
         !author ||
-        !badge
+        !badge ||
+        !content
 
     ) {
         return res.status(400).json({ message: "All fields are required" });
@@ -48,7 +50,8 @@ exports.addBlog = async (req, res) => {
             description,
             category,
             author,
-            badge
+            badge,
+            content
         });
 
         await blog.save();
@@ -76,7 +79,7 @@ exports.deleteBlog = async (req, res) => {
 
 exports.updateBlog = async (req, res) => {
     const { id } = req.params;
-    const { title, image, description, category, author, badge } = req.body;
+    const { title, image, description, category, author, badge, content } = req.body;
 
     try {
         const blog = await Blog.findByIdAndUpdate(id, {
@@ -85,11 +88,17 @@ exports.updateBlog = async (req, res) => {
             description,
             category,
             author,
-            badge
+            badge,
+            content
         });
         if (!blog) {
             return res.status(404).json({ message: "Blog not found" });
         }
+
+        await Activity.create({
+            type: "blog",
+            message: `New blog "${blog.title}" published`,
+        });
         res.status(200).json({ message: "Blog updated Successfully", Blog });
     } catch (error) {
         console.log(error);

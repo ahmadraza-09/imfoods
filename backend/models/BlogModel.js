@@ -9,6 +9,9 @@ const blogSchema = new Schema(
         category: { type: String },
         author: { type: String, default: "Im Foods" },
         badge: { type: String }, // e.g. "New", "Best Seller", "Limited"
+        metaTitle: { type: String }, // SEO meta title
+        metaDescription: { type: String }, // SEO meta description
+        keywords: { type: [String] }, // SEO keywords
 
         // Add blog content
         content: { type: String, required: true }, // Markdown or plain text
