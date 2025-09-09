@@ -28,7 +28,7 @@ exports.getSingleBlog = async (req, res) => {
 };
 
 exports.addBlog = async (req, res) => {
-    const { title, image, description, category, author, badge, content } = req.body;
+    const { title, image, description, category, author, badge, content, metaTitle, metaDescription, keywords } = req.body;
 
     if (
         !title ||
@@ -37,7 +37,10 @@ exports.addBlog = async (req, res) => {
         !category ||
         !author ||
         !badge ||
-        !content
+        !content ||
+        !metaTitle ||
+        !metaDescription ||
+        !keywords
 
     ) {
         return res.status(400).json({ message: "All fields are required" });
@@ -51,7 +54,10 @@ exports.addBlog = async (req, res) => {
             category,
             author,
             badge,
-            content
+            content,
+            metaTitle,
+            metaDescription,
+            keywords
         });
 
         await blog.save();
@@ -79,7 +85,7 @@ exports.deleteBlog = async (req, res) => {
 
 exports.updateBlog = async (req, res) => {
     const { id } = req.params;
-    const { title, image, description, category, author, badge, content } = req.body;
+    const { title, image, description, category, author, badge, content, metaTitle, metaDescription, keywords } = req.body;
 
     try {
         const blog = await Blog.findByIdAndUpdate(id, {
@@ -89,7 +95,10 @@ exports.updateBlog = async (req, res) => {
             category,
             author,
             badge,
-            content
+            content,
+            metaTitle,
+            metaDescription,
+            keywords
         });
         if (!blog) {
             return res.status(404).json({ message: "Blog not found" });

@@ -1,6 +1,6 @@
 require("dotenv").config();
 const Contact = require("../models/ContactModel");
-
+const Activity = require("../models/ActivityModel.js")
 
 exports.getAllContacts = async (req, res) => {
     try {
@@ -51,12 +51,12 @@ exports.addContact = async (req, res) => {
         await contact.save();
         await Activity.create({
             type: "query",
-            message: `New query from "${query.name}"`,
+            message: `New query from "${contact.name}"`,
         });
-        res.status(200).json({ message: "Contact Added Successfully", contact });
+        res.send(JSON.stringify({ status: 200, message: "Contact Added Successfully", contact }));
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "Server Error", error });
+        res.send(JSON.stringify({ status: 200, message: "Server Error", error }));
     }
 };
 
@@ -77,7 +77,7 @@ exports.deleteContact = async (req, res) => {
 
 exports.updateContact = async (req, res) => {
     const { id } = req.params;
-    const { name, email, phone, subject, message } = req.body;
+    const { name, email, phone, subject, message, status } = req.body;
 
     try {
         const contact = await Contact.findByIdAndUpdate(id, {
@@ -85,7 +85,8 @@ exports.updateContact = async (req, res) => {
             email,
             phone,
             subject,
-            message
+            message,
+            status
         });
         if (!contact) {
             return res.status(404).json({ message: "Contact not found" });
