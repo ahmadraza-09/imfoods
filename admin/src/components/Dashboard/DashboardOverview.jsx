@@ -1,43 +1,100 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Package, FileText, MessageSquare, Users, Star } from "lucide-react";
 import StatsCard from "./StatsCard";
 import { storage } from "../../utils/storage";
+import { toast } from "react-hot-toast";
+import axios from "axios";
 
 const DashboardOverview = () => {
-  const products = storage.getProducts();
-  const blogs = storage.getBlogs();
-  const contacts = storage.getContacts();
+  // const contacts = storage.getContacts();
   const users = storage.getUsers();
+
+  const [products, setProducts] = useState([]);
+  const [contacts, setContacts] = useState([]);
+  const [blogs, setBlogs] = useState([]);
+  const [recentActivities, setRecentActivities] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // ✅ Fake growth percentage logic
+  const calculateTrend = (current, previous) => {
+    if (previous === 0) return { value: 100, isUp: true };
+    const diff = ((current - previous) / previous) * 100;
+    return { value: Math.abs(diff.toFixed(1)), isUp: diff >= 0 };
+  };
 
   const newContacts = contacts.filter((c) => c.status === "new").length;
   const totalProducts = products.length;
   const inStockProducts = products.filter((p) => p.inStock).length;
   const avgRating =
-    products.reduce((acc, p) => acc + p.rating, 0) / products.length || 0;
+    products.reduce((acc, p) => acc + (p.rating || 0), 0) / products.length ||
+    0;
 
-  const recentActivities = [
-    {
-      type: "contact",
-      message: "New contact query from John Smith",
-      time: "2 hours ago",
-      icon: MessageSquare,
-      color: "blue",
-    },
-    {
-      type: "product",
-      message: 'Product "Premium Basmati Rice" updated',
-      time: "4 hours ago",
-      icon: Package,
-      color: "green",
-    },
-    {
-      type: "blog",
-      message: "New blog post published",
-      time: "1 day ago",
-      icon: FileText,
-      color: "purple",
-    },
-  ];
+  // ✅ Fake last month numbers (replace with API if needed)
+  const trends = {
+    products: calculateTrend(totalProducts, 10),
+    blogs: calculateTrend(blogs.length, 5),
+    queries: calculateTrend(newContacts, 2),
+    users: calculateTrend(users.length, 8),
+  };
+
+  // 📌 Fetch products
+  const fetchProducts = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:8000/product/getallproducts"
+      );
+      setProducts(res.data);
+    } catch (error) {
+      toast.error("Failed to fetch product listings.");
+    }
+  };
+
+  // 📌 Fetch products
+  const fetchContacts = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:8000/contact/getallcontacts"
+      );
+      setContacts(res.data);
+    } catch (error) {
+      toast.error("Failed to fetch contact listings.");
+    }
+  };
+
+  // 📌 Fetch blogs
+  const fetchBlogs = async () => {
+    try {
+      const res = await axios.get("http://localhost:8000/blog/getallblogs");
+      setBlogs(res.data);
+    } catch (error) {
+      toast.error("Failed to fetch blog listings.");
+    }
+  };
+
+  // 📌 Fetch recent activities
+  const fetchActivities = async () => {
+    try {
+      const res = await axios.get("http://localhost:8000/activity/");
+      setRecentActivities(res.data.slice(0, 5)); // show latest 5
+      console.log(res.data);
+    } catch (error) {
+      toast.error("Failed to fetch recent activities.");
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+    fetchBlogs();
+    fetchActivities();
+    fetchContacts();
+  }, []);
+
+  // ✅ Map colors for Tailwind
+  const colorMap = {
+    product: "green",
+    blog: "purple",
+    query: "blue",
+  };
 
   return (
     <div className="space-y-6">
@@ -48,33 +105,34 @@ const DashboardOverview = () => {
           value={totalProducts}
           icon={Package}
           color="blue"
-          trend={{ value: 12, isUp: true }}
+          trend={trends.products}
         />
         <StatsCard
           title="Blog Posts"
           value={blogs.length}
           icon={FileText}
           color="green"
-          trend={{ value: 8, isUp: true }}
+          trend={trends.blogs}
         />
         <StatsCard
           title="New Queries"
           value={newContacts}
           icon={MessageSquare}
           color="yellow"
-          trend={{ value: 3, isUp: false }}
+          trend={trends.queries}
         />
         <StatsCard
           title="Total Users"
           value={users.length}
           icon={Users}
           color="purple"
-          trend={{ value: 15, isUp: true }}
+          trend={trends.users}
         />
       </div>
 
       {/* Additional Stats */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Product Stats */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">
             Product Statistics
@@ -102,6 +160,7 @@ const DashboardOverview = () => {
           </div>
         </div>
 
+        {/* Contact Stats */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">
             Contact Status
@@ -128,27 +187,42 @@ const DashboardOverview = () => {
           </div>
         </div>
 
+        {/* Recent Activity */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">
             Recent Activity
           </h3>
           <div className="space-y-4">
-            {recentActivities.map((activity, index) => {
-              const Icon = activity.icon;
-              return (
-                <div key={index} className="flex items-start space-x-3">
-                  <div className={`p-2 rounded-full bg-${activity.color}-50`}>
-                    <Icon className={`h-4 w-4 text-${activity.color}-600`} />
+            {recentActivities.length === 0 ? (
+              <p className="text-gray-500 text-sm">No recent activity</p>
+            ) : (
+              recentActivities.map((activity, index) => {
+                const Icon =
+                  activity.type === "product"
+                    ? Package
+                    : activity.type === "blog"
+                    ? FileText
+                    : MessageSquare;
+
+                const color = colorMap[activity.type] || "gray";
+
+                return (
+                  <div key={index} className="flex items-start space-x-3">
+                    <div className={`p-2 rounded-full bg-${color}-50`}>
+                      <Icon className={`h-4 w-4 text-${color}-600`} />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm text-gray-800 truncate">
+                        {activity.message}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {new Date(activity.createdAt).toLocaleString()}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-gray-800 truncate">
-                      {activity.message}
-                    </p>
-                    <p className="text-xs text-gray-500">{activity.time}</p>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })
+            )}
           </div>
         </div>
       </div>

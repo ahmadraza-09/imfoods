@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { storage } from "./utils/storage";
 import "./App.css";
@@ -62,27 +63,55 @@ const AppContent = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Sidebar */}
-      <Sidebar
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-      />
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden lg:ml-0">
-        {/* Header */}
-        <Header
-          onMenuClick={() => setSidebarOpen(true)}
-          title={getPageTitle()}
+    <>
+      <div className="flex h-screen bg-gray-50">
+        {/* Sidebar */}
+        <Sidebar
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          isOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
         />
 
-        {/* Content */}
-        <main className="flex-1 overflow-y-auto p-6">{renderContent()}</main>
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col overflow-hidden lg:ml-0">
+          {/* Header */}
+          <Header
+            onMenuClick={() => setSidebarOpen(true)}
+            title={getPageTitle()}
+          />
+
+          {/* Content */}
+          <main className="flex-1 overflow-y-auto p-6">{renderContent()}</main>
+        </div>
       </div>
-    </div>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{}}
+        toastOptions={{
+          // Define default options
+          className: "",
+          duration: 5000,
+          removeDelay: 1000,
+          style: {
+            background: "#fff",
+            color: "#000",
+          },
+
+          // Default options for specific types
+          success: {
+            duration: 3000,
+            iconTheme: {
+              primary: "green",
+              secondary: "white",
+            },
+          },
+        }}
+      />
+    </>
   );
 };
 

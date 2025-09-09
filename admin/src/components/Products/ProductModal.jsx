@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
+import toast from "react-hot-toast";
 
 const ProductModal = ({ product, onSave, onClose }) => {
   const [formData, setFormData] = useState({
     name: "",
-    price: 0,
-    originalPrice: 0,
     image: "",
     description: "",
     category: "",
-    rating: 4.5,
-    reviews: 0,
     badge: "",
     inStock: true,
   });
@@ -21,13 +18,9 @@ const ProductModal = ({ product, onSave, onClose }) => {
     if (product) {
       setFormData({
         name: product.name,
-        price: product.price,
-        originalPrice: product.originalPrice || 0,
         image: product.image,
         description: product.description,
         category: product.category,
-        rating: product.rating,
-        reviews: product.reviews,
         badge: product.badge || "",
         inStock: product.inStock,
       });
@@ -40,9 +33,6 @@ const ProductModal = ({ product, onSave, onClose }) => {
     if (!formData.name.trim()) {
       newErrors.name = "Product name is required";
     }
-    if (formData.price <= 0) {
-      newErrors.price = "Price must be greater than 0";
-    }
     if (!formData.image.trim()) {
       newErrors.image = "Image URL is required";
     }
@@ -51,9 +41,6 @@ const ProductModal = ({ product, onSave, onClose }) => {
     }
     if (!formData.category.trim()) {
       newErrors.category = "Category is required";
-    }
-    if (formData.rating < 0 || formData.rating > 5) {
-      newErrors.rating = "Rating must be between 0 and 5";
     }
 
     setErrors(newErrors);
@@ -73,23 +60,17 @@ const ProductModal = ({ product, onSave, onClose }) => {
 
     setFormData((prev) => ({
       ...prev,
-      [name]:
-        type === "number"
-          ? parseFloat(value) || 0
-          : type === "checkbox"
-          ? checked
-          : value,
+      [name]: type === "checkbox" ? checked : value,
     }));
 
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/0 backdrop-blur-sm">
+      <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-lg">
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
           <h3 className="text-xl font-semibold text-gray-800">
@@ -187,85 +168,8 @@ const ProductModal = ({ product, onSave, onClose }) => {
             )}
           </div>
 
+          {/* Badge & Stock */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Price */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Price (₹) *
-              </label>
-              <input
-                type="number"
-                name="price"
-                value={formData.price}
-                onChange={handleChange}
-                min="0"
-                step="0.01"
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.price ? "border-red-500" : "border-gray-300"
-                }`}
-                placeholder="0.00"
-              />
-              {errors.price && (
-                <p className="text-red-500 text-sm mt-1">{errors.price}</p>
-              )}
-            </div>
-
-            {/* Original Price */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Original Price (₹)
-              </label>
-              <input
-                type="number"
-                name="originalPrice"
-                value={formData.originalPrice}
-                onChange={handleChange}
-                min="0"
-                step="0.01"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="0.00 (optional)"
-              />
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Rating */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Rating *
-              </label>
-              <input
-                type="number"
-                name="rating"
-                value={formData.rating}
-                onChange={handleChange}
-                min="0"
-                max="5"
-                step="0.1"
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.rating ? "border-red-500" : "border-gray-300"
-                }`}
-              />
-              {errors.rating && (
-                <p className="text-red-500 text-sm mt-1">{errors.rating}</p>
-              )}
-            </div>
-
-            {/* Reviews */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Reviews Count
-              </label>
-              <input
-                type="number"
-                name="reviews"
-                value={formData.reviews}
-                onChange={handleChange}
-                min="0"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
             {/* Badge */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -280,11 +184,9 @@ const ProductModal = ({ product, onSave, onClose }) => {
                 placeholder="e.g., New, Best Seller"
               />
             </div>
-          </div>
 
-          {/* In Stock */}
-          <div>
-            <label className="flex items-center space-x-2">
+            {/* In Stock */}
+            <div className="flex items-center mt-6">
               <input
                 type="checkbox"
                 name="inStock"
@@ -292,10 +194,10 @@ const ProductModal = ({ product, onSave, onClose }) => {
                 onChange={handleChange}
                 className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               />
-              <span className="text-sm font-medium text-gray-700">
+              <span className="ml-2 text-sm font-medium text-gray-700">
                 In Stock
               </span>
-            </label>
+            </div>
           </div>
 
           {/* Form Actions */}

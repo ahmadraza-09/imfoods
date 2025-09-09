@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 import {
   Search,
   Filter,
@@ -8,41 +10,65 @@ import {
   CheckCircle,
   MessageSquare,
 } from "lucide-react";
-import { storage } from "../../utils/storage";
 
 const ContactManager = () => {
   const [contacts, setContacts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [selectedContact, setSelectedContact] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    loadContacts();
+    fetchContacts();
   }, []);
 
-  const loadContacts = () => {
-    const savedContacts = storage.getContacts();
-    const sortedContacts = savedContacts.sort(
-      (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    );
-    setContacts(sortedContacts);
-  };
-
-  const updateContactStatus = (contactId, newStatus) => {
-    const updatedContacts = contacts.map((contact) =>
-      contact.id === contactId
-        ? { ...contact, status: newStatus, updatedAt: new Date().toISOString() }
-        : contact
-    );
-    setContacts(updatedContacts);
-    storage.saveContacts(updatedContacts);
-
-    if (selectedContact && selectedContact.id === contactId) {
-      setSelectedContact({ ...selectedContact, status: newStatus });
+  // Fetch contacts from backend
+  const fetchContacts = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        "http://localhost:8000/contact/getallcontacts"
+      );
+      setContacts(res.data);
+    } catch (error) {
+      toast.error("Failed to fetch contact listings.");
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Update status in backend
+  const updateContactStatus = async (contactId, newStatus) => {
+    try {
+      await axios.put(
+        `http://localhost:8000/contact/updatecontact/${contactId}`,
+        {
+          status: newStatus,
+        }
+      );
+
+      const updatedContacts = contacts.map((contact) =>
+        contact._id === contactId
+          ? {
+              ...contact,
+              status: newStatus,
+              updatedAt: new Date().toISOString(),
+            }
+          : contact
+      );
+      setContacts(updatedContacts);
+
+      if (selectedContact && selectedContact._id === contactId) {
+        setSelectedContact({ ...selectedContact, status: newStatus });
+      }
+
+      toast.success("Contact status updated!");
+    } catch (error) {
+      toast.error("Failed to update status.");
+    }
+  };
+
+  // Filters
   const filteredContacts = contacts.filter((contact) => {
     const matchesSearch =
       contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -55,6 +81,7 @@ const ContactManager = () => {
     return matchesSearch && matchesStatus;
   });
 
+  // Status UI
   const getStatusColor = (status) => {
     switch (status) {
       case "new":
@@ -81,6 +108,7 @@ const ContactManager = () => {
     }
   };
 
+  // Status counts
   const statusCounts = {
     new: contacts.filter((c) => c.status === "new").length,
     responded: contacts.filter((c) => c.status === "responded").length,
@@ -115,7 +143,6 @@ const ContactManager = () => {
             <MessageSquare className="h-8 w-8 text-gray-400" />
           </div>
         </div>
-
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
           <div className="flex items-center justify-between">
             <div>
@@ -127,7 +154,6 @@ const ContactManager = () => {
             <Clock className="h-8 w-8 text-blue-400" />
           </div>
         </div>
-
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
           <div className="flex items-center justify-between">
             <div>
@@ -139,7 +165,6 @@ const ContactManager = () => {
             <MessageSquare className="h-8 w-8 text-yellow-400" />
           </div>
         </div>
-
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
           <div className="flex items-center justify-between">
             <div>
@@ -156,7 +181,6 @@ const ContactManager = () => {
       {/* Filters */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <div className="flex flex-col lg:flex-row gap-4">
-          {/* Search */}
           <div className="flex-1 relative">
             <Search
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -170,8 +194,6 @@ const ContactManager = () => {
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
-          {/* Status Filter */}
           <div className="relative">
             <select
               value={statusFilter}
@@ -200,7 +222,6 @@ const ContactManager = () => {
               Queries ({filteredContacts.length})
             </h4>
           </div>
-
           <div className="max-h-[600px] overflow-y-auto">
             {filteredContacts.length === 0 ? (
               <div className="p-8 text-center">
@@ -211,10 +232,10 @@ const ContactManager = () => {
               <div className="space-y-1">
                 {filteredContacts.map((contact) => (
                   <div
-                    key={contact.id}
+                    key={contact._id}
                     onClick={() => setSelectedContact(contact)}
                     className={`p-4 cursor-pointer border-b border-gray-100 hover:bg-gray-50 transition-colors ${
-                      selectedContact?.id === contact.id
+                      selectedContact?._id === contact._id
                         ? "bg-blue-50 border-blue-200"
                         : ""
                     }`}
@@ -232,14 +253,12 @@ const ContactManager = () => {
                         <span className="capitalize">{contact.status}</span>
                       </div>
                     </div>
-
                     <p className="text-sm text-gray-600 mb-2 truncate">
                       {contact.subject}
                     </p>
                     <p className="text-xs text-gray-500 mb-2 line-clamp-2">
                       {contact.message}
                     </p>
-
                     <div className="flex items-center justify-between text-xs text-gray-500">
                       <span>{contact.email}</span>
                       <span>
@@ -271,12 +290,10 @@ const ContactManager = () => {
                     <span className="capitalize">{selectedContact.status}</span>
                   </div>
                 </div>
-
-                {/* Status Buttons */}
                 <div className="flex space-x-2 mb-4">
                   <button
                     onClick={() =>
-                      updateContactStatus(selectedContact.id, "new")
+                      updateContactStatus(selectedContact._id, "new")
                     }
                     className={`px-3 py-1 text-sm rounded-lg transition-colors ${
                       selectedContact.status === "new"
@@ -288,7 +305,7 @@ const ContactManager = () => {
                   </button>
                   <button
                     onClick={() =>
-                      updateContactStatus(selectedContact.id, "responded")
+                      updateContactStatus(selectedContact._id, "responded")
                     }
                     className={`px-3 py-1 text-sm rounded-lg transition-colors ${
                       selectedContact.status === "responded"
@@ -300,7 +317,7 @@ const ContactManager = () => {
                   </button>
                   <button
                     onClick={() =>
-                      updateContactStatus(selectedContact.id, "resolved")
+                      updateContactStatus(selectedContact._id, "resolved")
                     }
                     className={`px-3 py-1 text-sm rounded-lg transition-colors ${
                       selectedContact.status === "resolved"
@@ -312,9 +329,7 @@ const ContactManager = () => {
                   </button>
                 </div>
               </div>
-
               <div className="p-6">
-                {/* Info */}
                 <div className="space-y-4 mb-6">
                   <div>
                     <label className="text-sm font-medium text-gray-600">
@@ -322,7 +337,6 @@ const ContactManager = () => {
                     </label>
                     <p className="text-gray-800">{selectedContact.name}</p>
                   </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="text-sm font-medium text-gray-600">
@@ -338,7 +352,6 @@ const ContactManager = () => {
                         </a>
                       </div>
                     </div>
-
                     {selectedContact.phone && (
                       <div>
                         <label className="text-sm font-medium text-gray-600">
@@ -356,7 +369,6 @@ const ContactManager = () => {
                       </div>
                     )}
                   </div>
-
                   <div>
                     <label className="text-sm font-medium text-gray-600">
                       Subject
@@ -366,8 +378,6 @@ const ContactManager = () => {
                     </p>
                   </div>
                 </div>
-
-                {/* Message */}
                 <div className="border-t pt-6">
                   <label className="text-sm font-medium text-gray-600 mb-2 block">
                     Message
@@ -378,8 +388,6 @@ const ContactManager = () => {
                     </p>
                   </div>
                 </div>
-
-                {/* Timestamps */}
                 <div className="border-t pt-6 mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
                   <div>
                     <label className="font-medium">Created</label>

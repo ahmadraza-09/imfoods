@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import EditorJS from "@editorjs/editorjs";
+import Header from "@editorjs/header";
+import List from "@editorjs/list";
+import ImageTool from "@editorjs/image";
 import { X } from "lucide-react";
 
 const BlogModal = ({ blog, onSave, onClose }) => {
+  const editorRef = useRef(null);
+  const editorHolderRef = useRef(null);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -9,10 +16,10 @@ const BlogModal = ({ blog, onSave, onClose }) => {
     category: "",
     author: "Im Foods",
     badge: "",
-    content: "",
+    metaTitle: "",
+    metaDescription: "",
+    keywords: [],
   });
-
-  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (blog) {
@@ -21,253 +28,175 @@ const BlogModal = ({ blog, onSave, onClose }) => {
         description: blog.description,
         image: blog.image,
         category: blog.category,
-        author: blog.author,
+        author: blog.author || "Im Foods",
         badge: blog.badge || "",
-        content: blog.content,
+        metaTitle: blog.metaTitle || "",
+        metaDescription: blog.metaDescription || "",
+        keywords: blog.keywords || [],
       });
     }
   }, [blog]);
 
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!formData.title.trim()) {
-      newErrors.title = "Title is required";
-    }
-    if (!formData.description.trim()) {
-      newErrors.description = "Description is required";
-    }
-    if (!formData.image.trim()) {
-      newErrors.image = "Image URL is required";
-    }
-    if (!formData.category.trim()) {
-      newErrors.category = "Category is required";
-    }
-    if (!formData.author.trim()) {
-      newErrors.author = "Author is required";
-    }
-    if (!formData.content.trim()) {
-      newErrors.content = "Content is required";
+  useEffect(() => {
+    if (editorHolderRef.current && !editorRef.current) {
+      editorRef.current = new EditorJS({
+        holder: editorHolderRef.current,
+        autofocus: true,
+        data: blog?.content ? JSON.parse(blog.content) : {},
+        tools: {
+          header: Header,
+          list: List,
+          image: ImageTool,
+        },
+      });
     }
 
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    return () => {
+      if (
+        editorRef.current &&
+        typeof editorRef.current.destroy === "function"
+      ) {
+        editorRef.current.destroy();
+        editorRef.current = null;
+      }
+    };
+  }, [blog]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!editorRef.current) return;
 
-    if (validateForm()) {
-      onSave(formData);
-    }
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
+    try {
+      const content = await editorRef.current.save();
+      onSave({ ...formData, content: JSON.stringify(content) });
+    } catch (err) {
+      console.error("Editor.js save error:", err);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center p-4">
+      <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-lg relative">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b">
-          <h3 className="text-xl font-semibold text-gray-800">
-            {blog ? "Edit Blog Post" : "Add New Blog Post"}
+        <div className="flex items-center justify-between p-4 border-b">
+          <h3 className="text-xl font-semibold">
+            {blog ? "Edit Blog" : "Add Blog"}
           </h3>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 transition-colors"
+            className="text-gray-700 hover:text-gray-900"
           >
             <X size={24} />
           </button>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          {/* Title */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Title *
-            </label>
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.title ? "border-red-500" : "border-gray-300"
-              }`}
-              placeholder="Enter blog post title"
-            />
-            {errors.title && (
-              <p className="text-red-500 text-sm mt-1">{errors.title}</p>
-            )}
-          </div>
+        <form onSubmit={handleSubmit} className="p-4 space-y-4">
+          <input
+            type="text"
+            placeholder="Title *"
+            value={formData.title}
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
+            className="w-full border p-2 rounded"
+            required
+          />
 
-          {/* Description */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Description *
-            </label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              rows={2}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.description ? "border-red-500" : "border-gray-300"
-              }`}
-              placeholder="Enter a brief description"
-            />
-            {errors.description && (
-              <p className="text-red-500 text-sm mt-1">{errors.description}</p>
-            )}
-          </div>
+          <textarea
+            placeholder="Description"
+            value={formData.description}
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.target.value })
+            }
+            className="w-full border p-2 rounded"
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Category */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Category *
-              </label>
-              <input
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.category ? "border-red-500" : "border-gray-300"
-                }`}
-                placeholder="e.g., Health & Nutrition, Recipes"
-              />
-              {errors.category && (
-                <p className="text-red-500 text-sm mt-1">{errors.category}</p>
-              )}
-            </div>
+          <input
+            type="url"
+            placeholder="Featured Image URL *"
+            value={formData.image}
+            onChange={(e) =>
+              setFormData({ ...formData, image: e.target.value })
+            }
+            className="w-full border p-2 rounded"
+            required
+          />
 
-            {/* Author */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Author *
-              </label>
-              <input
-                type="text"
-                name="author"
-                value={formData.author}
-                onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.author ? "border-red-500" : "border-gray-300"
-                }`}
-                placeholder="Author name"
-              />
-              {errors.author && (
-                <p className="text-red-500 text-sm mt-1">{errors.author}</p>
-              )}
-            </div>
-          </div>
+          <input
+            type="text"
+            placeholder="Category"
+            value={formData.category}
+            onChange={(e) =>
+              setFormData({ ...formData, category: e.target.value })
+            }
+            className="w-full border p-2 rounded"
+          />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Image URL */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Featured Image URL *
-              </label>
-              <input
-                type="url"
-                name="image"
-                value={formData.image}
-                onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.image ? "border-red-500" : "border-gray-300"
-                }`}
-                placeholder="https://example.com/image.jpg"
-              />
-              {errors.image && (
-                <p className="text-red-500 text-sm mt-1">{errors.image}</p>
-              )}
-            </div>
+          <input
+            type="text"
+            placeholder="Author"
+            value={formData.author}
+            onChange={(e) =>
+              setFormData({ ...formData, author: e.target.value })
+            }
+            className="w-full border p-2 rounded"
+          />
 
-            {/* Badge */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Badge
-              </label>
-              <input
-                type="text"
-                name="badge"
-                value={formData.badge}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="e.g., Featured, New, Popular"
-              />
-            </div>
-          </div>
+          <input
+            type="text"
+            placeholder="Badge"
+            value={formData.badge}
+            onChange={(e) =>
+              setFormData({ ...formData, badge: e.target.value })
+            }
+            className="w-full border p-2 rounded"
+          />
 
-          {/* Content */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Content * (Markdown supported)
-            </label>
-            <textarea
-              name="content"
-              value={formData.content}
-              onChange={handleChange}
-              rows={12}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono text-sm ${
-                errors.content ? "border-red-500" : "border-gray-300"
-              }`}
-              placeholder={`# Your Blog Post Title
+          <input
+            type="text"
+            placeholder="Meta Title"
+            value={formData.metaTitle}
+            onChange={(e) =>
+              setFormData({ ...formData, metaTitle: e.target.value })
+            }
+            className="w-full border p-2 rounded"
+          />
 
-Write your blog content here. You can use Markdown formatting:
+          <input
+            type="text"
+            placeholder="Meta Description"
+            value={formData.metaDescription}
+            onChange={(e) =>
+              setFormData({ ...formData, metaDescription: e.target.value })
+            }
+            className="w-full border p-2 rounded"
+          />
 
-## Headings
-- **Bold text**
-- *Italic text*
-- [Links](http://example.com)
+          <input
+            type="text"
+            placeholder="Keywords (comma separated)"
+            value={formData.keywords.join(", ")}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                keywords: e.target.value.split(",").map((k) => k.trim()),
+              })
+            }
+            className="w-full border p-2 rounded"
+          />
 
-### Lists
-1. Numbered lists
-2. Are supported
+          {/* Editor.js */}
+          <div
+            ref={editorHolderRef}
+            className="border rounded p-2 min-h-[300px] mt-2"
+          />
 
-- Bullet points
-- Also work
-
-> Quote blocks are supported too!`}
-            />
-            {errors.content && (
-              <p className="text-red-500 text-sm mt-1">{errors.content}</p>
-            )}
-            <p className="text-gray-500 text-sm mt-2">
-              Tip: Use Markdown formatting for headers (#), bold (**text**),
-              italic (*text*), and lists.
-            </p>
-          </div>
-
-          {/* Form Actions */}
-          <div className="flex justify-end space-x-3 pt-4 border-t">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              {blog ? "Update Post" : "Publish Post"}
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          >
+            {blog ? "Update Blog" : "Publish Blog"}
+          </button>
         </form>
       </div>
     </div>
