@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AboutUs from "./pages/AboutUs";
@@ -47,6 +48,32 @@ function App() {
           <Route path="/products/oil" element={<Oil />} />
         </Routes>
         <Footer />
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          gutter={8}
+          containerClassName=""
+          containerStyle={{}}
+          toastOptions={{
+            // Define default options
+            className: "",
+            duration: 5000,
+            removeDelay: 1000,
+            style: {
+              background: "#fff",
+              color: "#000",
+            },
+
+            // Default options for specific types
+            success: {
+              duration: 3000,
+              iconTheme: {
+                primary: "green",
+                secondary: "white",
+              },
+            },
+          }}
+        />
       </BrowserRouter>
     </>
   );

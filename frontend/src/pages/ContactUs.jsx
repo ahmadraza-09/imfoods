@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet";
 import { MapPin, Phone, Mail, Clock, MessageSquare } from "lucide-react";
 import Banner from "../components/Banner";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const ContactUs = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [formError, setFormError] = useState("");
+
   const contactInfo = [
     {
       icon: MapPin,
@@ -19,8 +30,48 @@ const ContactUs = () => {
     },
   ];
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    const { name, phone, email, subject, message } = formData;
+
+    if (!name || !phone || !email || !subject) {
+      setFormError("Please fill all required fields");
+      toast.error("Please fill all required fields");
+      return;
+    }
+
+    try {
+      const res = await axios.post(
+        "http://localhost:8000/contact/addcontact",
+        formData
+      );
+
+      if (res.data.status === 200) {
+        toast.success("Message Sent Successfully");
+        setFormData({
+          name: "",
+          phone: "",
+          email: "",
+          subject: "",
+          message: "",
+        });
+        setFormError("");
+      } else {
+        setFormError(res.data.message || "Something went wrong");
+      }
+    } catch (error) {
+      setFormError("Contact request failed. Please try again later.");
+    }
+  };
+
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen">
       {/* Helmet SEO Meta Tags */}
       <Helmet>
         <title>
@@ -28,44 +79,9 @@ const ContactUs = () => {
         </title>
         <meta
           name="description"
-          content="Get in touch with IMFoods Pvt. Ltd. for inquiries about exporting Indian spices, fruits, vegetables, pulses, grains, oils, tea & coffee worldwide. Contact us today for B2B partnerships and bulk food exports."
-        />
-        <meta
-          name="keywords"
-          content="Contact IMFoods, food export contact India, Indian food exporters inquiries, bulk food orders, B2B food trade, wholesale food supply India, organic food export contact, spices exporter India, fruits exporter India, vegetables exporter India, pulses grains exporter India"
+          content="Get in touch with IMFoods Pvt. Ltd. for inquiries about exporting Indian spices, fruits, vegetables, pulses, grains, oils, tea & coffee worldwide."
         />
         <link rel="canonical" href="https://imfoods.com/contact" />
-
-        {/* Open Graph Tags */}
-        <meta
-          property="og:title"
-          content="Contact IMFoods | Global Food Exporter from India"
-        />
-        <meta
-          property="og:description"
-          content="Reach IMFoods for bulk food exports and global trade partnerships. Exporting spices, fruits, vegetables, pulses, grains, tea, coffee & oils worldwide."
-        />
-        <meta
-          property="og:image"
-          content="https://imfoods.com/images/contact-og.jpg"
-        />
-        <meta property="og:url" content="https://imfoods.com/contact" />
-        <meta property="og:type" content="website" />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Contact IMFoods | Global Food Exporter from India"
-        />
-        <meta
-          name="twitter:description"
-          content="Looking to import Indian food products? Contact IMFoods for quality exports of spices, vegetables, fruits, grains, pulses, oils, tea & coffee."
-        />
-        <meta
-          name="twitter:image"
-          content="https://imfoods.com/images/contact-og.jpg"
-        />
       </Helmet>
 
       {/* Banner */}
@@ -75,7 +91,7 @@ const ContactUs = () => {
         breadcrumbs={[{ label: "Home", path: "/" }, { label: "Contact" }]}
       />
 
-      {/* Rest of your content */}
+      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
         <div className="text-center mb-12">
@@ -113,59 +129,75 @@ const ContactUs = () => {
                 Send us a message
               </h2>
             </div>
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
-                    placeholder="Enter your first name"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
-                    placeholder="Enter your last name"
-                  />
-                </div>
-              </div>
+            <form className="space-y-6" onSubmit={submitHandler}>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address
+                  Name *
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  placeholder="Enter your first name"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email Address *
                 </label>
                 <input
                   type="email"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   placeholder="Enter your email"
                 />
               </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Phone *
+                </label>
+                <input
+                  type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  placeholder="Enter your phone number"
+                />
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Subject
                 </label>
                 <input
                   type="text"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   placeholder="What is this about?"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Message
+                  Message *
                 </label>
                 <textarea
                   rows={5}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   placeholder="Tell us how we can help you..."
                 ></textarea>
               </div>
+              {formError && <p className="text-red-600 text-sm">{formError}</p>}
               <button
                 type="submit"
                 className="w-full py-3 bg-green-700 hover:bg-green-800 text-white font-semibold rounded-lg transition-colors duration-200"
@@ -175,83 +207,18 @@ const ContactUs = () => {
             </form>
           </div>
 
-          {/* Map and Additional Info */}
+          {/* Map */}
           <div className="space-y-8">
-            {/* Map Placeholder */}
-            <div className="bg-gray-200 h-46 rounded-2xl flex items-center justify-center">
-              <iframe
-                title="Google Maps"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d321555.8161586449!2d76.76354931726667!3d28.64428744177972!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x37205b715389640!2sDelhi!5e1!3m2!1sen!2sin!4v1756838140232!5m2!1sen!2sin"
-                width="100%"
-                height="200"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-                className="rounded-lg shadow-md"
-              ></iframe>
-            </div>
-
-            {/* Additional Info */}
-            <div className="bg-green-50 p-8 rounded-2xl">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                Visit Our Store
-              </h3>
-              <p className="text-gray-700 mb-4 leading-relaxed">
-                Come visit our flagship store to experience our products
-                firsthand. Our knowledgeable staff is always ready to help you
-                find the perfect ingredients for your needs.
-              </p>
-              <div className="space-y-3">
-                <div className="flex items-center text-gray-700">
-                  <Clock className="h-5 w-5 text-green-700 mr-3" />
-                  <span>Monday - Friday: 8:00 AM - 6:00 PM</span>
-                </div>
-                <div className="flex items-center text-gray-700">
-                  <Clock className="h-5 w-5 text-green-700 mr-3" />
-                  <span>Saturday: 9:00 AM - 4:00 PM</span>
-                </div>
-                <div className="flex items-center text-gray-700">
-                  <Clock className="h-5 w-5 text-green-700 mr-3" />
-                  <span>Sunday: Closed</span>
-                </div>
-              </div>
-            </div>
-
-            {/* FAQ */}
-            <div className="bg-white p-8 rounded-2xl shadow-md">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                Frequently Asked Questions
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">
-                    Do you offer organic products?
-                  </h4>
-                  <p className="text-gray-600 text-sm">
-                    Yes, we have a wide selection of certified organic products
-                    across all categories.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">
-                    What are your delivery areas?
-                  </h4>
-                  <p className="text-gray-600 text-sm">
-                    We deliver to most metropolitan areas. Contact us to check
-                    if we deliver to your location.
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">
-                    Do you offer bulk discounts?
-                  </h4>
-                  <p className="text-gray-600 text-sm">
-                    Yes, we offer special pricing for bulk orders. Please
-                    contact our sales team for details.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <iframe
+              title="Google Maps"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d321555.8161586449!2d76.76354931726667!3d28.64428744177972!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x37205b715389640!2sDelhi!5e1!3m2!1sen!2sin!4v1756838140232!5m2!1sen!2sin"
+              width="100%"
+              height="400"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              className="rounded-lg shadow-md"
+            ></iframe>
           </div>
         </div>
       </div>
