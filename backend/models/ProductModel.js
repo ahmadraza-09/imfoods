@@ -5,12 +5,13 @@ const productSchema = new Schema(
     {
         name: { type: String, required: true },
         image: { type: String, required: true },
+        cloudinary_id: { type: String }, // ✅ store public_id for deletion
         description: { type: String },
         category: { type: String },
-        badge: { type: String }, // e.g. "New", "Best Seller", "Limited"
+        badge: { type: String },
         inStock: { type: Boolean, default: true },
     },
-    { timestamps: true } // createdAt, updatedAt
+    { timestamps: true }
 );
 
 const Product = mongoose.model("Product", productSchema);
