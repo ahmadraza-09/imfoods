@@ -7,6 +7,7 @@ const blogSchema = new Schema(
         description: { type: String },
         image: { type: String, required: true },
         category: { type: String },
+        featured: { type: Boolean, default: false },
         author: { type: String, default: "Im Foods" },
         badge: { type: String }, // e.g. "New", "Best Seller", "Limited"
         metaTitle: { type: String }, // SEO meta title
