@@ -7,6 +7,7 @@ const blogSchema = new Schema(
         description: { type: String },
         image: { type: String, required: true },
         category: { type: String },
+        cloudinary_id: { type: String }, // ✅ store public_id for deletion
         featured: { type: Boolean, default: false },
         author: { type: String, default: "Im Foods" },
         badge: { type: String }, // e.g. "New", "Best Seller", "Limited"
