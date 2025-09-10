@@ -114,3 +114,26 @@ exports.updateBlog = async (req, res) => {
         res.status(500).json({ message: "Server Error", error });
     }
 };
+
+exports.getBlogByTitle = async (req, res) => {
+    const { title } = req.query;
+    try {
+        if (!title) {
+            return res.status(400).json({ status: 400, message: "Title is required" });
+        }
+
+        // Create case-insensitive regex
+        const regex = new RegExp(`^${title.replace(/-/g, " ")}$`, "i");
+
+        const blog = await Blog.findOne({ title: regex });
+
+        if (!blog) {
+            return res.status(404).json({ message: "Blog not found" });
+        }
+
+        res.status(200).json(blog);
+    } catch (error) {
+        console.error("Error fetching blog by title:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
