@@ -21,6 +21,8 @@ import Footer from "./components/footer";
 import Header from "./components/header";
 import ScrollToTop from "./components/ScrollToTop";
 import CategoryShowcase from "./components/CategoryShowcase";
+import HouseholdProducts from "./pages/products/HouseholdProducts";
+import DairyProducts from "./pages/products/DairyProducts";
 
 function App() {
   return (
@@ -34,7 +36,7 @@ function App() {
           <Route path="/blogs" element={<BlogPage />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/products" element={<CategoryShowcase />} />
-          <Route path="/blogs/:id" element={<BlogDetailsPage />} />
+          <Route path="/blogs/:title" element={<BlogDetailsPage />} />
           <Route path="/products/spices" element={<Spices />} />
           <Route path="/products/pulses" element={<Pulses />} />
           <Route path="/products/fresh-fruits" element={<FreshFruits />} />
@@ -46,6 +48,11 @@ function App() {
           <Route path="/products/coffee" element={<Coffee />} />
           <Route path="/products/grains" element={<Grains />} />
           <Route path="/products/oil" element={<Oil />} />
+          <Route path="/products/dairy-products" element={<DairyProducts />} />
+          <Route
+            path="/products/household-products"
+            element={<HouseholdProducts />}
+          />
         </Routes>
         <Footer />
         <Toaster

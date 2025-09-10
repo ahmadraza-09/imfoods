@@ -129,6 +129,7 @@ const ContactUs = () => {
                 Send us a message
               </h2>
             </div>
+            {formError && <p className="text-red-600 text-sm">{formError}</p>}
             <form className="space-y-6" onSubmit={submitHandler}>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -197,7 +198,7 @@ const ContactUs = () => {
                   placeholder="Tell us how we can help you..."
                 ></textarea>
               </div>
-              {formError && <p className="text-red-600 text-sm">{formError}</p>}
+
               <button
                 type="submit"
                 className="w-full py-3 bg-green-700 hover:bg-green-800 text-white font-semibold rounded-lg transition-colors duration-200"

@@ -1,12 +1,34 @@
-import React from "react";
-import BlogCard from "./BlogCard"; // make sure path is correct
-import { blogs } from "../data/Blog";
+import React, { useState, useEffect } from "react";
+import BlogCard from "./BlogCard";
 import { Link } from "react-router-dom";
 import { CircleChevronRight } from "lucide-react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const BlogSection = () => {
-  const featuredPost = blogs.find((post) => post.featured);
-  const regularPosts = blogs.filter((post) => !post.featured);
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchBlogs = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get("http://localhost:8000/blog/getallblogs");
+      // Filter out featured blogs and take only first 3
+      const regularBlogs = res.data
+        .filter((blog) => !blog.featured)
+        .slice(0, 3);
+      setBlogs(regularBlogs);
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed to fetch blogs.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
 
   return (
     <section className="py-20 bg-gray-50">
@@ -22,15 +44,19 @@ const BlogSection = () => {
           </p>
         </div>
 
-        {/* Featured Blog */}
-        {/* {featuredPost && <BlogCard {...featuredPost} />} */}
+        {loading ? (
+          <p className="text-center text-gray-500">Loading blogs...</p>
+        ) : blogs.length === 0 ? (
+          <p className="text-center text-gray-500">No blogs found.</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+            {blogs.map((post, index) => (
+              <BlogCard key={post._id || index} {...post} />
+            ))}
+          </div>
+        )}
 
-        {/* Regular Blogs */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
-          {regularPosts.map((post, index) => (
-            <BlogCard key={index} {...post} />
-          ))}
-        </div>
+        {/* View More Button */}
         <div className="flex items-center justify-center">
           <Link
             to="/blogs"

@@ -1,30 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { Calendar, User, Tag } from "lucide-react";
-import { blogs } from "../data/Blog";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const BlogDetailsPage = () => {
-  const { id } = useParams();
+  const { title } = useParams();
+  const [blog, setBlog] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const blog = blogs.find((b) => String(b.id) === String(id));
+  // Fetch blog by title instead of id
+  useEffect(() => {
+    const fetchBlog = async () => {
+      setLoading(true);
+      try {
+        const decodedTitle = title.replace(/-/g, " "); // convert URL format back to normal
+        const res = await axios.get(
+          `http://localhost:8000/blog/getblogbytitle?title=${encodeURIComponent(
+            decodedTitle
+          )}`
+        );
+        setBlog(res.data);
+      } catch (error) {
+        toast.error("Failed to fetch blog details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlog();
+  }, [title]);
+
+  if (loading) {
+    return <p className="text-center mt-10 text-gray-500">Loading blog...</p>;
+  }
 
   if (!blog) {
     return <p className="text-center mt-10 text-red-500">Blog not found!</p>;
   }
 
-  const metaDescription = blog.content.split("\n")[0].slice(0, 160) + "..."; // first line as meta description
-  const pageUrl = `https://imfoods.com/blog/${blog.id}`;
+  const metaDescription = blog.content.split("\n")[0].slice(0, 160) + "...";
+  const pageUrl = `https://imfoods.com/blog/${blog._id}`;
 
   return (
-    <div className="bg-gray-50 min-h-screen py-12">
-      {/* Helmet for SEO */}
+    <div className="bg-gray-50 min-h-screen py-30">
       <Helmet>
         <title>{blog.title} | Food & Wellness Blog</title>
         <meta name="description" content={metaDescription} />
         <meta
           name="keywords"
-          content={`${blog.category}, ${blog.tags.join(", ")}, Food, Wellness`}
+          content={`${blog.category}, ${blog.keywords?.join(
+            ", "
+          )}, Food, Wellness`}
         />
         <meta property="og:title" content={blog.title} />
         <meta property="og:description" content={metaDescription} />
@@ -36,7 +64,6 @@ const BlogDetailsPage = () => {
       </Helmet>
 
       <div className="max-w-4xl mx-auto px-6">
-        {/* Cover Image */}
         <div className="overflow-hidden rounded-2xl shadow-lg mb-8">
           <img
             src={blog.image}
@@ -45,12 +72,10 @@ const BlogDetailsPage = () => {
           />
         </div>
 
-        {/* Header */}
         <h1 className="sm:text-4xl text-2xl font-bold text-gray-900 mb-6 leading-tight">
           {blog.title}
         </h1>
 
-        {/* Meta Info */}
         <div className="flex items-center gap-6 text-sm text-gray-600 mb-8">
           <div className="flex items-center gap-2">
             <User className="h-4 w-4 text-green-600" />
@@ -66,7 +91,6 @@ const BlogDetailsPage = () => {
           </div>
         </div>
 
-        {/* Content */}
         <article className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-li:marker:text-green-600 prose-a:text-green-700">
           {blog.content
             .split("\n")
@@ -84,9 +108,8 @@ const BlogDetailsPage = () => {
             )}
         </article>
 
-        {/* Tags */}
         <div className="flex flex-wrap gap-3 mt-10">
-          {blog.tags.map((tag, i) => (
+          {blog.keywords?.map((tag, i) => (
             <span
               key={i}
               className="px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium"

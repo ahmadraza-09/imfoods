@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import BlogCard from "../components/BlogCard";
 import { Search, TrendingUp } from "lucide-react";
 import NewsLetterSignupSection from "../components/NewsLetterSignupSection";
-import { blogs as blogPosts } from "../data/Blog";
 import Banner from "../components/Banner";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const Blogs = () => {
+  const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const categories = [
     "All",
     "Health & Nutrition",
@@ -23,8 +27,25 @@ const Blogs = () => {
     "Ancient Grains",
   ];
 
+  // Fetch blogs from API
+  const fetchBlogs = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get("http://localhost:8000/blog/getallblogs"); // Replace with your API endpoint
+      setBlogs(res.data || []);
+    } catch (error) {
+      toast.error("Failed to fetch blogs.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
+
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen">
       {/* Helmet for SEO */}
       <Helmet>
         <title>Food & Wellness Blog | Healthy Recipes, Tips & Nutrition</title>
@@ -107,15 +128,24 @@ const Blogs = () => {
           ))}
         </div>
 
-        {/* Featured Post */}
-        <BlogCard {...blogPosts[0]} featured={true} />
+        {/* Blogs Section */}
+        {loading ? (
+          <p className="text-center text-gray-500">Loading blogs...</p>
+        ) : blogs.length === 0 ? (
+          <p className="text-center text-gray-500">No blogs found.</p>
+        ) : (
+          <>
+            {/* Featured Post */}
+            <BlogCard {...blogs[0]} featured={true} />
 
-        {/* Blog Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-20">
-          {blogPosts.slice(1).map((post) => (
-            <BlogCard key={post.id} {...post} />
-          ))}
-        </div>
+            {/* Blog Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-20">
+              {blogs.slice(1).map((post) => (
+                <BlogCard key={post._id || post.id} {...post} />
+              ))}
+            </div>
+          </>
+        )}
 
         {/* Newsletter Signup */}
         <NewsLetterSignupSection />

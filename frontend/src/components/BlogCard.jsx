@@ -7,13 +7,32 @@ const BlogCard = ({
   title,
   excerpt,
   author,
-  date,
+  createdAt,
   image,
   category,
-  readTime,
   featured = false,
 }) => {
   const navigate = useNavigate();
+
+  // Function to calculate read time
+  const calculateReadTime = (text) => {
+    if (!text) return "1 min read";
+    const wordsPerMinute = 200;
+    const words = text.trim().split(/\s+/).length;
+    const minutes = Math.ceil(words / wordsPerMinute);
+    return `${minutes} min read`;
+  };
+
+  // Format the date
+  const formattedDate = createdAt
+    ? new Date(createdAt).toLocaleDateString(undefined, {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })
+    : "N/A";
+
+  const readTime = calculateReadTime(excerpt);
 
   if (featured) {
     return (
@@ -55,7 +74,7 @@ const BlogCard = ({
                 </div>
                 <div className="flex items-center space-x-1">
                   <Calendar className="h-4 w-4" />
-                  <span>{date}</span>
+                  <span>{formattedDate}</span>
                 </div>
                 <div className="flex items-center space-x-1">
                   <Clock className="h-4 w-4" />
@@ -65,7 +84,13 @@ const BlogCard = ({
 
               <button
                 className="flex items-center text-green-700 hover:text-green-800 font-semibold transition-colors duration-200 group"
-                onClick={() => navigate(`/blogs/${id}`)}
+                onClick={() =>
+                  navigate(
+                    `/blogs/${encodeURIComponent(
+                      title.replace(/\s+/g, "-").toLowerCase()
+                    )}`
+                  )
+                }
               >
                 Read Article
                 <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
@@ -96,7 +121,7 @@ const BlogCard = ({
           </span>
           <span className="flex items-center">
             <Calendar className="h-3 w-3 mr-1" />
-            {date}
+            {formattedDate}
           </span>
           <span className="flex items-center">
             <Clock className="h-3 w-3 mr-1" />
@@ -118,11 +143,17 @@ const BlogCard = ({
             <span className="text-gray-600 text-sm">{author}</span>
           </div>
           <button
-            className="flex items-center cursor-pointer text-green-700 hover:text-green-800 text-sm font-medium transition-colors duration-200 group"
-            onClick={() => navigate(`/blogs/${id}`)}
+            className="flex items-center text-green-700 hover:text-green-800 font-semibold transition-colors duration-200 group"
+            onClick={() =>
+              navigate(
+                `/blogs/${encodeURIComponent(
+                  title.replace(/\s+/g, "-").toLowerCase()
+                )}`
+              )
+            }
           >
             Read More
-            <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" />
+            <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
           </button>
         </div>
       </div>
