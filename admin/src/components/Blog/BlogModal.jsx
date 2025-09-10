@@ -1,19 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
-import EditorJS from "@editorjs/editorjs";
-import Header from "@editorjs/header";
-import List from "@editorjs/list";
-import ImageTool from "@editorjs/image";
+import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
 const BlogModal = ({ blog, onSave, onClose }) => {
-  const editorRef = useRef(null);
-  const editorHolderRef = useRef(null);
-
   const [formData, setFormData] = useState({
     title: "",
     description: "",
+    content: "",
     image: "",
     category: "",
+    featured: false,
     author: "Im Foods",
     badge: "",
     metaTitle: "",
@@ -24,10 +19,11 @@ const BlogModal = ({ blog, onSave, onClose }) => {
   useEffect(() => {
     if (blog) {
       setFormData({
-        title: blog.title,
-        description: blog.description,
-        image: blog.image,
-        category: blog.category,
+        title: blog.title || "",
+        description: blog.description || "",
+        content: blog.content || "",
+        image: blog.image || "",
+        category: blog.category || "",
         author: blog.author || "Im Foods",
         badge: blog.badge || "",
         metaTitle: blog.metaTitle || "",
@@ -37,41 +33,9 @@ const BlogModal = ({ blog, onSave, onClose }) => {
     }
   }, [blog]);
 
-  useEffect(() => {
-    if (editorHolderRef.current && !editorRef.current) {
-      editorRef.current = new EditorJS({
-        holder: editorHolderRef.current,
-        autofocus: true,
-        data: blog?.content ? JSON.parse(blog.content) : {},
-        tools: {
-          header: Header,
-          list: List,
-          image: ImageTool,
-        },
-      });
-    }
-
-    return () => {
-      if (
-        editorRef.current &&
-        typeof editorRef.current.destroy === "function"
-      ) {
-        editorRef.current.destroy();
-        editorRef.current = null;
-      }
-    };
-  }, [blog]);
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!editorRef.current) return;
-
-    try {
-      const content = await editorRef.current.save();
-      onSave({ ...formData, content: JSON.stringify(content) });
-    } catch (err) {
-      console.error("Editor.js save error:", err);
-    }
+    onSave(formData);
   };
 
   return (
@@ -109,6 +73,16 @@ const BlogModal = ({ blog, onSave, onClose }) => {
               setFormData({ ...formData, description: e.target.value })
             }
             className="w-full border p-2 rounded"
+          />
+
+          <textarea
+            placeholder="Content *"
+            value={formData.content}
+            onChange={(e) =>
+              setFormData({ ...formData, content: e.target.value })
+            }
+            className="w-full border p-2 rounded min-h-[200px]"
+            required
           />
 
           <input
@@ -183,12 +157,6 @@ const BlogModal = ({ blog, onSave, onClose }) => {
               })
             }
             className="w-full border p-2 rounded"
-          />
-
-          {/* Editor.js */}
-          <div
-            ref={editorHolderRef}
-            className="border rounded p-2 min-h-[300px] mt-2"
           />
 
           <button

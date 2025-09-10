@@ -76,7 +76,7 @@ const DashboardOverview = () => {
     try {
       const res = await axios.get("http://localhost:8000/activity/");
       setRecentActivities(res.data.slice(0, 5)); // show latest 5
-      console.log(res.data);
+      // console.log(res.data);
     } catch (error) {
       toast.error("Failed to fetch recent activities.");
     }

@@ -171,7 +171,7 @@ const BlogManager = () => {
               >
                 <div className="aspect-w-16 aspect-h-10 bg-gray-100">
                   <img
-                    src={blog.image}
+                    src={blog.image || "https://via.placeholder.com/400"}
                     alt={blog.title}
                     className="w-full h-48 object-cover"
                   />
