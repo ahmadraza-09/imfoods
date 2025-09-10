@@ -1,52 +1,40 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import Banner from "../../components/Banner";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import ProductCard from "../../components/ProductCard";
 
 const Grains = () => {
-  const grains = [
-    {
-      name: "Basmati Rice",
-      price: "$8.99",
-      image:
-        "https://images.pexels.com/photos/1580654/pexels-photo-1580654.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Premium aged basmati rice",
-    },
-    {
-      name: "Quinoa",
-      price: "$12.99",
-      image:
-        "https://images.pexels.com/photos/4198431/pexels-photo-4198431.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Organic tri-color quinoa",
-    },
-    {
-      name: "Brown Rice",
-      price: "$6.99",
-      image:
-        "https://images.pexels.com/photos/1580658/pexels-photo-1580658.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Nutritious whole grain brown rice",
-    },
-    {
-      name: "Oats",
-      price: "$4.99",
-      image:
-        "https://images.pexels.com/photos/4198432/pexels-photo-4198432.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Steel-cut organic oats",
-    },
-    {
-      name: "Barley",
-      price: "$5.49",
-      image:
-        "https://images.pexels.com/photos/4198429/pexels-photo-4198429.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Pearl barley for soups and stews",
-    },
-    {
-      name: "Millet",
-      price: "$7.99",
-      image:
-        "https://images.pexels.com/photos/4198430/pexels-photo-4198430.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Ancient grain millet",
-    },
-  ];
+  const [grains, setGrains] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/product/getallproducts?category=grain`
+      );
+
+      const filtered = (res.data || [])
+        .filter((p) => p.category?.toLowerCase() === "grain")
+        .map((p) => ({
+          ...p,
+          id: p._id || p.id,
+        }));
+
+      setGrains(filtered);
+    } catch (error) {
+      toast.error("Failed to fetch grain products.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -76,6 +64,7 @@ const Grains = () => {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Intro */}
         <div className="text-center mb-12">
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Nutrient-rich whole grains that form the foundation of healthy
@@ -84,50 +73,93 @@ const Grains = () => {
           </p>
         </div>
 
+        {/* Grains Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {grains.map((grain, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group"
-            >
-              <div className="aspect-w-16 aspect-h-12 overflow-hidden">
-                <img
-                  src={grain.image}
-                  alt={grain.name}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {grain.name}
-                </h3>
-                <p className="text-gray-600 mb-4">{grain.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-green-700">
-                    {grain.price}
-                  </span>
-                  <button className="px-4 py-2 bg-green-700 hover:bg-green-800 text-white rounded-lg transition-colors duration-200 font-medium">
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            </div>
+          {grains.map((grain) => (
+            <ProductCard key={grain.id} {...grain} />
           ))}
         </div>
 
-        <div className="mt-16 bg-yellow-50 rounded-2xl p-8">
+        {/* Farm to Table Section */}
+        <section className="mt-16 bg-yellow-50 rounded-2xl p-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Ancient Nutrition, Modern Quality
+              Farm to Table Freshness
             </h2>
             <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-              Our grains are sourced from regions known for their traditional
-              farming methods and ideal growing conditions. We ensure minimal
-              processing to preserve the natural nutrients and authentic
-              flavors.
+              All our grains are sourced directly from certified farms and
+              delivered to you shortly after harvest, ensuring maximum freshness
+              and nutritional value.
             </p>
           </div>
-        </div>
+        </section>
+
+        {/* Benefits Section */}
+        <section className="mt-16 bg-white shadow-lg rounded-2xl p-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+            Benefits of Wholesome Grains
+          </h2>
+          <ul className="space-y-4 text-gray-700 text-lg max-w-3xl mx-auto">
+            <li>🌾 Rich in fiber and essential nutrients</li>
+            <li>💪 Supports heart health and digestion</li>
+            <li>🌱 Naturally gluten-free options available</li>
+            <li>🍃 Sustainably grown for a healthier planet</li>
+            <li>🤝 Supports local and traditional farming communities</li>
+          </ul>
+        </section>
+
+        {/* Why Choose Our Grains */}
+        <section className="mt-16 bg-yellow-50 rounded-2xl p-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl font-bold text-gray-900 mb-8">
+                Why Choose IMFoods Grains?
+              </h2>
+              <ul className="space-y-4 text-gray-700 text-lg">
+                <li>🌾 Sourced from regions with ideal growing conditions</li>
+                <li>🍃 Minimal processing to retain nutrients</li>
+                <li>💧 Carefully harvested for maximum freshness</li>
+                <li>🌍 Quality checked and exported worldwide</li>
+                <li>🤝 Supporting sustainable farming and communities</li>
+              </ul>
+            </div>
+            <div className="text-center">
+              <img
+                src="https://images.pexels.com/photos/4198431/pexels-photo-4198431.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Wholesome Grains"
+                className="rounded-2xl shadow-2xl mx-auto transform hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Sourced Regions */}
+        <section className="mt-16 bg-white rounded-3xl p-12 shadow-lg">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+              Sourced from the World's Best Grain Regions
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Our grains are sourced from regions renowned for their fertile
+              soils and traditional farming methods that yield premium quality
+              grains.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center p-6 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">India</h3>
+              <p className="text-gray-700">Basmati Rice, Millet, Barley</p>
+            </div>
+            <div className="text-center p-6 bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">USA</h3>
+              <p className="text-gray-700">Quinoa, Oats</p>
+            </div>
+            <div className="text-center p-6 bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">Europe</h3>
+              <p className="text-gray-700">Brown Rice, Specialty Grains</p>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

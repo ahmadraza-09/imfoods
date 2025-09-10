@@ -1,56 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Banner from "../../components/Banner";
 import { Helmet } from "react-helmet";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import ProductCard from "../../components/ProductCard";
 
 const Pulses = () => {
-  const pulses = [
-    {
-      name: "Red Kidney Beans",
-      price: "$4.99",
-      image:
-        "https://images.pexels.com/photos/8844928/pexels-photo-8844928.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "High protein red kidney beans",
-    },
-    {
-      name: "Black Lentils",
-      price: "$3.99",
-      image:
-        "https://images.pexels.com/photos/33190/grains-legumes-raw-lentils.jpg?auto=compress&cs=tinysrgb&w=400",
-      description: "Premium black lentils (urad dal)",
-    },
-    {
-      name: "Chickpeas",
-      price: "$5.99",
-      image:
-        "https://images.pexels.com/photos/4198445/pexels-photo-4198445.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Organic chickpeas (garbanzo beans)",
-    },
-    {
-      name: "Yellow Split Peas",
-      price: "$4.49",
-      image:
-        "https://images.pexels.com/photos/4198428/pexels-photo-4198428.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Split yellow peas for soups",
-    },
-    {
-      name: "Moong Dal",
-      price: "$6.99",
-      image:
-        "https://images.pexels.com/photos/4198440/pexels-photo-4198440.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Split green gram lentils",
-    },
-    {
-      name: "Masoor Dal",
-      price: "$5.49",
-      image:
-        "https://images.pexels.com/photos/4198433/pexels-photo-4198433.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Red lentils (masoor dal)",
-    },
-  ];
+  const [pulses, setPulses] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/product/getallproducts?category=pulse`
+      );
+
+      const filtered = (res.data || [])
+        .filter((p) => p.category?.toLowerCase() === "pulse")
+        .map((p) => ({
+          ...p,
+          id: p._id || p.id,
+        }));
+
+      setPulses(filtered);
+    } catch (error) {
+      toast.error("Failed to fetch pulses products.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
-    <div className="min-h-screen ">
-      {/* Meta SEO */}
+    <div className="min-h-screen">
+      {/* Helmet for SEO */}
       <Helmet>
         <title>Premium Pulses & Lentils | Healthy Plant Protein</title>
         <meta
@@ -60,6 +47,10 @@ const Pulses = () => {
         <meta
           name="keywords"
           content="pulses, lentils, kidney beans, chickpeas, moong dal, masoor dal, black lentils, split peas, vegetarian protein, organic pulses, healthy legumes"
+        />
+        <link
+          rel="canonical"
+          href="https://www.imfoods.com/premium-pulses-lentils"
         />
       </Helmet>
 
@@ -73,58 +64,111 @@ const Pulses = () => {
           { label: "Premium Pulses & Lentils" },
         ]}
       />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Intro */}
         <div className="text-center mb-12">
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
             Rich in protein and essential nutrients, our pulses are carefully
-            selected for their quality, freshness, and nutritional value.
-            Perfect for healthy, delicious meals.
+            selected for quality, freshness, and nutritional value. Perfect for
+            healthy, delicious meals.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {pulses.map((pulse, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group"
-            >
-              <div className="aspect-w-16 aspect-h-12 overflow-hidden">
-                <img
-                  src={pulse.image}
-                  alt={pulse.name}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  {pulse.name}
-                </h3>
-                <p className="text-gray-600 mb-4">{pulse.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-green-700">
-                    {pulse.price}
-                  </span>
-                  <button className="px-4 py-2 bg-green-700 hover:bg-green-800 text-white rounded-lg transition-colors duration-200 font-medium">
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        {/* Pulses Grid */}
+        {loading ? (
+          <p className="text-center text-gray-500">Loading pulses...</p>
+        ) : pulses.length === 0 ? (
+          <p className="text-center text-gray-500">No pulses found.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {pulses.map((pulse) => (
+              <ProductCard key={pulse.id} {...pulse} />
+            ))}
+          </div>
+        )}
 
-        <div className="mt-16 bg-yellow-50 rounded-2xl p-8">
+        {/* Farm to Table Section */}
+        <section className="mt-16 bg-yellow-50 rounded-2xl p-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              Nutritional Powerhouse
+              Farm to Table Freshness
             </h2>
             <p className="text-lg text-gray-700 max-w-3xl mx-auto">
-              Pulses are an excellent source of plant-based protein, fiber, and
-              essential vitamins. They're perfect for vegetarian diets and
-              contribute to a healthy, balanced lifestyle.
+              Our pulses are sourced directly from trusted farms and delivered
+              shortly after harvesting, ensuring maximum freshness, flavor, and
+              nutritional value.
             </p>
           </div>
-        </div>
+        </section>
+
+        {/* Benefits Section */}
+        <section className="mt-16 bg-white shadow-lg rounded-2xl p-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+            Health Benefits of Our Pulses
+          </h2>
+          <ul className="space-y-4 text-gray-700 text-lg max-w-3xl mx-auto">
+            <li>🌱 Rich in plant-based protein and fiber</li>
+            <li>💪 Supports heart and digestive health</li>
+            <li>🥗 Perfect for vegetarian and vegan diets</li>
+            <li>🍃 Natural and chemical-free</li>
+            <li>🌍 Sustainably sourced from local farmers</li>
+          </ul>
+        </section>
+
+        {/* Why Choose Our Pulses */}
+        <section className="mt-16 bg-yellow-50 rounded-2xl p-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl font-bold text-gray-900 mb-8">
+                Why Choose IMFoods Pulses?
+              </h2>
+              <ul className="space-y-4 text-gray-700 text-lg">
+                <li>🌱 Selected from high-quality farms</li>
+                <li>💧 Cleaned and minimally processed to retain nutrients</li>
+                <li>🍃 No additives, preservatives, or chemicals</li>
+                <li>🌍 Exported globally with quality assurance</li>
+                <li>🤝 Supporting sustainable farming communities</li>
+              </ul>
+            </div>
+            <div className="text-center">
+              <img
+                src="https://images.pexels.com/photos/1393382/pexels-photo-1393382.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Premium Pulses"
+                className="rounded-2xl shadow-2xl mx-auto transform hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Sourced Regions */}
+        <section className="mt-16 bg-white rounded-3xl p-12 shadow-lg">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+              Sourced from the Finest Regions
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Our pulses are sourced from regions renowned for high-quality
+              legumes, ensuring superior taste, nutrition, and freshness.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center p-6 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">India</h3>
+              <p className="text-gray-700">Moong Dal, Masoor Dal, Chickpeas</p>
+            </div>
+            <div className="text-center p-6 bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                Middle East
+              </h3>
+              <p className="text-gray-700">Kidney Beans, Lentils</p>
+            </div>
+            <div className="text-center p-6 bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">Africa</h3>
+              <p className="text-gray-700">Black-eyed Peas, Split Peas</p>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   );

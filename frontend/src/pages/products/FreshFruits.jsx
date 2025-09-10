@@ -1,52 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import Banner from "../../components/Banner";
+import ProductCard from "../../components/ProductCard";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const FreshFruits = () => {
-  const fruits = [
-    {
-      name: "Organic Apples",
-      price: "$3.99/lb",
-      image:
-        "https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Crisp, sweet organic apples",
-    },
-    {
-      name: "Fresh Bananas",
-      price: "$2.49/lb",
-      image:
-        "https://images.pexels.com/photos/61127/pexels-photo-61127.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Perfectly ripe bananas",
-    },
-    {
-      name: "Juicy Oranges",
-      price: "$4.99/lb",
-      image:
-        "https://images.pexels.com/photos/207085/pexels-photo-207085.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Sweet, juicy naval oranges",
-    },
-    {
-      name: "Fresh Mangoes",
-      price: "$6.99/lb",
-      image:
-        "https://images.pexels.com/photos/918018/pexels-photo-918018.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Tropical ripe mangoes",
-    },
-    {
-      name: "Sweet Grapes",
-      price: "$5.49/lb",
-      image:
-        "https://images.pexels.com/photos/708777/pexels-photo-708777.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Seedless sweet grapes",
-    },
-    {
-      name: "Fresh Berries",
-      price: "$8.99/box",
-      image:
-        "https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Mixed berry selection",
-    },
-  ];
+  const [fruits, setFruits] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // ✅ Fetch fruits products
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/product/getallproducts?category=fruit`
+      );
+
+      const filtered = (res.data || [])
+        .filter((p) => p.category?.toLowerCase() === "fruit")
+        .map((p) => ({
+          ...p,
+          id: p._id || p.id,
+        }));
+
+      setFruits(filtered);
+    } catch (error) {
+      toast.error("Failed to fetch fruit products.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -93,40 +81,17 @@ const FreshFruits = () => {
         </div>
 
         {/* Fruits Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {fruits.map((fruit, index) => (
-            <article
-              key={index}
-              className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group"
-            >
-              <div className="aspect-w-16 aspect-h-12 overflow-hidden">
-                <img
-                  src={fruit.image}
-                  alt={`${fruit.name} - ${fruit.description}`}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                  {fruit.name}
-                </h2>
-                <p className="text-gray-600 mb-4">{fruit.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-green-700">
-                    {fruit.price}
-                  </span>
-                  <button
-                    aria-label={`Add ${fruit.name} to cart`}
-                    className="px-4 py-2 bg-green-700 hover:bg-green-800 text-white rounded-lg transition-colors duration-200 font-medium"
-                  >
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+        {loading ? (
+          <p className="text-center text-gray-500">Loading fruits...</p>
+        ) : fruits.length === 0 ? (
+          <p className="text-center text-gray-500">No fruits available.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {fruits.map((fruit) => (
+              <ProductCard key={fruit.id} {...fruit} />
+            ))}
+          </div>
+        )}
 
         {/* Farm to Table Section */}
         <section className="mt-16 bg-orange-50 rounded-2xl p-8">
@@ -139,6 +104,104 @@ const FreshFruits = () => {
               and delivered to you within 24 hours of harvest, ensuring maximum
               freshness and nutritional value.
             </p>
+          </div>
+        </section>
+
+        {/* Why Our Fruits Stand Out */}
+        <div className="bg-gradient-to-r from-green-50 to-orange-50 rounded-3xl p-12 mt-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl font-bold text-gray-900 mb-8">
+                Why Our Fruits Stand Out
+              </h2>
+              <ul className="space-y-4 text-gray-700 text-lg">
+                <li className="flex items-start">
+                  <span className="text-green-600 mr-3 text-2xl">•</span>
+                  <span>Handpicked daily from trusted organic farms</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-600 mr-3 text-2xl">•</span>
+                  <span>No artificial ripening agents or preservatives</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-600 mr-3 text-2xl">•</span>
+                  <span>Rich in natural flavor, aroma, and nutrients</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-600 mr-3 text-2xl">•</span>
+                  <span>Strict quality checks for freshness and safety</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-600 mr-3 text-2xl">•</span>
+                  <span>Supporting sustainable farming communities</span>
+                </li>
+              </ul>
+            </div>
+            <div className="text-center">
+              <img
+                src="https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Fresh fruits basket"
+                className="rounded-2xl shadow-2xl mx-auto transform hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Sourced from the World’s Best Fruit Regions */}
+        <div className="mt-20 bg-white rounded-3xl p-12 shadow-lg">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+              Sourced from the World’s Best Fruit Regions
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Our fruits are sourced from renowned orchards and farms across the
+              world, ensuring you get only the finest varieties bursting with
+              flavor.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center p-6 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">India</h3>
+              <p className="text-gray-700">Mangoes, Bananas, Guavas</p>
+            </div>
+            <div className="text-center p-6 bg-gradient-to-br from-pink-50 to-red-50 rounded-2xl">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">Spain</h3>
+              <p className="text-gray-700">Oranges, Grapes, Lemons</p>
+            </div>
+            <div className="text-center p-6 bg-gradient-to-br from-green-50 to-yellow-50 rounded-2xl">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                South America
+              </h3>
+              <p className="text-gray-700">Avocados, Papayas, Pineapples</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Health Benefits Section */}
+        <section className="mt-20 bg-gradient-to-r from-pink-50 to-yellow-50 rounded-3xl p-12">
+          <div className="text-center">
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+              Health Benefits of Fresh Fruits
+            </h2>
+            <p className="text-lg text-gray-700 max-w-3xl mx-auto mb-8">
+              Regular consumption of fresh fruits boosts immunity, improves
+              digestion, supports heart health, and provides essential vitamins
+              and antioxidants for overall well-being.
+            </p>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-gray-700 text-lg">
+              <li className="bg-white p-6 rounded-xl shadow-md">
+                🍎 Rich in Fiber
+              </li>
+              <li className="bg-white p-6 rounded-xl shadow-md">
+                🍊 Boosts Immunity
+              </li>
+              <li className="bg-white p-6 rounded-xl shadow-md">
+                🍇 High in Antioxidants
+              </li>
+              <li className="bg-white p-6 rounded-xl shadow-md">
+                🥭 Natural Energy Source
+              </li>
+            </ul>
           </div>
         </section>
       </div>

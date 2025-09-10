@@ -3,12 +3,9 @@ import { Star, ShoppingCart, Heart } from "lucide-react";
 
 const ProductCard = ({
   name,
-  price,
-  originalPrice,
   image,
   description,
-  rating = 4.5,
-  reviews = 0,
+  category,
   badge,
   inStock = true,
 }) => {
@@ -44,23 +41,6 @@ const ProductCard = ({
 
       {/* Content */}
       <div className="p-6">
-        {/* Rating */}
-        <div className="flex items-center space-x-2 mb-2">
-          <div className="flex items-center">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className={`h-4 w-4 ${
-                  i < Math.floor(rating)
-                    ? "text-yellow-400 fill-current"
-                    : "text-gray-300"
-                }`}
-              />
-            ))}
-          </div>
-          <span className="text-sm text-gray-500">({reviews} reviews)</span>
-        </div>
-
         <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-green-700 transition-colors duration-200">
           {name}
         </h3>
@@ -70,14 +50,6 @@ const ProductCard = ({
 
         {/* Price */}
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <span className="text-2xl font-bold text-green-700">{price}</span>
-            {originalPrice && (
-              <span className="text-lg text-gray-400 line-through">
-                {originalPrice}
-              </span>
-            )}
-          </div>
           <button
             disabled={!inStock}
             className={`flex items-center px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
@@ -87,7 +59,7 @@ const ProductCard = ({
             }`}
           >
             <ShoppingCart className="mr-2 h-4 w-4" />
-            {inStock ? "Add to Cart" : "Out of Stock"}
+            {inStock ? "Order Now" : "Out of Stock"}
           </button>
         </div>
       </div>

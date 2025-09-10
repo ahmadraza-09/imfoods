@@ -1,52 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import Banner from "../../components/Banner";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import ProductCard from "../../components/ProductCard";
 
 const Coffee = () => {
-  const coffees = [
-    {
-      name: "Ethiopian Single Origin",
-      price: "$18.99",
-      image:
-        "https://images.pexels.com/photos/894695/pexels-photo-894695.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Bright, fruity Ethiopian coffee beans",
-    },
-    {
-      name: "Colombian Medium Roast",
-      price: "$16.99",
-      image:
-        "https://images.pexels.com/photos/1695052/pexels-photo-1695052.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Smooth Colombian coffee with balanced flavor",
-    },
-    {
-      name: "French Roast",
-      price: "$15.99",
-      image:
-        "https://images.pexels.com/photos/1695953/pexels-photo-1695953.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Dark roasted coffee with bold flavor",
-    },
-    {
-      name: "Espresso Blend",
-      price: "$19.99",
-      image:
-        "https://images.pexels.com/photos/1695943/pexels-photo-1695943.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Perfect blend for espresso brewing",
-    },
-    {
-      name: "Decaf Coffee",
-      price: "$14.99",
-      image:
-        "https://images.pexels.com/photos/1695949/pexels-photo-1695949.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Premium decaffeinated coffee beans",
-    },
-    {
-      name: "Cold Brew Blend",
-      price: "$17.99",
-      image:
-        "https://images.pexels.com/photos/1695942/pexels-photo-1695942.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Specially selected for cold brewing",
-    },
-  ];
+  const [coffees, setCoffees] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // ✅ Fetch only coffee products
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/product/getallproducts?category=coffee`
+      );
+
+      const filtered = (res.data || [])
+        .filter((p) => p.category?.toLowerCase() === "coffee")
+        .map((p) => ({
+          ...p,
+          id: p._id || p.id,
+        }));
+
+      setCoffees(filtered);
+    } catch (error) {
+      toast.error("Failed to fetch coffee products.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ Correct hook for fetching
+  useEffect(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -57,12 +46,6 @@ const Coffee = () => {
           name="description"
           content="Shop premium coffee beans including Ethiopian Single Origin, Colombian Medium Roast, French Roast, Espresso blends, Decaf, and Cold Brew. Freshly roasted for rich flavor and aroma."
         />
-        <meta
-          name="keywords"
-          content="coffee beans, premium coffee, espresso blend, single origin coffee, Ethiopian coffee, Colombian roast, French roast, decaf coffee, cold brew coffee"
-        />
-        <meta name="author" content="IM Foods" />
-        <link rel="canonical" href="https://www.imfoods.com/products/coffee" />
       </Helmet>
 
       {/* Banner */}
@@ -77,7 +60,7 @@ const Coffee = () => {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {/* Intro Section */}
+        {/* Intro */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Premium Coffee Beans Collection
@@ -90,42 +73,21 @@ const Coffee = () => {
         </div>
 
         {/* Coffee Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {coffees.map((coffee, index) => (
-            <article
-              key={index}
-              className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden group"
-            >
-              <div className="aspect-w-16 aspect-h-12 overflow-hidden">
-                <img
-                  src={coffee.image}
-                  alt={`${coffee.name} - ${coffee.description}`}
-                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                  loading="lazy"
-                />
-              </div>
-              <div className="p-6">
-                <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                  {coffee.name}
-                </h2>
-                <p className="text-gray-600 mb-4">{coffee.description}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-2xl font-bold text-green-700">
-                    {coffee.price}
-                  </span>
-                  <button
-                    aria-label={`Add ${coffee.name} to cart`}
-                    className="px-4 py-2 bg-green-700 hover:bg-green-800 text-white rounded-lg transition-colors duration-200 font-medium"
-                  >
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
+        {loading ? (
+          <p className="text-center text-gray-500">
+            Loading coffee products...
+          </p>
+        ) : coffees.length === 0 ? (
+          <p className="text-center text-gray-500">No coffee products found.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {coffees.map((coffee) => (
+              <ProductCard key={coffee.id} {...coffee} />
+            ))}
+          </div>
+        )}
 
-        {/* Roasting Process Section */}
+        {/* Roasting Process */}
         <section className="mt-16 bg-amber-50 rounded-2xl p-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -138,6 +100,114 @@ const Coffee = () => {
             </p>
           </div>
         </section>
+
+        {/* Why Our Coffee Stands Out */}
+        <div className="mt-20 bg-gradient-to-r from-yellow-50 to-amber-50 rounded-3xl p-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl font-bold text-gray-900 mb-8">
+                Why Our Coffee Stands Out
+              </h2>
+              <ul className="space-y-4 text-gray-700 text-lg">
+                <li className="flex items-start">
+                  <span className="text-amber-600 mr-3 text-2xl">•</span>
+                  <span>
+                    Directly sourced from high-altitude coffee farms for
+                    exceptional quality
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-amber-600 mr-3 text-2xl">•</span>
+                  <span>
+                    Freshly roasted in small batches to ensure maximum flavor
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-amber-600 mr-3 text-2xl">•</span>
+                  <span>
+                    Sustainable farming practices supporting local farmers
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-amber-600 mr-3 text-2xl">•</span>
+                  <span>
+                    Wide variety: Single origin, blends, espresso & decaf
+                  </span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-amber-600 mr-3 text-2xl">•</span>
+                  <span>
+                    Strict quality control and cupping tests before export
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <div className="text-center">
+              <img
+                src="https://images.pexels.com/photos/34085/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=800"
+                alt="Coffee beans collection"
+                className="rounded-2xl shadow-2xl mx-auto transform hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Coffee Origins Map */}
+        <div className="mt-20 bg-white rounded-3xl p-12 shadow-lg">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+              Sourced from the World's Best Coffee Regions
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Our coffee comes from world-renowned regions, each celebrated for
+              producing unique flavor profiles and rich aromatic beans.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center p-6 bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                Ethiopia
+              </h3>
+              <p className="text-gray-700">
+                Floral, fruity & wine-like single-origin coffee
+              </p>
+            </div>
+            <div className="text-center p-6 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                Colombia
+              </h3>
+              <p className="text-gray-700">
+                Balanced flavor, smooth body & nutty aroma
+              </p>
+            </div>
+            <div className="text-center p-6 bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl">
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">Brazil</h3>
+              <p className="text-gray-700">
+                Chocolatey notes, mild acidity & full-bodied taste
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Benefits of Coffee */}
+        <div className="mt-20 bg-gradient-to-r from-amber-50 to-white rounded-3xl p-12 shadow-lg">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-6">
+              Health Benefits of Coffee
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Coffee is more than just a morning ritual. It offers several
+              health benefits when consumed in moderation.
+            </p>
+          </div>
+          <ul className="space-y-4 text-gray-700 text-lg max-w-3xl mx-auto">
+            <li>☕ Boosts energy and improves focus</li>
+            <li>🧠 Enhances brain function and memory</li>
+            <li>💪 Rich in antioxidants, protecting your body</li>
+            <li>❤️ May lower the risk of heart disease</li>
+            <li>⚡ Supports better physical performance</li>
+          </ul>
+        </div>
       </div>
     </div>
   );

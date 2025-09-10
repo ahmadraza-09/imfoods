@@ -1,117 +1,42 @@
-import React from "react";
+import React, { use, useState } from "react";
 import ProductCard from "../../components/ProductCard";
 import { Filter, Grid, List } from "lucide-react";
 import Banner from "../../components/Banner";
 import { Helmet } from "react-helmet";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const Spices = () => {
-  const spices = [
-    {
-      name: "Premium Black Pepper",
-      price: "$12.99",
-      originalPrice: "$15.99",
-      image:
-        "https://images.pexels.com/photos/4198939/pexels-photo-4198939.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description:
-        "Premium whole black peppercorns from Malabar coast with intense aroma and bold flavor",
-      rating: 4.8,
-      reviews: 124,
-      badge: "Best Seller",
-    },
-    {
-      name: "Organic Turmeric Powder",
-      price: "$8.99",
-      image:
-        "https://images.pexels.com/photos/4198448/pexels-photo-4198448.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description:
-        "Pure organic turmeric powder with high curcumin content for health and flavor",
-      rating: 4.9,
-      reviews: 89,
-      badge: "Organic",
-    },
-    {
-      name: "Green Cardamom Pods",
-      price: "$24.99",
-      image:
-        "https://images.pexels.com/photos/5560063/pexels-photo-5560063.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description:
-        "Premium green cardamom pods from Guatemala with sweet, floral aroma",
-      rating: 4.7,
-      reviews: 67,
-    },
-    {
-      name: "Whole Cumin Seeds",
-      price: "$6.99",
-      image:
-        "https://images.pexels.com/photos/4198417/pexels-photo-4198417.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description:
-        "Aromatic cumin seeds perfect for tempering and spice blends",
-      rating: 4.6,
-      reviews: 156,
-    },
-    {
-      name: "Ceylon Cinnamon Sticks",
-      price: "$15.99",
-      image:
-        "https://images.pexels.com/photos/4198426/pexels-photo-4198426.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description:
-        "True Ceylon cinnamon sticks with delicate, sweet flavor profile",
-      rating: 4.8,
-      reviews: 92,
-      badge: "Premium",
-    },
-    {
-      name: "Kashmiri Red Chili Powder",
-      price: "$7.99",
-      image:
-        "https://images.pexels.com/photos/4198455/pexels-photo-4198455.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description:
-        "Mild heat Kashmiri chili powder with vibrant red color and smoky flavor",
-      rating: 4.5,
-      reviews: 203,
-    },
-    {
-      name: "Star Anise Whole",
-      price: "$18.99",
-      image:
-        "https://images.pexels.com/photos/4198441/pexels-photo-4198441.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description:
-        "Whole star anise with licorice-like flavor, perfect for Asian cuisine",
-      rating: 4.4,
-      reviews: 45,
-    },
-    {
-      name: "Saffron Threads",
-      price: "$89.99",
-      image:
-        "https://images.pexels.com/photos/4198442/pexels-photo-4198442.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description:
-        "Premium Kashmir saffron threads, the world's most precious spice",
-      rating: 5.0,
-      reviews: 28,
-      badge: "Luxury",
-    },
-    {
-      name: "Garam Masala Blend",
-      price: "$9.99",
-      image:
-        "https://images.pexels.com/photos/4198443/pexels-photo-4198443.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description:
-        "Traditional garam masala blend with perfect balance of warming spices",
-      rating: 4.7,
-      reviews: 178,
-      inStock: false,
-    },
-  ];
+  const [spices, setSpices] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const categories = [
-    "All Spices",
-    "Whole Spices",
-    "Ground Spices",
-    "Spice Blends",
-    "Organic",
-    "Premium",
-  ];
+  // ✅ Fetch all products
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `http://localhost:8000/product/getallproducts?category=spice`
+      );
+
+      // ✅ Ensure only spice category comes in state
+      const filtered = (res.data || [])
+        .filter((p) => p.category?.toLowerCase() === "spice") // case-insensitive
+        .map((p) => ({
+          ...p,
+          id: p._id || p.id,
+        }));
+
+      setSpices(filtered);
+    } catch (error) {
+      toast.error("Failed to fetch spice products.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useState(() => {
+    fetchProducts();
+  }, []);
 
   return (
     <div className="min-h-screen ">
@@ -153,14 +78,14 @@ const Spices = () => {
         {/* Filters and Controls */}
         <div className="flex flex-col lg:flex-row justify-between items-center mb-12 bg-white p-6 rounded-2xl shadow-md">
           <div className="flex flex-wrap gap-3 mb-4 lg:mb-0">
-            {categories.map((category) => (
+            {/* {spices.map((spice) => (
               <button
-                key={category}
+                key={spice._id}
                 className="px-4 py-2 rounded-full border border-green-200 text-green-700 hover:bg-green-700 hover:text-white transition-all duration-200 font-medium text-sm"
               >
-                {category}
+                {spice.badge}
               </button>
-            ))}
+            ))} */}
           </div>
           <div className="flex items-center space-x-4">
             <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
