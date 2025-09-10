@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import toast from "react-hot-toast";
 
 const ProductModal = ({ product, onSave, onClose }) => {
   const [formData, setFormData] = useState({
@@ -12,143 +11,113 @@ const ProductModal = ({ product, onSave, onClose }) => {
     inStock: true,
   });
 
+  const [preview, setPreview] = useState("");
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (product) {
       setFormData({
         name: product.name,
-        image: product.image,
+        image: product.image || "",
         description: product.description,
         category: product.category,
         badge: product.badge || "",
         inStock: product.inStock,
       });
+      setPreview(product.image || "");
     }
   }, [product]);
 
   const validateForm = () => {
     const newErrors = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = "Product name is required";
-    }
-    if (!formData.image.trim()) {
-      newErrors.image = "Image URL is required";
-    }
-    if (!formData.description.trim()) {
+    if (!formData.name.trim()) newErrors.name = "Product name is required";
+    if (!formData.description.trim())
       newErrors.description = "Description is required";
-    }
-    if (!formData.category.trim()) {
-      newErrors.category = "Category is required";
-    }
-
+    if (!formData.category.trim()) newErrors.category = "Category is required";
+    if (!formData.image) newErrors.image = "Product image is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // sirf preview show hoga
+    setPreview(URL.createObjectURL(file));
+    setFormData((prev) => ({ ...prev, image: file })); // backend ko file bhejenge
+    if (errors.image) setErrors((prev) => ({ ...prev, image: "" }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (validateForm()) {
-      onSave(formData);
-    }
+    if (!validateForm()) return;
+    onSave(formData); // backend handle karega upload
   };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
-
-    if (errors[name]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
-    }
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/0 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
       <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-lg">
-        {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
           <h3 className="text-xl font-semibold text-gray-800">
             {product ? "Edit Product" : "Add New Product"}
           </h3>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 transition-colors"
+            className="text-gray-500 hover:text-gray-700"
           >
             <X size={24} />
           </button>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Product Name */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Product Name *
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.name ? "border-red-500" : "border-gray-300"
-                }`}
-                placeholder="Enter product name"
-              />
-              {errors.name && (
-                <p className="text-red-500 text-sm mt-1">{errors.name}</p>
-              )}
-            </div>
-
-            {/* Category */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Category *
-              </label>
-              <input
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.category ? "border-red-500" : "border-gray-300"
-                }`}
-                placeholder="e.g., Rice & Grains, Health Foods"
-              />
-              {errors.category && (
-                <p className="text-red-500 text-sm mt-1">{errors.category}</p>
-              )}
-            </div>
-          </div>
-
-          {/* Image URL */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Image URL *
+              Product Name *
             </label>
             <input
-              type="url"
-              name="image"
-              value={formData.image}
+              type="text"
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                errors.image ? "border-red-500" : "border-gray-300"
+                errors.name ? "border-red-500" : "border-gray-300"
               }`}
-              placeholder="https://example.com/image.jpg"
+              placeholder="Enter product name"
             />
-            {errors.image && (
-              <p className="text-red-500 text-sm mt-1">{errors.image}</p>
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
             )}
           </div>
 
-          {/* Description */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Category *
+            </label>
+            <input
+              type="text"
+              name="category"
+              value={formData.category}
+              onChange={handleChange}
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.category ? "border-red-500" : "border-gray-300"
+              }`}
+              placeholder="e.g., Dairy, Household"
+            />
+            {errors.category && (
+              <p className="text-red-500 text-sm mt-1">{errors.category}</p>
+            )}
+          </div>
+
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Description *
@@ -168,9 +137,24 @@ const ProductModal = ({ product, onSave, onClose }) => {
             )}
           </div>
 
-          {/* Badge & Stock */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Upload Image *
+            </label>
+            <input type="file" accept="image/*" onChange={handleFileChange} />
+            {errors.image && (
+              <p className="text-red-500 text-sm mt-1">{errors.image}</p>
+            )}
+            {preview && (
+              <img
+                src={preview}
+                alt="preview"
+                className="mt-2 w-32 h-32 object-cover rounded"
+              />
+            )}
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Badge */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Badge
@@ -184,8 +168,6 @@ const ProductModal = ({ product, onSave, onClose }) => {
                 placeholder="e.g., New, Best Seller"
               />
             </div>
-
-            {/* In Stock */}
             <div className="flex items-center mt-6">
               <input
                 type="checkbox"
@@ -200,7 +182,6 @@ const ProductModal = ({ product, onSave, onClose }) => {
             </div>
           </div>
 
-          {/* Form Actions */}
           <div className="flex justify-end space-x-3 pt-4 border-t">
             <button
               type="button"

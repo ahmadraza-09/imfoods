@@ -25,20 +25,13 @@ const ProductsManager = () => {
     fetchProducts();
   }, []);
 
-  // ✅ Fetch all products
   const fetchProducts = async () => {
     setLoading(true);
     try {
       const res = await axios.get(
         "http://localhost:8000/product/getallproducts"
       );
-      setProducts(
-        (res.data || []).map((p) => ({
-          ...p,
-          id: p._id || p.id, // normalize ID for frontend
-        }))
-      );
-      // console.log(res.data);
+      setProducts((res.data || []).map((p) => ({ ...p, id: p._id })));
     } catch (error) {
       toast.error("Failed to fetch product listings.");
     } finally {
@@ -46,25 +39,33 @@ const ProductsManager = () => {
     }
   };
 
-  // ✅ Save product (Add / Update)
   const handleSave = async (productData) => {
     try {
+      const formData = new FormData();
+      formData.append("name", productData.name);
+      formData.append("description", productData.description);
+      formData.append("category", productData.category);
+      formData.append("badge", productData.badge);
+      formData.append("inStock", productData.inStock);
+      if (productData.image) {
+        formData.append("image", productData.image); // file object
+      }
+
       if (editingProduct) {
-        // Update
         await axios.put(
           `http://localhost:8000/product/updateproduct/${editingProduct.id}`,
-          productData
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
         );
         toast.success("Product updated successfully!");
       } else {
-        // Add
-        await axios.post(
-          "http://localhost:8000/product/addproduct",
-          productData
-        );
+        await axios.post("http://localhost:8000/product/addproduct", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
         toast.success("Product added successfully!");
       }
-      fetchProducts(); // refresh list
+
+      fetchProducts();
     } catch (error) {
       toast.error("Failed to save product.");
     } finally {
@@ -73,13 +74,11 @@ const ProductsManager = () => {
     }
   };
 
-  // ✅ Edit product
   const handleEdit = (product) => {
     setEditingProduct(product);
     setIsModalOpen(true);
   };
 
-  // ✅ Delete product
   const handleDelete = async (productId) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
@@ -94,7 +93,6 @@ const ProductsManager = () => {
     }
   };
 
-  // ✅ Filters
   const filteredProducts = products.filter((product) => {
     const matchesSearch =
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -110,7 +108,6 @@ const ProductsManager = () => {
     const now = new Date();
     const created = new Date(dateString);
     const secondsAgo = Math.floor((now - created) / 1000);
-
     if (secondsAgo < 60) return "just now";
     if (secondsAgo < 3600) return `${Math.floor(secondsAgo / 60)} minute's ago`;
     if (secondsAgo < 86400)
@@ -122,9 +119,7 @@ const ProductsManager = () => {
     if (secondsAgo < 2419200)
       return `${Math.floor(secondsAgo / 604800)} week's ago`;
     if (secondsAgo < 4838400) return "1 month ago";
-
-    const monthsAgo = Math.floor(secondsAgo / 2592000); // 30 days
-    return `${monthsAgo} month's ago`;
+    return `${Math.floor(secondsAgo / 2592000)} month's ago`;
   };
 
   return (
@@ -152,7 +147,6 @@ const ProductsManager = () => {
       {/* Filters */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <div className="flex flex-col lg:flex-row gap-4">
-          {/* Search */}
           <div className="flex-1 relative">
             <Search
               className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -166,8 +160,6 @@ const ProductsManager = () => {
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
-          {/* Category Filter */}
           <div className="relative">
             <select
               value={categoryFilter}
@@ -186,8 +178,6 @@ const ProductsManager = () => {
               size={16}
             />
           </div>
-
-          {/* View Mode */}
           <div className="flex border border-gray-300 rounded-lg">
             <button
               onClick={() => setViewMode("grid")}
@@ -278,9 +268,9 @@ const ProductsManager = () => {
                   </div>
                   <div className="flex space-x-2 mt-4 justify-between">
                     <span></span>
-                    <span className="text-sm">{`${formatTimeAgo(
-                      product.createdAt
-                    )}`}</span>
+                    <span className="text-sm">
+                      {formatTimeAgo(product.createdAt)}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -297,13 +287,9 @@ const ProductsManager = () => {
                   <th className="text-left py-4 px-6 font-medium text-gray-700">
                     Category
                   </th>
-                  {/* <th className="text-left py-4 px-6 font-medium text-gray-700">
-                    Price
-                  </th> */}
                   <th className="text-left py-4 px-6 font-medium text-gray-700">
                     Stock
                   </th>
-
                   <th className="text-left py-4 px-6 font-medium text-gray-700">
                     Actions
                   </th>
@@ -340,7 +326,6 @@ const ProductsManager = () => {
                     <td className="py-4 px-6 text-gray-600">
                       {product.category}
                     </td>
-
                     <td className="py-4 px-6">
                       <span
                         className={`px-3 py-1 text-sm rounded-full ${
@@ -352,7 +337,6 @@ const ProductsManager = () => {
                         {product.inStock ? "In Stock" : "Out of Stock"}
                       </span>
                     </td>
-
                     <td className="py-4 px-6">
                       <div className="flex space-x-2">
                         <button
@@ -369,9 +353,9 @@ const ProductsManager = () => {
                         </button>
                       </div>
                     </td>
-                    <td className="py-4 px-6">{`${formatTimeAgo(
-                      product.createdAt
-                    )}`}</td>
+                    <td className="py-4 px-6">
+                      {formatTimeAgo(product.createdAt)}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -380,7 +364,6 @@ const ProductsManager = () => {
         )}
       </div>
 
-      {/* Product Modal */}
       {isModalOpen && (
         <ProductModal
           product={editingProduct}
