@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { X, RotateCw } from "lucide-react";
 
 const ProductModal = ({ product, onSave, onClose }) => {
   const [formData, setFormData] = useState({
@@ -10,9 +10,9 @@ const ProductModal = ({ product, onSave, onClose }) => {
     badge: "",
     inStock: true,
   });
-
   const [preview, setPreview] = useState("");
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false); // ✅ Loading state added
 
   useEffect(() => {
     if (product) {
@@ -42,17 +42,9 @@ const ProductModal = ({ product, onSave, onClose }) => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
-    // sirf preview show hoga
     setPreview(URL.createObjectURL(file));
-    setFormData((prev) => ({ ...prev, image: file })); // backend ko file bhejenge
+    setFormData((prev) => ({ ...prev, image: file }));
     if (errors.image) setErrors((prev) => ({ ...prev, image: "" }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
-    onSave(formData); // backend handle karega upload
   };
 
   const handleChange = (e) => {
@@ -62,6 +54,20 @@ const ProductModal = ({ product, onSave, onClose }) => {
       [name]: type === "checkbox" ? checked : value,
     }));
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    try {
+      setLoading(true); // ✅ start loader
+      await onSave(formData); // backend call
+      setLoading(false); // ✅ stop loader after save
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+    }
   };
 
   return (
@@ -80,6 +86,7 @@ const ProductModal = ({ product, onSave, onClose }) => {
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          {/* Product Name */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Product Name *
@@ -99,6 +106,7 @@ const ProductModal = ({ product, onSave, onClose }) => {
             )}
           </div>
 
+          {/* Category */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Category *
@@ -118,6 +126,7 @@ const ProductModal = ({ product, onSave, onClose }) => {
             )}
           </div>
 
+          {/* Description */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Description *
@@ -137,6 +146,7 @@ const ProductModal = ({ product, onSave, onClose }) => {
             )}
           </div>
 
+          {/* Upload Image */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Upload Image *
@@ -154,6 +164,7 @@ const ProductModal = ({ product, onSave, onClose }) => {
             )}
           </div>
 
+          {/* Badge & InStock */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -182,6 +193,7 @@ const ProductModal = ({ product, onSave, onClose }) => {
             </div>
           </div>
 
+          {/* Buttons */}
           <div className="flex justify-end space-x-3 pt-4 border-t">
             <button
               type="button"
@@ -192,9 +204,19 @@ const ProductModal = ({ product, onSave, onClose }) => {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              disabled={loading}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center disabled:opacity-50"
             >
-              {product ? "Update Product" : "Add Product"}
+              {loading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  {product ? "Updating..." : "Saving..."}
+                </>
+              ) : product ? (
+                "Update Product"
+              ) : (
+                "Add Product"
+              )}
             </button>
           </div>
         </form>

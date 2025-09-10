@@ -1,49 +1,60 @@
 import React, { useState } from "react";
 import { LogIn, Eye, EyeOff } from "lucide-react";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import Logo from "../../assets/logo.png";
 
 const Login = () => {
+  const navigate = useNavigate();
   const { login } = useAuth();
-  const [formData, setFormData] = useState({
-    email: "admin@imfoods.com",
-    password: "admin123",
-  });
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({});
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError("");
+  const validate = () => {
+    const newErrors = {};
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "Email is invalid";
 
-    try {
-      const success = await login(formData.email, formData.password);
-      if (!success) {
-        setError("Invalid email or password. Please try again.");
-      }
-    } catch (err) {
-      setError("An error occurred. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+    if (!formData.password.trim()) newErrors.password = "Password is required";
+    else if (formData.password.length < 6)
+      newErrors.password = "Password must be at least 6 characters";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleChange = (e) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-    setError("");
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) setErrors({ ...errors, [e.target.name]: "" });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    setIsLoading(true);
+    const res = await login(formData.email, formData.password);
+    setIsLoading(false);
+
+    if (res.success) {
+      toast.success("Login successful!");
+      navigate("/dashboard");
+    } else {
+      toast.error(res.message);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-8">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="mx-auto w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4">
-            <LogIn className="h-8 w-8 text-white" />
+            {/* <LogIn className="h-8 w-8 text-white" /> */}
+            <img src={Logo} alt="logo" />
           </div>
           <h1 className="text-2xl font-bold text-gray-800 mb-2">
             Admin Portal
@@ -51,66 +62,40 @@ const Login = () => {
           <p className="text-gray-600">Sign in to access the admin dashboard</p>
         </div>
 
-        {/* Demo Credentials */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-          <h3 className="text-sm font-semibold text-blue-800 mb-2">
-            Demo Credentials
-          </h3>
-          <div className="text-sm text-blue-700">
-            <p>
-              <strong>Email:</strong> admin@imfoods.com
-            </p>
-            <p>
-              <strong>Password:</strong> admin123
-            </p>
-          </div>
-        </div>
-
-        {/* Error Message */}
-        {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
-            <p className="text-red-600 text-sm">{error}</p>
-          </div>
-        )}
-
-        {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Email Address
             </label>
             <input
               type="email"
-              id="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+              className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
+                errors.email ? "border-red-500" : "border-gray-300"
+              }`}
               placeholder="Enter your email"
-              required
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-2"
-            >
+            <label className="block text-sm font-medium text-gray-700 mb-2">
               Password
             </label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
-                id="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                className={`w-full px-4 py-3 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
+                  errors.password ? "border-red-500" : "border-gray-300"
+                }`}
                 placeholder="Enter your password"
-                required
               />
               <button
                 type="button"
@@ -120,12 +105,15 @@ const Login = () => {
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+            )}
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-colors ${
+            className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-colors flex items-center justify-center ${
               isLoading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700 active:bg-blue-800"
@@ -141,12 +129,6 @@ const Login = () => {
             )}
           </button>
         </form>
-
-        {/* Footer */}
-        <div className="mt-8 text-center text-sm text-gray-600">
-          <p>© 2025 Im Foods Admin Portal</p>
-          <p className="mt-1">Secure access for authorized personnel only</p>
-        </div>
       </div>
     </div>
   );

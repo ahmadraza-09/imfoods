@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { X } from "lucide-react";
+import { X, RotateCw } from "lucide-react";
 
 const BlogModal = ({ blog, onSave, onClose }) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     content: "",
-    image: "",
     category: "",
-    featured: false,
     author: "Im Foods",
     badge: "",
     metaTitle: "",
     metaDescription: "",
-    keywords: [],
+    keywords: "",
+    image: null,
   });
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (blog) {
@@ -22,26 +23,40 @@ const BlogModal = ({ blog, onSave, onClose }) => {
         title: blog.title || "",
         description: blog.description || "",
         content: blog.content || "",
-        image: blog.image || "",
         category: blog.category || "",
         author: blog.author || "Im Foods",
         badge: blog.badge || "",
         metaTitle: blog.metaTitle || "",
         metaDescription: blog.metaDescription || "",
-        keywords: blog.keywords || [],
+        keywords: blog.keywords?.join(", ") || "",
+        image: null,
       });
     }
   }, [blog]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSave(formData);
+    setLoading(true); // start loading
+
+    try {
+      const data = new FormData();
+      Object.keys(formData).forEach((key) => {
+        if (formData[key] !== null && formData[key] !== "") {
+          data.append(key, formData[key]);
+        }
+      });
+
+      await onSave(data); // parent will call API
+    } catch (err) {
+      console.error("Error saving blog:", err);
+    } finally {
+      setLoading(false); // stop loading after request finishes
+    }
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center p-4">
       <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-lg relative">
-        {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">
           <h3 className="text-xl font-semibold">
             {blog ? "Edit Blog" : "Add Blog"}
@@ -49,6 +64,7 @@ const BlogModal = ({ blog, onSave, onClose }) => {
           <button
             onClick={onClose}
             className="text-gray-700 hover:text-gray-900"
+            disabled={loading}
           >
             <X size={24} />
           </button>
@@ -86,14 +102,12 @@ const BlogModal = ({ blog, onSave, onClose }) => {
           />
 
           <input
-            type="url"
-            placeholder="Featured Image URL *"
-            value={formData.image}
+            type="file"
+            accept="image/*"
             onChange={(e) =>
-              setFormData({ ...formData, image: e.target.value })
+              setFormData({ ...formData, image: e.target.files[0] })
             }
             className="w-full border p-2 rounded"
-            required
           />
 
           <input
@@ -149,21 +163,32 @@ const BlogModal = ({ blog, onSave, onClose }) => {
           <input
             type="text"
             placeholder="Keywords (comma separated)"
-            value={formData.keywords.join(", ")}
+            value={formData.keywords}
             onChange={(e) =>
-              setFormData({
-                ...formData,
-                keywords: e.target.value.split(",").map((k) => k.trim()),
-              })
+              setFormData({ ...formData, keywords: e.target.value })
             }
             className="w-full border p-2 rounded"
           />
 
           <button
             type="submit"
-            className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            disabled={loading}
+            className={`px-4 py-2 rounded text-white ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+            }`}
           >
-            {blog ? "Update Blog" : "Publish Blog"}
+            {loading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                Saving...
+              </>
+            ) : blog ? (
+              "Update Blog"
+            ) : (
+              "Publish Blog"
+            )}
           </button>
         </form>
       </div>
