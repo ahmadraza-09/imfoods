@@ -137,7 +137,7 @@ const ProductsManager = () => {
             setEditingProduct(null);
             setIsModalOpen(true);
           }}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+          className="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition-colors flex items-center space-x-2"
         >
           <Plus size={20} />
           <span>Add Product</span>
@@ -157,14 +157,14 @@ const ProductsManager = () => {
               placeholder="Search products..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
           <div className="relative">
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option value="">All Categories</option>
               {categories.map((category, index) => (
@@ -182,7 +182,9 @@ const ProductsManager = () => {
             <button
               onClick={() => setViewMode("grid")}
               className={`px-4 py-2 cursor-pointer ${
-                viewMode === "grid" ? "bg-blue-600 text-white" : "text-gray-600"
+                viewMode === "grid"
+                  ? "bg-green-700 text-white"
+                  : "text-gray-600"
               } rounded-l-lg`}
             >
               <LayoutGrid />
@@ -190,7 +192,9 @@ const ProductsManager = () => {
             <button
               onClick={() => setViewMode("list")}
               className={`px-4 py-2 cursor-pointer ${
-                viewMode === "list" ? "bg-blue-600 text-white" : "text-gray-600"
+                viewMode === "list"
+                  ? "bg-green-700 text-white"
+                  : "text-gray-600"
               } rounded-r-lg`}
             >
               <List />
@@ -208,7 +212,7 @@ const ProductsManager = () => {
             <p className="text-gray-500 text-lg">No products found</p>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="mt-4 bg-green-700 text-white px-6 py-2 rounded-lg hover:bg-green-800 transition-colors"
             >
               Add Your First Product
             </button>

@@ -103,7 +103,7 @@ const BlogManager = () => {
             setEditingBlog(null);
             setIsModalOpen(true);
           }}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+          className="bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition-colors flex items-center space-x-2"
         >
           <Plus size={20} />
           <span>Add Blog Post</span>
@@ -124,7 +124,7 @@ const BlogManager = () => {
               placeholder="Search blog posts..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
             />
           </div>
 
@@ -134,7 +134,7 @@ const BlogManager = () => {
               <select
                 value={categoryFilter}
                 onChange={(e) => setCategoryFilter(e.target.value)}
-                className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-green-500"
               >
                 <option value="">All Categories</option>
                 {categories.map((category) => (
@@ -157,7 +157,7 @@ const BlogManager = () => {
             <p className="text-gray-500 text-lg">No blog posts found</p>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              className="mt-4 bg-green-700 text-white px-6 py-2 rounded-lg hover:bg-green-800 transition-colors"
             >
               Write Your First Post
             </button>
@@ -215,7 +215,7 @@ const BlogManager = () => {
                       onClick={() =>
                         setEditingBlog(blog) || setIsModalOpen(true)
                       }
-                      className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center space-x-2"
+                      className="flex-1 bg-green-700 text-white py-2 px-4 rounded-lg hover:bg-green-800 transition-colors flex items-center justify-center space-x-2"
                     >
                       <Edit size={16} />
                       <span>Edit</span>

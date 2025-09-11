@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { X, RotateCw } from "lucide-react";
+import { X } from "lucide-react";
 
 const BlogModal = ({ blog, onSave, onClose }) => {
   const [formData, setFormData] = useState({
@@ -36,7 +36,7 @@ const BlogModal = ({ blog, onSave, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // start loading
+    setLoading(true);
 
     try {
       const data = new FormData();
@@ -46,11 +46,11 @@ const BlogModal = ({ blog, onSave, onClose }) => {
         }
       });
 
-      await onSave(data); // parent will call API
+      await onSave(data);
     } catch (err) {
       console.error("Error saving blog:", err);
     } finally {
-      setLoading(false); // stop loading after request finishes
+      setLoading(false);
     }
   };
 
@@ -71,124 +71,176 @@ const BlogModal = ({ blog, onSave, onClose }) => {
         </div>
 
         <form onSubmit={handleSubmit} className="p-4 space-y-4">
-          <input
-            type="text"
-            placeholder="Title *"
-            value={formData.title}
-            onChange={(e) =>
-              setFormData({ ...formData, title: e.target.value })
-            }
-            className="w-full border p-2 rounded"
-            required
-          />
+          {/* Title */}
+          <div>
+            <label className="block text-sm font-medium mb-2">Title *</label>
+            <input
+              type="text"
+              placeholder="Enter blog title"
+              value={formData.title}
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
+              className="w-full border p-2 rounded"
+              required
+            />
+          </div>
 
-          <textarea
-            placeholder="Description"
-            value={formData.description}
-            onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
-            }
-            className="w-full border p-2 rounded"
-          />
+          {/* Description */}
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Description
+            </label>
+            <textarea
+              placeholder="Short description"
+              value={formData.description}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
+              className="w-full border p-2 rounded"
+            />
+          </div>
 
-          <textarea
-            placeholder="Content *"
-            value={formData.content}
-            onChange={(e) =>
-              setFormData({ ...formData, content: e.target.value })
-            }
-            className="w-full border p-2 rounded min-h-[200px]"
-            required
-          />
+          {/* Content */}
+          <div>
+            <label className="block text-sm font-medium mb-2">Content *</label>
+            <textarea
+              placeholder="Write blog content..."
+              value={formData.content}
+              onChange={(e) =>
+                setFormData({ ...formData, content: e.target.value })
+              }
+              className="w-full border p-2 rounded min-h-[200px]"
+              required
+            />
+          </div>
 
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) =>
-              setFormData({ ...formData, image: e.target.files[0] })
-            }
-            className="w-full border p-2 rounded"
-          />
+          {/* Image */}
+          <div>
+            <label className="block text-sm font-medium mb-2">Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) =>
+                setFormData({ ...formData, image: e.target.files[0] })
+              }
+              className="w-full border p-2 rounded"
+            />
+          </div>
 
-          <input
-            type="text"
-            placeholder="Category"
-            value={formData.category}
-            onChange={(e) =>
-              setFormData({ ...formData, category: e.target.value })
-            }
-            className="w-full border p-2 rounded"
-          />
+          {/* Category Dropdown */}
+          <div>
+            <label className="block text-sm font-medium mb-2">Category *</label>
+            <select
+              value={formData.category}
+              onChange={(e) =>
+                setFormData({ ...formData, category: e.target.value })
+              }
+              className="w-full border p-2 rounded"
+              required
+            >
+              <option value="">-- Select Category --</option>
+              <option value="Spice">Spice</option>
+              <option value="Oil">Oil</option>
+              <option value="Household">Household</option>
+              <option value="Pulse">Pulse</option>
+              <option value="Fruit">Fruit</option>
+              <option value="Vegetable">Vegetable</option>
+              <option value="Tea">Tea</option>
+              <option value="Coffee">Coffee</option>
+              <option value="Grain">Grain</option>
+              <option value="Dairy">Dairy</option>
+            </select>
+          </div>
 
-          <input
-            type="text"
-            placeholder="Author"
-            value={formData.author}
-            onChange={(e) =>
-              setFormData({ ...formData, author: e.target.value })
-            }
-            className="w-full border p-2 rounded"
-          />
+          {/* Author */}
+          <div>
+            <label className="block text-sm font-medium mb-2">Author</label>
+            <input
+              type="text"
+              placeholder="Author name"
+              value={formData.author}
+              onChange={(e) =>
+                setFormData({ ...formData, author: e.target.value })
+              }
+              className="w-full border p-2 rounded"
+            />
+          </div>
 
-          <input
-            type="text"
-            placeholder="Badge"
-            value={formData.badge}
-            onChange={(e) =>
-              setFormData({ ...formData, badge: e.target.value })
-            }
-            className="w-full border p-2 rounded"
-          />
+          {/* Badge */}
+          <div>
+            <label className="block text-sm font-medium mb-2">Badge</label>
+            <input
+              type="text"
+              placeholder="Badge text"
+              value={formData.badge}
+              onChange={(e) =>
+                setFormData({ ...formData, badge: e.target.value })
+              }
+              className="w-full border p-2 rounded"
+            />
+          </div>
 
-          <input
-            type="text"
-            placeholder="Meta Title"
-            value={formData.metaTitle}
-            onChange={(e) =>
-              setFormData({ ...formData, metaTitle: e.target.value })
-            }
-            className="w-full border p-2 rounded"
-          />
+          {/* Meta Title */}
+          <div>
+            <label className="block text-sm font-medium mb-2">Meta Title</label>
+            <input
+              type="text"
+              placeholder="Meta title for SEO"
+              value={formData.metaTitle}
+              onChange={(e) =>
+                setFormData({ ...formData, metaTitle: e.target.value })
+              }
+              className="w-full border p-2 rounded"
+            />
+          </div>
 
-          <input
-            type="text"
-            placeholder="Meta Description"
-            value={formData.metaDescription}
-            onChange={(e) =>
-              setFormData({ ...formData, metaDescription: e.target.value })
-            }
-            className="w-full border p-2 rounded"
-          />
+          {/* Meta Description */}
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Meta Description
+            </label>
+            <input
+              type="text"
+              placeholder="Meta description for SEO"
+              value={formData.metaDescription}
+              onChange={(e) =>
+                setFormData({ ...formData, metaDescription: e.target.value })
+              }
+              className="w-full border p-2 rounded"
+            />
+          </div>
 
-          <input
-            type="text"
-            placeholder="Keywords (comma separated)"
-            value={formData.keywords}
-            onChange={(e) =>
-              setFormData({ ...formData, keywords: e.target.value })
-            }
-            className="w-full border p-2 rounded"
-          />
+          {/* Keywords */}
+          <div>
+            <label className="block text-sm font-medium mb-2">
+              Keywords (comma separated)
+            </label>
+            <input
+              type="text"
+              placeholder="e.g., food, spices, organic"
+              value={formData.keywords}
+              onChange={(e) =>
+                setFormData({ ...formData, keywords: e.target.value })
+              }
+              className="w-full border p-2 rounded"
+            />
+          </div>
 
+          {/* Submit */}
           <button
             type="submit"
             disabled={loading}
-            className={`px-4 py-2 rounded text-white ${
+            className={`px-4 py-2 rounded text-white flex items-center gap-2 ${
               loading
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700"
+                : "bg-green-700 hover:bg-blue-800"
             }`}
           >
-            {loading ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Saving...
-              </>
-            ) : blog ? (
-              "Update Blog"
-            ) : (
-              "Publish Blog"
+            {loading && (
+              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
             )}
+            {loading ? "Saving..." : blog ? "Update Blog" : "Publish Blog"}
           </button>
         </form>
       </div>

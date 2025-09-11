@@ -52,7 +52,7 @@ const Login = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-8">
         <div className="text-center mb-8">
-          <div className="mx-auto w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4">
+          <div className="mx-auto w-16 h-16 bg-green-700 rounded-full flex items-center justify-center mb-4">
             {/* <LogIn className="h-8 w-8 text-white" /> */}
             <img src={Logo} alt="logo" />
           </div>
@@ -72,7 +72,7 @@ const Login = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
+              className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors ${
                 errors.email ? "border-red-500" : "border-gray-300"
               }`}
               placeholder="Enter your email"
@@ -92,7 +92,7 @@ const Login = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
+                className={`w-full px-4 py-3 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors ${
                   errors.password ? "border-red-500" : "border-gray-300"
                 }`}
                 placeholder="Enter your password"
@@ -116,7 +116,7 @@ const Login = () => {
             className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-colors flex items-center justify-center ${
               isLoading
                 ? "bg-gray-400 cursor-not-allowed"
-                : "bg-blue-600 hover:bg-blue-700 active:bg-blue-800"
+                : "bg-green-700 hover:bg-green-800 active:bg-blue-800"
             }`}
           >
             {isLoading ? (

@@ -62,7 +62,7 @@ const Sidebar = ({ activeTab, onTabChange, isOpen, onClose }) => {
           {/* User info */}
           <div className="p-6 border-b bg-gray-50">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center shadow">
+              <div className="w-12 h-12 bg-green-700 rounded-full flex items-center justify-center shadow">
                 <span className="text-white font-bold text-lg">
                   {user?.name?.charAt(0)}
                 </span>
@@ -90,7 +90,7 @@ const Sidebar = ({ activeTab, onTabChange, isOpen, onClose }) => {
                   w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200
                   ${
                     activeTab === item.id
-                      ? "bg-blue-600 text-white shadow-lg"
+                      ? "bg-green-700 text-white shadow-lg"
                       : "text-gray-700 hover:bg-gray-100 hover:shadow-sm"
                   }
                 `}

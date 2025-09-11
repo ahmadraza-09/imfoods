@@ -96,7 +96,7 @@ const ProductModal = ({ product, onSave, onClose }) => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 ${
                 errors.name ? "border-red-500" : "border-gray-300"
               }`}
               placeholder="Enter product name"
@@ -111,16 +111,27 @@ const ProductModal = ({ product, onSave, onClose }) => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Category *
             </label>
-            <input
-              type="text"
+            <select
               name="category"
               value={formData.category}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 ${
                 errors.category ? "border-red-500" : "border-gray-300"
               }`}
-              placeholder="e.g., Dairy, Household"
-            />
+            >
+              <option value="">-- Select Category --</option>
+              <option value="Spice">Spice</option>
+              <option value="Oil">Oil</option>
+              <option value="Household">Household</option>
+              <option value="Pulse">Pulse</option>
+              <option value="Fruit">Fruit</option>
+              <option value="Vegetable">Vegetable</option>
+              <option value="Tea">Tea</option>
+              <option value="Coffee">Coffee</option>
+              <option value="Grain">Grain</option>
+              <option value="Dairy">Dairy</option>
+            </select>
+
             {errors.category && (
               <p className="text-red-500 text-sm mt-1">{errors.category}</p>
             )}
@@ -136,7 +147,7 @@ const ProductModal = ({ product, onSave, onClose }) => {
               value={formData.description}
               onChange={handleChange}
               rows={3}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 ${
                 errors.description ? "border-red-500" : "border-gray-300"
               }`}
               placeholder="Enter product description"
@@ -175,7 +186,7 @@ const ProductModal = ({ product, onSave, onClose }) => {
                 name="badge"
                 value={formData.badge}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 placeholder="e.g., New, Best Seller"
               />
             </div>
@@ -185,7 +196,7 @@ const ProductModal = ({ product, onSave, onClose }) => {
                 name="inStock"
                 checked={formData.inStock}
                 onChange={handleChange}
-                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-green-500"
               />
               <span className="ml-2 text-sm font-medium text-gray-700">
                 In Stock
@@ -205,7 +216,7 @@ const ProductModal = ({ product, onSave, onClose }) => {
             <button
               type="submit"
               disabled={loading}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center disabled:opacity-50"
+              className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 transition-colors flex items-center justify-center disabled:opacity-50"
             >
               {loading ? (
                 <>
