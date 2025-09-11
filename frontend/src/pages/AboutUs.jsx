@@ -140,7 +140,7 @@ const AboutUs = () => {
         </div>
 
         {/* Team Section */}
-        <div className="bg-green-50 rounded-2xl p-8">
+        {/* <div className="bg-green-50 rounded-2xl p-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
               Meet Our Team
@@ -174,7 +174,7 @@ const AboutUs = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

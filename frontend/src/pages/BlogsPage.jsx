@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import BlogCard from "../components/BlogCard";
-import { Search, TrendingUp } from "lucide-react";
+import { Search } from "lucide-react";
 import NewsLetterSignupSection from "../components/NewsLetterSignupSection";
 import Banner from "../components/Banner";
 import axios from "axios";
@@ -11,28 +11,27 @@ import ScrollToTop from "../components/ScrollToTop";
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   const categories = [
     "All",
-    "Health & Nutrition",
-    "Sustainability",
-    "Recipes & Tips",
-    "Seasonal",
-    "Coffee Culture",
-  ];
-  const trendingTopics = [
-    "Organic Farming",
-    "Spice Health Benefits",
-    "Seasonal Recipes",
-    "Sustainable Living",
-    "Ancient Grains",
+    "Spice",
+    "Oil",
+    "Tea",
+    "Fruit",
+    "Coffee",
+    "Vegetable",
+    "Grain",
+    "Pulse",
+    "Dairy",
   ];
 
   // Fetch blogs from API
   const fetchBlogs = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:8000/blog/getallblogs"); // Replace with your API endpoint
+      const res = await axios.get("http://localhost:8000/blog/getallblogs");
       setBlogs(res.data || []);
     } catch (error) {
       toast.error("Failed to fetch blogs.");
@@ -44,6 +43,24 @@ const Blogs = () => {
   useEffect(() => {
     fetchBlogs();
   }, []);
+
+  // Filtering logic
+  const filteredBlogs = blogs.filter((blog) => {
+    const title = blog.title?.toLowerCase() || "";
+    const description = blog.description?.toLowerCase() || "";
+    const content = blog.content?.toLowerCase() || "";
+    const category = blog.category?.toLowerCase() || "";
+
+    const matchesSearch =
+      title.includes(searchQuery.toLowerCase()) ||
+      description.includes(searchQuery.toLowerCase()) ||
+      content.includes(searchQuery.toLowerCase());
+
+    const matchesCategory =
+      selectedCategory === "All" || category === selectedCategory.toLowerCase();
+
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <>
@@ -91,32 +108,18 @@ const Blogs = () => {
             </p>
           </div>
 
-          {/* Search and Trending */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+          {/* Search */}
+          <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 mb-16">
             <div className="lg:col-span-2">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
                   type="text"
                   placeholder="Search articles, recipes, tips..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent text-lg"
                 />
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-xl shadow-md">
-              <div className="flex items-center mb-4">
-                <TrendingUp className="h-5 w-5 text-green-700 mr-2" />
-                <h3 className="font-bold text-gray-900">Trending Topics</h3>
-              </div>
-              <div className="space-y-2">
-                {trendingTopics.map((topic, index) => (
-                  <button
-                    key={index}
-                    className="block w-full text-left px-3 py-2 text-sm text-gray-600 hover:text-green-700 hover:bg-green-50 rounded-lg transition-colors"
-                  >
-                    {topic}
-                  </button>
-                ))}
               </div>
             </div>
           </div>
@@ -126,7 +129,12 @@ const Blogs = () => {
             {categories.map((category) => (
               <button
                 key={category}
-                className="px-6 py-3 rounded-full border-2 border-green-200 text-green-700 hover:bg-green-700 hover:text-white transition-all duration-200 font-semibold"
+                onClick={() => setSelectedCategory(category)}
+                className={`px-6 py-3 rounded-full border-2 transition-all duration-200 font-semibold ${
+                  selectedCategory === category
+                    ? "bg-green-700 text-white border-green-700"
+                    : "border-green-200 text-green-700 hover:bg-green-700 hover:text-white"
+                }`}
               >
                 {category}
               </button>
@@ -136,19 +144,23 @@ const Blogs = () => {
           {/* Blogs Section */}
           {loading ? (
             <p className="text-center text-gray-500">Loading blogs...</p>
-          ) : blogs.length === 0 ? (
+          ) : filteredBlogs.length === 0 ? (
             <p className="text-center text-gray-500">No blogs found.</p>
           ) : (
             <>
-              {/* Featured Post */}
-              <BlogCard {...blogs[0]} featured={true} />
+              {/* Featured Post (only if more than 0 blogs) */}
+              {filteredBlogs.length > 0 && (
+                <BlogCard {...filteredBlogs[0]} featured={true} />
+              )}
 
               {/* Blog Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-20">
-                {blogs.slice(1).map((post) => (
-                  <BlogCard key={post._id || post.id} {...post} />
-                ))}
-              </div>
+              {filteredBlogs.length > 1 && (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-20">
+                  {filteredBlogs.slice(1).map((post) => (
+                    <BlogCard key={post._id || post.id} {...post} />
+                  ))}
+                </div>
+              )}
             </>
           )}
 

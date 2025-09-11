@@ -51,7 +51,7 @@ const Footer = () => {
               <li>
                 <a
                   onClick={() => navigate("/")}
-                  className="text-gray-400 hover:text-green-400 transition-colors"
+                  className="text-gray-400 hover:text-green-400 transition-colors cursor-pointer"
                 >
                   Home
                 </a>
@@ -59,41 +59,34 @@ const Footer = () => {
               <li>
                 <a
                   onClick={() => navigate("/about")}
-                  className="text-gray-400 hover:text-green-400 transition-colors"
+                  className="text-gray-400 hover:text-green-400 transition-colors cursor-pointer"
                 >
                   About Us
                 </a>
               </li>
               <li>
                 <a
-                  onClick={() => navigate("/contact")}
-                  className="text-gray-400 hover:text-green-400 transition-colors"
+                  onClick={() => navigate("/products")}
+                  className="text-gray-400 hover:text-green-400 transition-colors cursor-pointer"
                 >
-                  Contact Us
+                  Products
                 </a>
               </li>
               <li>
                 <a
                   onClick={() => navigate("/blogs")}
-                  className="text-gray-400 hover:text-green-400 transition-colors"
+                  className="text-gray-400 hover:text-green-400 transition-colors cursor-pointer"
                 >
-                  Blog & Recipes
+                  Blogs
                 </a>
               </li>
+
               <li>
                 <a
-                  href="#"
-                  className="text-gray-400 hover:text-green-400 transition-colors"
+                  onClick={() => navigate("/contact")}
+                  className="text-gray-400 hover:text-green-400 transition-colors cursor-pointer"
                 >
-                  Customer Support
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="text-gray-400 hover:text-green-400 transition-colors"
-                >
-                  Track Your Order
+                  Contact Us
                 </a>
               </li>
             </ul>
