@@ -38,7 +38,7 @@ const ContactUs = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    const { name, phone, email, subject, message } = formData;
+    const { name, phone, email, subject } = formData;
 
     if (!name || !phone || !email || !subject) {
       setFormError("Please fill all required fields");
@@ -67,6 +67,8 @@ const ContactUs = () => {
       }
     } catch (error) {
       setFormError("Contact request failed. Please try again later.");
+      toast.error("Contact request failed. Please try again later.");
+      console.error("Error submitting contact form:", error);
     }
   };
 
@@ -96,7 +98,7 @@ const ContactUs = () => {
         {/* Header */}
         <div className="text-center mb-12">
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            We'd love to hear from you! Get in touch with our team for any
+            We&apos;d love to hear from you! Get in touch with our team for any
             questions, feedback, or support you might need.
           </p>
         </div>

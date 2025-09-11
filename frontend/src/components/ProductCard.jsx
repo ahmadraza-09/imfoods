@@ -1,14 +1,7 @@
 import React from "react";
-import { Star, ShoppingCart, Heart } from "lucide-react";
+import { ShoppingCart, Heart } from "lucide-react";
 
-const ProductCard = ({
-  name,
-  image,
-  description,
-  category,
-  badge,
-  inStock = true,
-}) => {
+const ProductCard = ({ name, image, description, badge, inStock = true }) => {
   return (
     <div className="bg-white rounded-2xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group relative">
       {/* Badge */}

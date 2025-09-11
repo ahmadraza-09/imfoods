@@ -14,9 +14,9 @@ const CommitmentSection = () => {
               <span className="block text-green-700">Excellence</span>
             </h2>
             <p className="text-xl text-gray-700 mb-8 leading-relaxed">
-              For over two decades, we've been dedicated to sourcing the finest
-              natural foods from trusted farmers and growers who share our
-              commitment to sustainable agriculture and ethical practices.
+              For over two decades, we&apos;ve been dedicated to sourcing the
+              finest natural foods from trusted farmers and growers who share
+              our commitment to sustainable agriculture and ethical practices.
             </p>
 
             {/* Stats */}

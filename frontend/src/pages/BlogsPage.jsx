@@ -35,6 +35,7 @@ const Blogs = () => {
       setBlogs(res.data || []);
     } catch (error) {
       toast.error("Failed to fetch blogs.");
+      console.error("Error fetching blogs:", error);
     } finally {
       setLoading(false);
     }

@@ -3,7 +3,6 @@ import { Calendar, User, ArrowRight, Clock } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const BlogCard = ({
-  id,
   title,
   excerpt,
   author,

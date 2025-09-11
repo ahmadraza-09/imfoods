@@ -27,6 +27,7 @@ const HouseholdProducts = () => {
       setHouseholdProducts(filtered);
     } catch (error) {
       toast.error("Failed to fetch household products.");
+      console.error("Error fetching household products:", error);
     } finally {
       setLoading(false);
     }

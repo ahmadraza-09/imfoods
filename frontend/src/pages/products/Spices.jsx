@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import ProductCard from "../../components/ProductCard";
 import { Filter, Grid, List } from "lucide-react";
 import Banner from "../../components/Banner";
@@ -8,11 +8,9 @@ import { toast } from "react-hot-toast";
 
 const Spices = () => {
   const [spices, setSpices] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   // ✅ Fetch all products
   const fetchProducts = async () => {
-    setLoading(true);
     try {
       const res = await axios.get(
         `http://localhost:8000/product/getallproducts?category=spice`
@@ -29,8 +27,7 @@ const Spices = () => {
       setSpices(filtered);
     } catch (error) {
       toast.error("Failed to fetch spice products.");
-    } finally {
-      setLoading(false);
+      console.error("Error fetching spice products:", error);
     }
   };
 
@@ -185,7 +182,7 @@ const Spices = () => {
             {" "}
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
               {" "}
-              Sourced from the World's Best Spice Regions{" "}
+              Sourced from the World&apos;s Best Spice Regions{" "}
             </h2>{" "}
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               {" "}

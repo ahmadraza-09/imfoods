@@ -8,10 +8,8 @@ import ProductCard from "../../components/ProductCard";
 
 const Grains = () => {
   const [grains, setGrains] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const fetchProducts = async () => {
-    setLoading(true);
     try {
       const res = await axios.get(
         `http://localhost:8000/product/getallproducts?category=grain`
@@ -27,8 +25,7 @@ const Grains = () => {
       setGrains(filtered);
     } catch (error) {
       toast.error("Failed to fetch grain products.");
-    } finally {
-      setLoading(false);
+      console.error("Error fetching grain products:", error);
     }
   };
 
@@ -137,7 +134,7 @@ const Grains = () => {
         <section className="mt-16 bg-white rounded-3xl p-12 shadow-lg">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Sourced from the World's Best Grain Regions
+              Sourced from the World&apos;s Best Grain Regions
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Our grains are sourced from regions renowned for their fertile

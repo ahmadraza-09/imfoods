@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ShoppingCart, Play, Star } from "lucide-react";
+import { ShoppingCart, Star } from "lucide-react";
 
 const HeroSection = () => {
   const images = [

@@ -27,6 +27,7 @@ const FreshFruits = () => {
       setFruits(filtered);
     } catch (error) {
       toast.error("Failed to fetch fruit products.");
+      console.error("Error fetching fruit products:", error);
     } finally {
       setLoading(false);
     }

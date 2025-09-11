@@ -24,6 +24,7 @@ const BlogDetailsPage = () => {
         setBlog(res.data);
       } catch (error) {
         toast.error("Failed to fetch blog details.");
+        console.error(error);
       } finally {
         setLoading(false);
       }

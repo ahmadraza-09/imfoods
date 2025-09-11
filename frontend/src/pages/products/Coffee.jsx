@@ -27,6 +27,7 @@ const Coffee = () => {
       setCoffees(filtered);
     } catch (error) {
       toast.error("Failed to fetch coffee products.");
+      console.error("Error fetching coffee products:", error);
     } finally {
       setLoading(false);
     }
@@ -66,9 +67,9 @@ const Coffee = () => {
             Premium Coffee Beans Collection
           </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Expertly roasted coffee beans from the world's finest coffee-growing
-            regions. Each batch is carefully roasted to bring out the unique
-            flavors and aromas.
+            Expertly roasted coffee beans from the world&apos;s finest
+            coffee-growing regions. Each batch is carefully roasted to bring out
+            the unique flavors and aromas.
           </p>
         </div>
 
@@ -156,7 +157,7 @@ const Coffee = () => {
         <div className="mt-20 bg-white rounded-3xl p-12 shadow-lg">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Sourced from the World's Best Coffee Regions
+              Sourced from the World&apos;s Best Coffee Regions
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Our coffee comes from world-renowned regions, each celebrated for

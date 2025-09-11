@@ -90,10 +90,10 @@ const AboutUs = () => {
             </p>
             <p className="text-gray-700 mb-4 leading-relaxed">
               At IMFoods, we take pride in our rigorous quality standards,
-              ethical sourcing, and strong supply chain network. Whether you're
-              a wholesaler, distributor, or food manufacturer, we offer
-              customized export solutions tailored to your needs — ensuring
-              freshness, consistency, and timely delivery every time.
+              ethical sourcing, and strong supply chain network. Whether
+              you&apos;re a wholesaler, distributor, or food manufacturer, we
+              offer customized export solutions tailored to your needs —
+              ensuring freshness, consistency, and timely delivery every time.
             </p>
             <p className="text-gray-700 leading-relaxed">
               Driven by trust, transparency, and long-term partnerships, our

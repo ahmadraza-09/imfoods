@@ -8,10 +8,8 @@ import axios from "axios";
 
 const FreshVegetables = () => {
   const [vegetables, setVegetables] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const fetchProducts = async () => {
-    setLoading(true);
     try {
       const res = await axios.get(
         `http://localhost:8000/product/getallproducts?category=vegetable`
@@ -27,8 +25,7 @@ const FreshVegetables = () => {
       setVegetables(filtered);
     } catch (error) {
       toast.error("Failed to fetch vegetable products.");
-    } finally {
-      setLoading(false);
+      console.error("Error fetching vegetable products:", error);
     }
   };
 
@@ -139,7 +136,7 @@ const FreshVegetables = () => {
         <section className="mt-16 bg-white rounded-3xl p-12 shadow-lg">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Sourced from the World's Best Vegetable Regions
+              Sourced from the World&apos;s Best Vegetable Regions
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Our vegetables come from regions renowned for producing the best

@@ -17,7 +17,9 @@ const TestimonialCard = ({ name, location, rating, comment, avatar }) => {
         ))}
       </div>
 
-      <p className="text-gray-700 mb-6 leading-relaxed italic">"{comment}"</p>
+      <p className="text-gray-700 mb-6 leading-relaxed italic">
+        &quot;{comment}&quot;
+      </p>
 
       <div className="flex items-center">
         <div

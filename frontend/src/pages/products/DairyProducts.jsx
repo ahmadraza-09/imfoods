@@ -27,6 +27,7 @@ const DairyProducts = () => {
       setDairyProducts(filtered);
     } catch (error) {
       toast.error("Failed to fetch dairy products.");
+      console.error("Error fetching dairy products:", error);
     } finally {
       setLoading(false);
     }

@@ -33,7 +33,7 @@ const FeaturesSection = () => {
             Why Choose Im Foods?
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            We're committed to bringing you the finest natural foods with
+            We&apos;re committed to bringing you the finest natural foods with
             uncompromising quality, sustainability, and exceptional customer
             service that sets us apart.
           </p>

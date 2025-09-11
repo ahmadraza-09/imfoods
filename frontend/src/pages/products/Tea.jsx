@@ -26,6 +26,7 @@ const Tea = () => {
       setTeas(filtered);
     } catch (error) {
       toast.error("Failed to fetch tea products.");
+      console.error("Error fetching tea products:", error);
     } finally {
       setLoading(false);
     }

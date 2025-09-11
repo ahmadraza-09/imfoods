@@ -1,5 +1,5 @@
 import React from "react";
-import { Leaf, Twitter, Facebook, Instagram, Linkedin } from "lucide-react";
+import { Twitter, Facebook, Instagram, Linkedin } from "lucide-react";
 import Logo from "../assets/logo/logo.png";
 import { useNavigate } from "react-router-dom";
 

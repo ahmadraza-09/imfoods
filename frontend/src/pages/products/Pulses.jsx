@@ -26,6 +26,7 @@ const Pulses = () => {
       setPulses(filtered);
     } catch (error) {
       toast.error("Failed to fetch pulses products.");
+      console.error("Error fetching pulses products:", error);
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronDown, Menu, X, Leaf } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import Logo from "../assets/logo/logo.png";
 
 const Header = () => {

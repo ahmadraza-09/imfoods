@@ -8,10 +8,8 @@ import ProductCard from "../../components/ProductCard";
 
 const Oil = () => {
   const [oils, setOils] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const fetchProducts = async () => {
-    setLoading(true);
     try {
       const res = await axios.get(
         `http://localhost:8000/product/getallproducts?category=oil`
@@ -27,8 +25,7 @@ const Oil = () => {
       setOils(filtered);
     } catch (error) {
       toast.error("Failed to fetch Oil products.");
-    } finally {
-      setLoading(false);
+      console.error("Error fetching Oil products:", error);
     }
   };
 
@@ -142,7 +139,7 @@ const Oil = () => {
         <section className="mt-16 bg-white rounded-3xl p-12 shadow-lg">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
-              Sourced from the World's Finest Oil Regions
+              Sourced from the World&apos;s Finest Oil Regions
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Our oils come from regions renowned for high-quality and authentic
