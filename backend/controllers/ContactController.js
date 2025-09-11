@@ -65,15 +65,18 @@ exports.deleteContact = async (req, res) => {
 
     try {
         const contact = await Contact.findByIdAndDelete(id);
-        if (!product) {
+
+        if (!contact) {
             return res.status(404).json({ message: "Contact not found" });
         }
+
         res.status(200).json({ message: "Contact Deleted Successfully", contact });
     } catch (error) {
-        console.log(error);
+        console.error("Delete Contact Error:", error);
         res.status(500).json({ message: "Server Error", error });
     }
 };
+
 
 exports.updateContact = async (req, res) => {
     const { id } = req.params;
