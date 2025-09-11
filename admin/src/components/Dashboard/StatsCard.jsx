@@ -2,44 +2,56 @@ import React from "react";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
 const StatsCard = ({ title, value, icon: Icon, color, trend }) => {
-  const colorClasses = {
-    blue: "bg-blue-500 text-blue-600",
-    green: "bg-green-500 text-green-600",
-    yellow: "bg-yellow-500 text-yellow-600",
-    purple: "bg-purple-500 text-purple-600",
-  };
-
-  const bgColorClasses = {
-    blue: "bg-blue-50",
-    green: "bg-green-50",
-    yellow: "bg-yellow-50",
-    purple: "bg-purple-50",
+  const colorMap = {
+    blue: {
+      bg: "bg-blue-50",
+      text: "text-blue-600",
+      iconBg: "bg-gradient-to-tr from-blue-400 to-blue-600",
+    },
+    green: {
+      bg: "bg-green-50",
+      text: "text-green-600",
+      iconBg: "bg-gradient-to-tr from-green-400 to-green-600",
+    },
+    yellow: {
+      bg: "bg-yellow-50",
+      text: "text-yellow-600",
+      iconBg: "bg-gradient-to-tr from-yellow-400 to-yellow-600",
+    },
+    purple: {
+      bg: "bg-purple-50",
+      text: "text-purple-600",
+      iconBg: "bg-gradient-to-tr from-purple-400 to-purple-600",
+    },
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-      <div className="flex items-center justify-between">
+    <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-gray-100 p-6 hover:scale-[1.02] transition-transform duration-300">
+      <div className="flex justify-between items-center">
         <div>
-          <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
+          <p className="text-sm font-semibold text-gray-500 mb-1 uppercase">
+            {title}
+          </p>
           <p className="text-3xl font-bold text-gray-900">{value}</p>
           {trend && (
             <div
-              className={`flex w-full items-start gap-1 text-sm mt-2 ${
-                trend.isUp ? "text-green-600" : "text-red-600"
+              className={`flex items-center gap-2 text-sm mt-2 ${
+                trend.isUp ? "text-green-500" : "text-red-500"
               }`}
             >
               {trend.isUp ? (
-                <TrendingUp size={25} />
+                <TrendingUp className="w-5 h-5" />
               ) : (
-                <TrendingDown size={25} />
+                <TrendingDown className="w-5 h-5" />
               )}
               <span>{trend.value}% from last month</span>
             </div>
           )}
         </div>
-
-        <div className={`p-3 rounded-full ${bgColorClasses[color]}`}>
-          <Icon className={`h-6 w-6 ${colorClasses[color].split(" ")[1]}`} />
+        <div
+          className={`p-4 rounded-xl ${colorMap[color].iconBg} text-white shadow-md`}
+        >
+          <Icon className="w-6 h-6" />
         </div>
       </div>
     </div>

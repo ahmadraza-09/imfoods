@@ -97,9 +97,9 @@ const DashboardOverview = () => {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="space-y-8 p-6">
+      {/* Top Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <StatsCard
           title="Total Products"
           value={totalProducts}
@@ -121,20 +121,20 @@ const DashboardOverview = () => {
           color="yellow"
           trend={trends.queries}
         />
-        <StatsCard
+        {/* <StatsCard
           title="Total Users"
           value={users.length}
           icon={Users}
           color="purple"
           trend={trends.users}
-        />
+        /> */}
       </div>
 
       {/* Additional Stats */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Product Stats */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
+        <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-shadow">
+          <h3 className="text-lg font-semibold text-gray-800 mb-6">
             Product Statistics
           </h3>
           <div className="space-y-4">
@@ -152,8 +152,8 @@ const DashboardOverview = () => {
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-600">Average Rating</span>
-              <div className="flex items-center space-x-1">
-                <Star size={16} className="text-yellow-400 fill-current" />
+              <div className="flex items-center gap-1">
+                <Star className="text-yellow-400 fill-current w-5 h-5" />
                 <span className="font-semibold">{avgRating.toFixed(1)}</span>
               </div>
             </div>
@@ -161,35 +161,33 @@ const DashboardOverview = () => {
         </div>
 
         {/* Contact Stats */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
+        <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-shadow">
+          <h3 className="text-lg font-semibold text-gray-800 mb-6">
             Contact Status
           </h3>
           <div className="space-y-4">
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">New</span>
-              <span className="px-2 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium">
-                {contacts.filter((c) => c.status === "new").length}
-              </span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">Responded</span>
-              <span className="px-2 py-1 bg-yellow-100 text-yellow-600 rounded-full text-sm font-medium">
-                {contacts.filter((c) => c.status === "responded").length}
-              </span>
-            </div>
-            <div className="flex justify-between items-center">
-              <span className="text-gray-600">Resolved</span>
-              <span className="px-2 py-1 bg-green-100 text-green-600 rounded-full text-sm font-medium">
-                {contacts.filter((c) => c.status === "resolved").length}
-              </span>
-            </div>
+            {["new", "responded", "resolved"].map((status) => (
+              <div key={status} className="flex justify-between items-center">
+                <span className="capitalize text-gray-600">{status}</span>
+                <span
+                  className={`px-3 py-1 rounded-full text-sm font-medium ${
+                    status === "new"
+                      ? "bg-blue-100 text-blue-600"
+                      : status === "responded"
+                      ? "bg-yellow-100 text-yellow-600"
+                      : "bg-green-100 text-green-600"
+                  }`}
+                >
+                  {contacts.filter((c) => c.status === status).length}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
 
         {/* Recent Activity */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
+        <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition-shadow overflow-y-auto max-h-[400px]">
+          <h3 className="text-lg font-semibold text-gray-800 mb-6">
             Recent Activity
           </h3>
           <div className="space-y-4">
@@ -203,13 +201,19 @@ const DashboardOverview = () => {
                     : activity.type === "blog"
                     ? FileText
                     : MessageSquare;
-
-                const color = colorMap[activity.type] || "gray";
+                const color =
+                  activity.type === "product"
+                    ? "green"
+                    : activity.type === "blog"
+                    ? "purple"
+                    : "blue";
 
                 return (
                   <div key={index} className="flex items-start space-x-3">
-                    <div className={`p-2 rounded-full bg-${color}-50`}>
-                      <Icon className={`h-4 w-4 text-${color}-600`} />
+                    <div
+                      className={`p-3 rounded-xl bg-${color}-50 text-${color}-600 flex-shrink-0`}
+                    >
+                      <Icon className="w-5 h-5" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-gray-800 truncate">

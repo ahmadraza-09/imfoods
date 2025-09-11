@@ -11,7 +11,6 @@ import { useAuth } from "../../contexts/AuthContext";
 
 const Sidebar = ({ activeTab, onTabChange, isOpen, onClose }) => {
   const { logout } = useAuth();
-
   const user = JSON.parse(localStorage.getItem("user"));
 
   const menuItems = [
@@ -32,7 +31,7 @@ const Sidebar = ({ activeTab, onTabChange, isOpen, onClose }) => {
       {/* Mobile overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black bg-opacity-40 z-40 lg:hidden"
           onClick={onClose}
         />
       )}
@@ -40,18 +39,21 @@ const Sidebar = ({ activeTab, onTabChange, isOpen, onClose }) => {
       {/* Sidebar */}
       <aside
         className={`
-        fixed top-0 left-0 z-50 h-screen w-64 bg-white shadow-xl transform transition-transform duration-300 ease-in-out
-        lg:translate-x-0 lg:static lg:inset-0
-        ${isOpen ? "translate-x-0" : "-translate-x-full"}
-      `}
+    fixed top-0 left-0 z-50 h-screen w-64 bg-white shadow-xl
+    flex flex-col justify-between transition-transform duration-300 ease-in-out
+    lg:translate-x-0 lg:static
+    ${isOpen ? "translate-x-0" : "-translate-x-full"}
+  `}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b">
-            <h1 className="text-xl font-bold text-gray-800">Admin Panel</h1>
+          <div className="flex items-center justify-between p-6 border-b shadow-sm">
+            <h1 className="text-xl font-bold text-gray-800 tracking-wide">
+              Admin Panel
+            </h1>
             <button
               onClick={onClose}
-              className="lg:hidden p-1 rounded-md hover:bg-gray-100"
+              className="lg:hidden p-2 rounded-md hover:bg-gray-200 transition-colors"
             >
               ✕
             </button>
@@ -59,22 +61,22 @@ const Sidebar = ({ activeTab, onTabChange, isOpen, onClose }) => {
 
           {/* User info */}
           <div className="p-6 border-b bg-gray-50">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-                <span className="text-white font-semibold text-sm">
+            <div className="flex items-center space-x-4">
+              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center shadow">
+                <span className="text-white font-bold text-lg">
                   {user?.name?.charAt(0)}
                 </span>
               </div>
               <div>
-                <p className="font-medium text-gray-800">{user?.name}</p>
-                <p className="text-sm text-gray-600">{user?.email}</p>
+                <p className="font-semibold text-gray-800">{user?.name}</p>
+                <p className="text-sm text-gray-500">{user?.email}</p>
               </div>
             </div>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 p-4">
-            <ul className="space-y-2">
+          <nav className="flex-1 overflow-y-auto p-4 space-y-3">
+            <ul>
               {menuItems.map((item) => {
                 const Icon = item.icon;
                 return (
@@ -85,16 +87,21 @@ const Sidebar = ({ activeTab, onTabChange, isOpen, onClose }) => {
                         onClose();
                       }}
                       className={`
-                        w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left transition-colors
-                        ${
-                          activeTab === item.id
-                            ? "bg-blue-600 text-white"
-                            : "text-gray-700 hover:bg-gray-100"
-                        }
-                      `}
+                  w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200
+                  ${
+                    activeTab === item.id
+                      ? "bg-blue-600 text-white shadow-lg"
+                      : "text-gray-700 hover:bg-gray-100 hover:shadow-sm"
+                  }
+                `}
                     >
-                      <Icon size={20} />
-                      <span>{item.label}</span>
+                      <Icon
+                        size={20}
+                        className={
+                          activeTab === item.id ? "text-white" : "text-gray-600"
+                        }
+                      />
+                      <span className="font-medium">{item.label}</span>
                     </button>
                   </li>
                 );
@@ -106,10 +113,10 @@ const Sidebar = ({ activeTab, onTabChange, isOpen, onClose }) => {
           <div className="p-4 border-t">
             <button
               onClick={handleLogout}
-              className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left text-red-600 hover:bg-red-50 transition-colors"
+              className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-left text-red-600 hover:bg-red-50 hover:shadow-sm transition-all duration-200"
             >
               <LogOut size={20} />
-              <span>Logout</span>
+              <span className="font-medium">Logout</span>
             </button>
           </div>
         </div>
