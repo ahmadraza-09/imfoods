@@ -68,6 +68,28 @@ const ContactManager = () => {
     }
   };
 
+  // Delete contact in backend
+  const deleteContact = async (contactId) => {
+    try {
+      await axios.delete(
+        `http://localhost:8000/contact/deletecontact/${contactId}`
+      );
+
+      const updatedContacts = contacts.filter(
+        (contact) => contact._id !== contactId
+      );
+      setContacts(updatedContacts);
+
+      if (selectedContact && selectedContact._id === contactId) {
+        setSelectedContact(null);
+      }
+
+      toast.success("Contact deleted successfully!");
+    } catch (error) {
+      toast.error("Failed to delete contact.");
+    }
+  };
+
   // Filters
   const filteredContacts = contacts.filter((contact) => {
     const matchesSearch =
@@ -326,6 +348,12 @@ const ContactManager = () => {
                     }`}
                   >
                     Resolved
+                  </button>
+                  <button
+                    onClick={() => deleteContact(selectedContact._id)}
+                    className="px-3 py-1 text-sm rounded-lg transition-colors bg-red-100 text-red-600 hover:bg-red-200"
+                  >
+                    Delete
                   </button>
                 </div>
               </div>

@@ -1,36 +1,78 @@
 import React, { useState, useEffect } from "react";
-import { Search, UserPlus, Edit, Trash2, Shield, User } from "lucide-react";
-import { storage } from "../../utils/storage";
+import { Search, Edit, Trash2, Shield, User } from "lucide-react";
+import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const UsersManager = () => {
-  const [users, setUsers] = useState([]);
+  const [admin, setAdmin] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-
-  useEffect(() => {
-    loadUsers();
-  }, []);
-
-  const loadUsers = () => {
-    const savedUsers = storage.getUsers();
-    setUsers(savedUsers);
-  };
-
-  const filteredUsers = users.filter((user) => {
-    return (
-      user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
   });
 
-  const getRoleColor = (role) => {
-    return role === "admin"
-      ? "bg-purple-100 text-purple-600"
-      : "bg-blue-100 text-blue-600";
+  useEffect(() => {
+    loadAdmin();
+  }, []);
+
+  const loadAdmin = async () => {
+    try {
+      const res = await axios.get("http://localhost:8000/auth/getalladmin");
+      if (res.data && res.data.length > 0) {
+        setAdmin(res.data[0]);
+      }
+    } catch (err) {
+      toast.error("Failed to load admin details");
+      console.error(err);
+    }
   };
 
-  const getRoleIcon = (role) => {
-    return role === "admin" ? <Shield size={16} /> : <User size={16} />;
+  const openModal = () => {
+    setFormData({
+      name: admin.name,
+      email: admin.email,
+      phone: admin.phone,
+    });
+    setIsModalOpen(true);
   };
+
+  const handleUpdate = async () => {
+    try {
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+      };
+
+      const res = await axios.put(
+        `http://localhost:8000/auth/updateadmin/${admin._id}`,
+        payload
+      );
+
+      setAdmin(res.data.admin);
+      toast.success(res.data.message);
+      setIsModalOpen(false);
+      loadAdmin();
+    } catch (err) {
+      console.error(err);
+      toast.error(err.response?.data?.message || "Failed to update admin");
+    }
+  };
+
+  const filteredAdmin =
+    admin && admin.name.toLowerCase().includes(searchTerm.toLowerCase())
+      ? [admin]
+      : [];
+
+  const getRoleColor = (role) =>
+    role === "admin"
+      ? "bg-purple-100 text-purple-600"
+      : "bg-blue-100 text-blue-600";
+
+  const getRoleIcon = (role) =>
+    role === "admin" ? <Shield size={16} /> : <User size={16} />;
 
   return (
     <div className="space-y-6">
@@ -40,19 +82,8 @@ const UsersManager = () => {
           <h3 className="text-xl font-semibold text-gray-800">
             Users Management
           </h3>
-          <p className="text-gray-600">
-            Manage system users and administrators
-          </p>
+          <p className="text-gray-600">Manage system administrators</p>
         </div>
-        <button
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
-          onClick={() =>
-            alert("Add user functionality would be implemented here")
-          }
-        >
-          <UserPlus size={20} />
-          <span>Add User</span>
-        </button>
       </div>
 
       {/* Stats */}
@@ -61,7 +92,9 @@ const UsersManager = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Total Users</p>
-              <p className="text-2xl font-bold text-gray-900">{users.length}</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {admin ? 1 : 0}
+              </p>
             </div>
             <User className="h-8 w-8 text-gray-400" />
           </div>
@@ -72,7 +105,7 @@ const UsersManager = () => {
             <div>
               <p className="text-sm text-gray-600">Administrators</p>
               <p className="text-2xl font-bold text-purple-600">
-                {users.filter((u) => u.role === "admin").length}
+                {admin ? 1 : 0}
               </p>
             </div>
             <Shield className="h-8 w-8 text-purple-400" />
@@ -83,9 +116,7 @@ const UsersManager = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600">Regular Users</p>
-              <p className="text-2xl font-bold text-blue-600">
-                {users.filter((u) => u.role === "user").length}
-              </p>
+              <p className="text-2xl font-bold text-blue-600">0</p>
             </div>
             <User className="h-8 w-8 text-blue-400" />
           </div>
@@ -101,7 +132,7 @@ const UsersManager = () => {
           />
           <input
             type="text"
-            placeholder="Search users..."
+            placeholder="Search admin..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -109,12 +140,12 @@ const UsersManager = () => {
         </div>
       </div>
 
-      {/* Users Table */}
+      {/* Admin Table */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        {filteredUsers.length === 0 ? (
+        {filteredAdmin.length === 0 ? (
           <div className="p-12 text-center">
             <User className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-500 text-lg">No users found</p>
+            <p className="text-gray-500 text-lg">No admin found</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
@@ -142,9 +173,9 @@ const UsersManager = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredUsers.map((user) => (
+                {filteredAdmin.map((user) => (
                   <tr
-                    key={user.id}
+                    key={user._id}
                     className="border-b border-gray-200 hover:bg-gray-50"
                   >
                     <td className="py-4 px-6">
@@ -159,7 +190,7 @@ const UsersManager = () => {
                             {user.name}
                           </div>
                           <div className="text-sm text-gray-600">
-                            ID: {user.id}
+                            ID: {user._id}
                           </div>
                         </div>
                       </div>
@@ -182,37 +213,15 @@ const UsersManager = () => {
                     <td className="py-4 px-6">
                       <div className="flex space-x-2">
                         <button
-                          onClick={() =>
-                            alert(
-                              "Edit user functionality would be implemented here"
-                            )
-                          }
+                          onClick={openModal}
                           className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                         >
                           <Edit size={16} />
                         </button>
                         <button
-                          onClick={() => {
-                            if (user.role === "admin") {
-                              alert("Cannot delete admin user");
-                              return;
-                            }
-                            if (
-                              window.confirm(
-                                "Are you sure you want to delete this user?"
-                              )
-                            ) {
-                              alert(
-                                "Delete user functionality would be implemented here"
-                              );
-                            }
-                          }}
-                          className={`p-2 rounded-lg transition-colors ${
-                            user.role === "admin"
-                              ? "text-gray-400 cursor-not-allowed"
-                              : "text-red-600 hover:bg-red-50"
-                          }`}
-                          disabled={user.role === "admin"}
+                          onClick={() => alert("Cannot delete admin")}
+                          className="p-2 rounded-lg text-gray-400 cursor-not-allowed"
+                          disabled
                         >
                           <Trash2 size={16} />
                         </button>
@@ -225,6 +234,58 @@ const UsersManager = () => {
           </div>
         )}
       </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md">
+            <h3 className="text-lg font-semibold mb-4">Update Admin Details</h3>
+            <div className="space-y-3">
+              <input
+                type="text"
+                placeholder="Name"
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
+                className="w-full border p-2 rounded"
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
+                className="w-full border p-2 rounded"
+              />
+              <input
+                type="text"
+                placeholder="Phone"
+                value={formData.phone}
+                onChange={(e) =>
+                  setFormData({ ...formData, phone: e.target.value })
+                }
+                className="w-full border p-2 rounded"
+              />
+              <div className="flex justify-end space-x-2 mt-2">
+                <button
+                  className="px-4 py-2 bg-gray-200 rounded"
+                  onClick={() => setIsModalOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-4 py-2 bg-blue-600 text-white rounded"
+                  onClick={handleUpdate}
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

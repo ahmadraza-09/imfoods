@@ -10,7 +10,9 @@ import {
 import { useAuth } from "../../contexts/AuthContext";
 
 const Sidebar = ({ activeTab, onTabChange, isOpen, onClose }) => {
-  const { logout, user } = useAuth();
+  const { logout } = useAuth();
+
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },

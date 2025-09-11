@@ -17,7 +17,7 @@ const PrivateLayout = () => {
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
   const getPageTitle = () => {
@@ -75,29 +75,29 @@ const PrivateLayout = () => {
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/*" element={<PrivateLayout />} />
+          {/* optional explicit route for dashboard */}
+          <Route path="/dashboard" element={<PrivateLayout />} />
         </Routes>
-      </BrowserRouter>
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-        gutter={8}
-        toastOptions={{
-          className: "",
-          duration: 5000,
-          removeDelay: 1000,
-          style: { background: "#fff", color: "#000" },
-          success: {
-            duration: 3000,
-            iconTheme: { primary: "green", secondary: "white" },
-          },
-        }}
-      />
-    </AuthProvider>
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+          gutter={8}
+          toastOptions={{
+            duration: 5000,
+            style: { background: "#fff", color: "#000" },
+            success: {
+              duration: 3000,
+              iconTheme: { primary: "green", secondary: "white" },
+            },
+          }}
+        />
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 
