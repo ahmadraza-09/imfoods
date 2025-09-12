@@ -47,16 +47,16 @@ const BlogDetailsPage = () => {
   return (
     <div className="bg-gray-50 min-h-screen py-30">
       <Helmet>
-        <title>{blog.title} | Food & Wellness Blog</title>
-        <meta name="description" content={metaDescription} />
+        <title>{blog.metaTitle} | Food & Wellness Blog</title>
+        <meta name="description" content={blog.metaDescription} />
         <meta
           name="keywords"
           content={`${blog.category}, ${blog.keywords?.join(
             ", "
           )}, Food, Wellness`}
         />
-        <meta property="og:title" content={blog.title} />
-        <meta property="og:description" content={metaDescription} />
+        <meta property="og:title" content={blog.metaTitle} />
+        <meta property="og:description" content={blog.metaDescription} />
         <meta property="og:image" content={blog.image} />
         <meta property="og:url" content={pageUrl} />
         <meta property="og:type" content="article" />
