@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Package, FileText, MessageSquare, Users, Star } from "lucide-react";
+import { Package, FileText, MessageSquare, Star } from "lucide-react";
 import StatsCard from "./StatsCard";
 import { storage } from "../../utils/storage";
 import { toast } from "react-hot-toast";
@@ -13,7 +13,6 @@ const DashboardOverview = () => {
   const [contacts, setContacts] = useState([]);
   const [blogs, setBlogs] = useState([]);
   const [recentActivities, setRecentActivities] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   // ✅ Fake growth percentage logic
   const calculateTrend = (current, previous) => {
@@ -46,6 +45,7 @@ const DashboardOverview = () => {
       setProducts(res.data);
     } catch (error) {
       toast.error("Failed to fetch product listings.");
+      console.error("Failed to fetch product listings.", error);
     }
   };
 
@@ -58,6 +58,7 @@ const DashboardOverview = () => {
       setContacts(res.data);
     } catch (error) {
       toast.error("Failed to fetch contact listings.");
+      console.error("Failed to fetch contact listings.", error);
     }
   };
 
@@ -68,6 +69,7 @@ const DashboardOverview = () => {
       setBlogs(res.data);
     } catch (error) {
       toast.error("Failed to fetch blog listings.");
+      console.error("Failed to fetch blog listings.", error);
     }
   };
 
@@ -79,6 +81,7 @@ const DashboardOverview = () => {
       // console.log(res.data);
     } catch (error) {
       toast.error("Failed to fetch recent activities.");
+      console.error("Failed to fetch recent activities.", error);
     }
   };
 
@@ -88,13 +91,6 @@ const DashboardOverview = () => {
     fetchActivities();
     fetchContacts();
   }, []);
-
-  // ✅ Map colors for Tailwind
-  const colorMap = {
-    product: "green",
-    blog: "purple",
-    query: "blue",
-  };
 
   return (
     <div className="space-y-8 p-6">

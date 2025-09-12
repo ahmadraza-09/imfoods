@@ -34,6 +34,7 @@ const ProductsManager = () => {
       setProducts((res.data || []).map((p) => ({ ...p, id: p._id })));
     } catch (error) {
       toast.error("Failed to fetch product listings.");
+      console.error("Failed to fetch product listings.", error);
     } finally {
       setLoading(false);
     }
@@ -68,6 +69,7 @@ const ProductsManager = () => {
       fetchProducts();
     } catch (error) {
       toast.error("Failed to save product.");
+      console.error("Failed to save product.", error);
     } finally {
       setIsModalOpen(false);
       setEditingProduct(null);
@@ -89,6 +91,7 @@ const ProductsManager = () => {
         toast.success("Product deleted successfully!");
       } catch (error) {
         toast.error("Failed to delete product.");
+        console.error("Failed to delete product.", error);
       }
     }
   };

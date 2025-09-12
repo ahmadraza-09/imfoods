@@ -29,6 +29,7 @@ const BlogManager = () => {
       );
     } catch (error) {
       toast.error("Failed to fetch blog listings.");
+      console.error("Failed to fetch blog listings.:", error);
     } finally {
       setLoading(false);
     }
@@ -52,6 +53,7 @@ const BlogManager = () => {
       fetchBlogs(); // refresh list
     } catch (error) {
       toast.error("Failed to save blog.");
+      console.error("Failed to save blog.", error);
     } finally {
       setIsModalOpen(false);
       setEditingBlog(null);
@@ -67,6 +69,7 @@ const BlogManager = () => {
         fetchBlogs(); // refresh list
       } catch (error) {
         toast.error("Failed to delete blog.");
+        console.error("Failed to delete blog.", error);
       }
     }
   };
@@ -80,13 +83,6 @@ const BlogManager = () => {
   });
 
   const categories = [...new Set(blogs.map((b) => b.category))];
-
-  const truncateContent = (content, maxLength = 150) => {
-    if (!content) return "";
-    return content.length <= maxLength
-      ? content
-      : content.substring(0, maxLength) + "...";
-  };
 
   return (
     <div className="space-y-6">

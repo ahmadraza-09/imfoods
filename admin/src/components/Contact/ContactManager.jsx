@@ -16,7 +16,6 @@ const ContactManager = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [selectedContact, setSelectedContact] = useState(null);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchContacts();
@@ -24,7 +23,6 @@ const ContactManager = () => {
 
   // Fetch contacts from backend
   const fetchContacts = async () => {
-    setLoading(true);
     try {
       const res = await axios.get(
         "http://localhost:8000/contact/getallcontacts"
@@ -32,8 +30,7 @@ const ContactManager = () => {
       setContacts(res.data);
     } catch (error) {
       toast.error("Failed to fetch contact listings.");
-    } finally {
-      setLoading(false);
+      console.error("Failed to fetch contact listings.", error);
     }
   };
 
@@ -65,6 +62,7 @@ const ContactManager = () => {
       toast.success("Contact status updated!");
     } catch (error) {
       toast.error("Failed to update status.");
+      console.error("Failed to update status.", error);
     }
   };
 
@@ -87,6 +85,7 @@ const ContactManager = () => {
       toast.success("Contact deleted successfully!");
     } catch (error) {
       toast.error("Failed to delete contact.");
+      console.error("Failed to delete contact.", error);
     }
   };
 

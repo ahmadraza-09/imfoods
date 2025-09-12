@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { X, RotateCw } from "lucide-react";
+import { X } from "lucide-react";
 
 const ProductModal = ({ product, onSave, onClose }) => {
   const [formData, setFormData] = useState({
