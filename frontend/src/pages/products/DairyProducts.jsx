@@ -85,7 +85,7 @@ const DairyProducts = () => {
         )}
 
         {/* Production Process */}
-        <section className="mt-16 bg-blue-50 rounded-2xl p-8">
+        <section className="mt-8 bg-blue-50 rounded-2xl p-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Our Dairy Production Process
@@ -99,7 +99,7 @@ const DairyProducts = () => {
         </section>
 
         {/* Why Our Dairy Products Stand Out */}
-        <div className="mt-20 bg-gradient-to-r from-blue-50 to-white rounded-3xl p-12">
+        <div className="mt-10 bg-gradient-to-r from-blue-50 to-white rounded-3xl p-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold text-gray-900 mb-8">
@@ -135,7 +135,7 @@ const DairyProducts = () => {
         </div>
 
         {/* Dairy Types */}
-        <div className="mt-20 bg-white rounded-3xl p-12 shadow-lg">
+        <div className="mt-10 bg-white rounded-3xl p-6 shadow-lg">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
               Explore Our Dairy Range
@@ -169,7 +169,7 @@ const DairyProducts = () => {
         </div>
 
         {/* Health Benefits */}
-        <div className="mt-20 bg-gradient-to-r from-blue-50 to-white rounded-3xl p-12 shadow-lg">
+        <div className="mt-10 bg-gradient-to-r from-blue-50 to-white rounded-3xl p-6 shadow-lg">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
               Health Benefits of Dairy

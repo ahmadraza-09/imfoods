@@ -89,7 +89,7 @@ const Coffee = () => {
         )}
 
         {/* Roasting Process */}
-        <section className="mt-16 bg-amber-50 rounded-2xl p-8">
+        <section className="mt-8 bg-amber-50 rounded-2xl p-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Perfect Roasting Process
@@ -103,7 +103,7 @@ const Coffee = () => {
         </section>
 
         {/* Why Our Coffee Stands Out */}
-        <div className="mt-20 bg-gradient-to-r from-yellow-50 to-amber-50 rounded-3xl p-12">
+        <div className="mt-10 bg-gradient-to-r from-yellow-50 to-amber-50 rounded-3xl p-12">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold text-gray-900 mb-8">
@@ -154,7 +154,7 @@ const Coffee = () => {
         </div>
 
         {/* Coffee Origins Map */}
-        <div className="mt-20 bg-white rounded-3xl p-12 shadow-lg">
+        <div className="mt-10 bg-white rounded-3xl p-6 shadow-lg">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
               Sourced from the World&apos;s Best Coffee Regions
@@ -191,7 +191,7 @@ const Coffee = () => {
         </div>
 
         {/* Benefits of Coffee */}
-        <div className="mt-20 bg-gradient-to-r from-amber-50 to-white rounded-3xl p-12 shadow-lg">
+        <div className="mt-10 bg-gradient-to-r from-amber-50 to-white rounded-3xl p-6 shadow-lg">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
               Health Benefits of Coffee

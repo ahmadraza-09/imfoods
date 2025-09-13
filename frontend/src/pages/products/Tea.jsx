@@ -89,7 +89,7 @@ const Tea = () => {
         )}
 
         {/* Farm to Cup Section */}
-        <section className="mt-16 bg-green-50 rounded-2xl p-8">
+        <section className="mt-8 bg-green-50 rounded-2xl p-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Farm to Cup Freshness
@@ -103,7 +103,7 @@ const Tea = () => {
         </section>
 
         {/* Health Benefits Section */}
-        <section className="mt-16 bg-white shadow-lg rounded-2xl p-8">
+        <section className="mt-8 bg-white shadow-lg rounded-2xl p-8">
           <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
             Health Benefits of Our Teas
           </h2>
@@ -117,7 +117,7 @@ const Tea = () => {
         </section>
 
         {/* Why Choose Our Tea */}
-        <section className="mt-16 bg-green-50 rounded-2xl p-8">
+        <section className="mt-8 bg-green-50 rounded-2xl p-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold text-gray-900 mb-8">
@@ -144,7 +144,7 @@ const Tea = () => {
         </section>
 
         {/* Sourced Regions */}
-        <section className="mt-16 bg-white rounded-3xl p-12 shadow-lg">
+        <section className="mt-8 bg-white rounded-3xl p-6 shadow-lg">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
               Sourced from Renowned Tea Regions

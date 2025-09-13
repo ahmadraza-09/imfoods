@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Footer = () => {
   const navigate = useNavigate();
   return (
-    <footer className="bg-gray-900 text-white py-16">
+    <footer className="bg-gray-900 text-white py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
@@ -169,19 +169,29 @@ const Footer = () => {
             <div className="text-gray-400 space-y-4">
               <div>
                 <p className="font-medium text-white mb-1">Email</p>
-                <p>info@imfoods.com</p>
+                <a
+                  href="mailto:contact@imfoodss.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-green-400 transition-colors"
+                >
+                  contact@imfoodss.com
+                </a>
               </div>
               <div>
                 <p className="font-medium text-white mb-1">Phone</p>
-                <p>+1 (555) 123-4567</p>
+                <a
+                  href="tel:+919667866491"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-green-400 transition-colors"
+                >
+                  +919667866491
+                </a>
               </div>
               <div>
                 <p className="font-medium text-white mb-1">Address</p>
-                <p>
-                  123 Fresh Market Street
-                  <br />
-                  Farm City, FC 12345
-                </p>
+                <p>Delhi</p>
               </div>
             </div>
           </div>

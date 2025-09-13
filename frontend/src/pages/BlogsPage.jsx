@@ -99,7 +99,7 @@ const Blogs = () => {
           breadcrumbs={[{ label: "Home", path: "/" }, { label: "Blogs" }]}
         />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Header */}
           <div className="text-center mb-16">
             <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
@@ -156,7 +156,7 @@ const Blogs = () => {
 
               {/* Blog Grid */}
               {filteredBlogs.length > 1 && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-20">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mb-10">
                   {filteredBlogs.slice(1).map((post) => (
                     <BlogCard key={post._id || post.id} {...post} />
                   ))}

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import ProductCard from "../../components/ProductCard";
-import { Filter, Grid, List } from "lucide-react";
 import Banner from "../../components/Banner";
 import { Helmet } from "react-helmet";
 import axios from "axios";
@@ -62,7 +61,7 @@ const Spices = () => {
       />
 
       {/* Page Content (kept same) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="text-center mb-16">
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
@@ -71,33 +70,6 @@ const Spices = () => {
             selected, processed, and packaged to preserve its natural oils,
             aroma, and flavor intensity.
           </p>
-        </div>
-        {/* Filters and Controls */}
-        <div className="flex flex-col lg:flex-row justify-between items-center mb-12 bg-white p-6 rounded-2xl shadow-md">
-          <div className="flex flex-wrap gap-3 mb-4 lg:mb-0">
-            {/* {spices.map((spice) => (
-              <button
-                key={spice._id}
-                className="px-4 py-2 rounded-full border border-green-200 text-green-700 hover:bg-green-700 hover:text-white transition-all duration-200 font-medium text-sm"
-              >
-                {spice.badge}
-              </button>
-            ))} */}
-          </div>
-          <div className="flex items-center space-x-4">
-            <button className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-              <Filter className="h-4 w-4" />
-              <span>Filter</span>
-            </button>
-            <div className="flex border border-gray-300 rounded-lg overflow-hidden">
-              <button className="p-2 bg-green-700 text-white">
-                <Grid className="h-4 w-4" />
-              </button>
-              <button className="p-2 hover:bg-gray-50 transition-colors">
-                <List className="h-4 w-4" />
-              </button>
-            </div>
-          </div>
         </div>
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 mb-16">
@@ -176,7 +148,7 @@ const Spices = () => {
           </div>{" "}
         </div>{" "}
         {/* Spice Origins Map */}{" "}
-        <div className="mt-20 bg-white rounded-3xl p-12 shadow-lg">
+        <div className="mt-10 bg-white rounded-3xl p-8 shadow-lg">
           {" "}
           <div className="text-center mb-12">
             {" "}

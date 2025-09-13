@@ -81,7 +81,7 @@ const Oil = () => {
         </div>
 
         {/* Farm to Table Section */}
-        <section className="mt-16 bg-orange-50 rounded-2xl p-8">
+        <section className="mt-8 bg-orange-50 rounded-2xl p-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Farm to Table Freshness
@@ -95,7 +95,7 @@ const Oil = () => {
         </section>
 
         {/* Benefits Section */}
-        <section className="mt-16 bg-white shadow-lg rounded-2xl p-8">
+        <section className="mt-8 bg-white shadow-lg rounded-2xl p-4">
           <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">
             Benefits of Our Oils
           </h2>
@@ -109,7 +109,7 @@ const Oil = () => {
         </section>
 
         {/* Why Choose Our Oils */}
-        <section className="mt-16 bg-orange-50 rounded-2xl p-8">
+        <section className="mt-8 bg-orange-50 rounded-2xl p-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold text-gray-900 mb-8">
@@ -136,7 +136,7 @@ const Oil = () => {
         </section>
 
         {/* Sourced Regions */}
-        <section className="mt-16 bg-white rounded-3xl p-12 shadow-lg">
+        <section className="mt-8 bg-white rounded-3xl p-6 shadow-lg">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
               Sourced from the World&apos;s Finest Oil Regions

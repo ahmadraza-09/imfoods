@@ -6,7 +6,7 @@ const ContactUsSection = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="py-20 bg-gradient-to-br from-yellow-50 to-orange-100">
+    <section className="py-10 bg-gradient-to-br from-yellow-50 to-orange-100">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
         {/* Left Content */}
         <div>

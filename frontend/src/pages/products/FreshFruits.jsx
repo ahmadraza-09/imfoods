@@ -95,7 +95,7 @@ const FreshFruits = () => {
         )}
 
         {/* Farm to Table Section */}
-        <section className="mt-16 bg-orange-50 rounded-2xl p-8">
+        <section className="mt-8 bg-orange-50 rounded-2xl p-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Farm to Table Freshness
@@ -109,7 +109,7 @@ const FreshFruits = () => {
         </section>
 
         {/* Why Our Fruits Stand Out */}
-        <div className="bg-gradient-to-r from-green-50 to-orange-50 rounded-3xl p-12 mt-16">
+        <div className="bg-gradient-to-r from-green-50 to-orange-50 rounded-3xl p-12 mt-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold text-gray-900 mb-8">
@@ -149,7 +149,7 @@ const FreshFruits = () => {
         </div>
 
         {/* Sourced from the World’s Best Fruit Regions */}
-        <div className="mt-20 bg-white rounded-3xl p-12 shadow-lg">
+        <div className="mt-10 bg-white rounded-3xl p-8 shadow-lg">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
               Sourced from the World’s Best Fruit Regions
@@ -179,7 +179,7 @@ const FreshFruits = () => {
         </div>
 
         {/* Health Benefits Section */}
-        <section className="mt-20 bg-gradient-to-r from-pink-50 to-yellow-50 rounded-3xl p-12">
+        <section className="mt-10 bg-gradient-to-r from-pink-50 to-yellow-50 rounded-3xl p-12">
           <div className="text-center">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">
               Health Benefits of Fresh Fruits

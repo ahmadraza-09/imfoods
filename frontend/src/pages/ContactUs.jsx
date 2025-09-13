@@ -19,10 +19,10 @@ const ContactUs = () => {
     {
       icon: MapPin,
       title: "Address",
-      info: "123 Fresh Market Street, Farm City, FC 12345",
+      info: "Delhi",
     },
-    { icon: Phone, title: "Phone", info: "+1 (555) 123-4567" },
-    { icon: Mail, title: "Email", info: "info@imfoods.com" },
+    { icon: Phone, title: "Phone", info: "+919667866491" },
+    { icon: Mail, title: "Email", info: "contact@imfoodss.com" },
     {
       icon: Clock,
       title: "Business Hours",

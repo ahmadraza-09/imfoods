@@ -40,8 +40,6 @@ const BlogDetailsPage = () => {
   if (!blog) {
     return <p className="text-center mt-10 text-red-500">Blog not found!</p>;
   }
-
-  const metaDescription = blog.content.split("\n")[0].slice(0, 160) + "...";
   const pageUrl = `https://imfoods.com/blog/${blog._id}`;
 
   return (
