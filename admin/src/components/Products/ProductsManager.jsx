@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { toast } from "react-hot-toast";
 import ProductModal from "./ProductModal";
+import ConfirmModal from "../Modal/ConfirmModal"; // 🔥 add confirm modal
 
 const ProductsManager = () => {
   const [products, setProducts] = useState([]);
@@ -20,6 +21,11 @@ const ProductsManager = () => {
   const [categoryFilter, setCategoryFilter] = useState("");
   const [viewMode, setViewMode] = useState("grid");
   const [loading, setLoading] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
+
+  // confirmation modal states
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
 
   useEffect(() => {
     fetchProducts();
@@ -49,7 +55,7 @@ const ProductsManager = () => {
       formData.append("badge", productData.badge);
       formData.append("inStock", productData.inStock);
       if (productData.image) {
-        formData.append("image", productData.image); // file object
+        formData.append("image", productData.image);
       }
 
       if (editingProduct) {
@@ -81,18 +87,28 @@ const ProductsManager = () => {
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (productId) => {
-    if (window.confirm("Are you sure you want to delete this product?")) {
-      try {
-        await axios.delete(
-          `http://localhost:8000/product/deleteproduct/${productId}`
-        );
-        setProducts(products.filter((p) => p.id !== productId));
-        toast.success("Product deleted successfully!");
-      } catch (error) {
-        toast.error("Failed to delete product.");
-        console.error("Failed to delete product.", error);
-      }
+  // open confirm modal
+  const handleDeleteClick = (productId) => {
+    setProductToDelete(productId);
+    setConfirmModalOpen(true);
+  };
+
+  // confirm delete
+  const confirmDelete = async () => {
+    try {
+      setDeletingId(productToDelete);
+      await axios.delete(
+        `http://localhost:8000/product/deleteproduct/${productToDelete}`
+      );
+      setProducts(products.filter((p) => p.id !== productToDelete));
+      toast.success("Product deleted successfully!");
+    } catch (error) {
+      toast.error("Failed to delete product.");
+      console.error("Failed to delete product.", error);
+    } finally {
+      setDeletingId(null);
+      setConfirmModalOpen(false);
+      setProductToDelete(null);
     }
   };
 
@@ -266,10 +282,19 @@ const ProductsManager = () => {
                         <Edit size={16} />
                       </button>
                       <button
-                        onClick={() => handleDelete(product.id)}
-                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                        onClick={() => handleDeleteClick(product.id)} // ✅ fixed here
+                        disabled={deletingId === product.id}
+                        className={`p-2 rounded-lg transition-colors ${
+                          deletingId === product.id
+                            ? "text-gray-400 bg-gray-100 cursor-not-allowed"
+                            : "text-red-600 hover:bg-red-50"
+                        }`}
                       >
-                        <Trash2 size={16} />
+                        {deletingId === product.id ? (
+                          <div className="w-4 h-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin"></div>
+                        ) : (
+                          <Trash2 size={16} />
+                        )}
                       </button>
                     </div>
                   </div>
@@ -353,10 +378,19 @@ const ProductsManager = () => {
                           <Edit size={16} />
                         </button>
                         <button
-                          onClick={() => handleDelete(product.id)}
-                          className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          onClick={() => handleDeleteClick(product.id)} // ✅ use this
+                          disabled={deletingId === product.id}
+                          className={`p-2 rounded-lg transition-colors ${
+                            deletingId === product.id
+                              ? "text-gray-400 bg-gray-100 cursor-not-allowed"
+                              : "text-red-600 hover:bg-red-50"
+                          }`}
                         >
-                          <Trash2 size={16} />
+                          {deletingId === product.id ? (
+                            <div className="w-4 h-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin"></div>
+                          ) : (
+                            <Trash2 size={16} />
+                          )}
                         </button>
                       </div>
                     </td>
@@ -370,6 +404,29 @@ const ProductsManager = () => {
           </div>
         )}
       </div>
+
+      {isModalOpen && (
+        <ProductModal
+          product={editingProduct}
+          onSave={handleSave}
+          onClose={() => {
+            setIsModalOpen(false);
+            setEditingProduct(null);
+          }}
+        />
+      )}
+
+      {/* Confirmation Modal */}
+      <ConfirmModal
+        isOpen={confirmModalOpen}
+        title="Delete Product"
+        message="Are you sure you want to delete this product? This action cannot be undone."
+        onConfirm={confirmDelete}
+        onCancel={() => {
+          setConfirmModalOpen(false);
+          setProductToDelete(null);
+        }}
+      />
 
       {isModalOpen && (
         <ProductModal

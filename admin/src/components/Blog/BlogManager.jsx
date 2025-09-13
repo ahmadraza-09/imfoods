@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Plus, Search, Edit, Trash2 } from "lucide-react";
 import BlogModal from "./BlogModal";
+import ConfirmModal from "../Modal/ConfirmModal";
 import axios from "axios";
 import toast from "react-hot-toast";
 
@@ -11,6 +12,9 @@ const BlogManager = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [loading, setLoading] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [selectedBlogId, setSelectedBlogId] = useState(null);
 
   useEffect(() => {
     fetchBlogs();
@@ -61,16 +65,27 @@ const BlogManager = () => {
   };
 
   // ✅ Delete Blog
-  const handleDelete = async (blogId) => {
-    if (window.confirm("Are you sure you want to delete this blog post?")) {
-      try {
-        await axios.delete(`http://localhost:8000/blog/deleteblog/${blogId}`);
-        toast.success("Blog deleted successfully!");
-        fetchBlogs(); // refresh list
-      } catch (error) {
-        toast.error("Failed to delete blog.");
-        console.error("Failed to delete blog.", error);
-      }
+  const confirmDelete = (blogId) => {
+    setSelectedBlogId(blogId);
+    setConfirmOpen(true);
+  };
+
+  const handleDelete = async () => {
+    if (!selectedBlogId) return;
+    try {
+      setDeletingId(selectedBlogId); // start loading
+      await axios.delete(
+        `http://localhost:8000/blog/deleteblog/${selectedBlogId}`
+      );
+      toast.success("Blog deleted successfully!");
+      fetchBlogs(); // refresh list
+    } catch (error) {
+      toast.error("Failed to delete blog.");
+      console.error("Failed to delete blog.", error);
+    } finally {
+      setDeletingId(null); // stop loading
+      setConfirmOpen(false);
+      setSelectedBlogId(null);
     }
   };
 
@@ -188,10 +203,6 @@ const BlogManager = () => {
                     {blog.description}
                   </p>
 
-                  {/* <div className="text-gray-500 text-sm mb-4 line-clamp-3">
-                    {truncateContent(blog.content?.replace(/[#*`]/g, ""))}
-                  </div> */}
-
                   <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
                     <span>By {blog.author}</span>
                     <span>{blog.category}</span>
@@ -217,10 +228,19 @@ const BlogManager = () => {
                       <span>Edit</span>
                     </button>
                     <button
-                      onClick={() => handleDelete(blog.id)}
-                      className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      onClick={() => confirmDelete(blog.id)}
+                      disabled={deletingId === blog.id}
+                      className={`p-2 rounded-lg transition-colors ${
+                        deletingId === blog.id
+                          ? "text-gray-400 bg-gray-100 cursor-not-allowed"
+                          : "text-red-600 hover:bg-red-50"
+                      }`}
                     >
-                      <Trash2 size={16} />
+                      {deletingId === blog.id ? (
+                        <div className="w-4 h-4 border-2 border-red-600 border-t-transparent rounded-full animate-spin"></div>
+                      ) : (
+                        <Trash2 size={16} />
+                      )}
                     </button>
                   </div>
                 </div>
@@ -241,6 +261,18 @@ const BlogManager = () => {
           }}
         />
       )}
+
+      {/* Confirmation Modal */}
+      <ConfirmModal
+        isOpen={confirmOpen}
+        title="Confirm Deletion"
+        message="Are you sure you want to delete this blog post? This action cannot be undone."
+        onConfirm={handleDelete}
+        onCancel={() => {
+          setConfirmOpen(false);
+          setSelectedBlogId(null);
+        }}
+      />
     </div>
   );
 };

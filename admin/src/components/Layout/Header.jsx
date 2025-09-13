@@ -78,7 +78,7 @@ const Header = ({ onMenuClick, title }) => {
   };
 
   return (
-    <header className="bg-white/90 backdrop-blur-md shadow-md border-b border-gray-200 px-6 py-4 sticky top-0 z-50">
+    <header className="bg-white/90 backdrop-blur-md shadow-md border-b border-gray-200 px-2 sm:px-6 py-4 sticky top-0 z-50">
       <div className="flex items-center justify-between relative">
         {/* Left */}
         <div className="flex items-center space-x-4">

@@ -15,6 +15,7 @@ const BlogModal = ({ blog, onSave, onClose }) => {
     image: null,
   });
 
+  const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -28,11 +29,25 @@ const BlogModal = ({ blog, onSave, onClose }) => {
         badge: blog.badge || "",
         metaTitle: blog.metaTitle || "",
         metaDescription: blog.metaDescription || "",
-        keywords: blog.keywords?.join(", ") || "",
+        keywords: blog.keywords?.join(",") || "",
         image: null,
       });
+      setPreview(blog.image || null);
     }
   }, [blog]);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData({ ...formData, image: file });
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleKeywordsChange = (e) => {
+    const value = e.target.value.replace(/\s+/g, ""); // remove spaces
+    setFormData({ ...formData, keywords: value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,7 +70,7 @@ const BlogModal = ({ blog, onSave, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
+    <div className="fixed inset-0 z-52 flex items-center justify-center p-4 bg-black/30 backdrop-blur-xs">
       <div className="bg-white rounded-lg w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-lg relative">
         <div className="flex items-center justify-between p-4 border-b">
           <h3 className="text-xl font-semibold">
@@ -73,9 +88,12 @@ const BlogModal = ({ blog, onSave, onClose }) => {
         <form onSubmit={handleSubmit} className="p-4 space-y-4">
           {/* Title */}
           <div>
-            <label className="block text-sm font-medium mb-2">Title *</label>
+            <label className="block text-sm font-medium mb-2">
+              Title * (max 60 chars)
+            </label>
             <input
               type="text"
+              maxLength={60}
               placeholder="Enter blog title"
               value={formData.title}
               onChange={(e) =>
@@ -84,21 +102,28 @@ const BlogModal = ({ blog, onSave, onClose }) => {
               className="w-full border p-2 rounded"
               required
             />
+            <p className="text-xs text-gray-500">
+              {formData.title.length}/60 characters
+            </p>
           </div>
 
           {/* Description */}
           <div>
             <label className="block text-sm font-medium mb-2">
-              Description
+              Description (max 160 chars)
             </label>
             <textarea
               placeholder="Short description"
+              maxLength={160}
               value={formData.description}
               onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })
               }
               className="w-full border p-2 rounded"
             />
+            <p className="text-xs text-gray-500">
+              {formData.description.length}/160 characters
+            </p>
           </div>
 
           {/* Content */}
@@ -121,11 +146,18 @@ const BlogModal = ({ blog, onSave, onClose }) => {
             <input
               type="file"
               accept="image/*"
-              onChange={(e) =>
-                setFormData({ ...formData, image: e.target.files[0] })
-              }
+              onChange={handleImageChange}
               className="w-full border p-2 rounded"
             />
+            {preview && (
+              <div className="mt-2">
+                <img
+                  src={preview}
+                  alt="Preview"
+                  className="w-40 h-40 object-cover rounded border"
+                />
+              </div>
+            )}
           </div>
 
           {/* Category Dropdown */}
@@ -183,9 +215,12 @@ const BlogModal = ({ blog, onSave, onClose }) => {
 
           {/* Meta Title */}
           <div>
-            <label className="block text-sm font-medium mb-2">Meta Title</label>
+            <label className="block text-sm font-medium mb-2">
+              Meta Title (max 60 chars)
+            </label>
             <input
               type="text"
+              maxLength={60}
               placeholder="Meta title for SEO"
               value={formData.metaTitle}
               onChange={(e) =>
@@ -193,15 +228,19 @@ const BlogModal = ({ blog, onSave, onClose }) => {
               }
               className="w-full border p-2 rounded"
             />
+            <p className="text-xs text-gray-500">
+              {formData.metaTitle.length}/60 characters
+            </p>
           </div>
 
           {/* Meta Description */}
           <div>
             <label className="block text-sm font-medium mb-2">
-              Meta Description
+              Meta Description (max 160 chars)
             </label>
             <input
               type="text"
+              maxLength={160}
               placeholder="Meta description for SEO"
               value={formData.metaDescription}
               onChange={(e) =>
@@ -209,39 +248,55 @@ const BlogModal = ({ blog, onSave, onClose }) => {
               }
               className="w-full border p-2 rounded"
             />
+            <p className="text-xs text-gray-500">
+              {formData.metaDescription.length}/160 characters
+            </p>
           </div>
 
           {/* Keywords */}
           <div>
             <label className="block text-sm font-medium mb-2">
-              Keywords (comma separated)
+              Keywords (comma separated, no spaces)
             </label>
             <input
               type="text"
-              placeholder="e.g., food, spices, organic"
+              placeholder="e.g.,food,spices,organic"
               value={formData.keywords}
-              onChange={(e) =>
-                setFormData({ ...formData, keywords: e.target.value })
-              }
+              onChange={handleKeywordsChange}
               className="w-full border p-2 rounded"
             />
           </div>
 
-          {/* Submit */}
-          <button
-            type="submit"
-            disabled={loading}
-            className={`px-4 py-2 rounded text-white flex items-center gap-2 ${
-              loading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-green-700 hover:bg-blue-800"
-            }`}
-          >
-            {loading && (
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            )}
-            {loading ? "Saving..." : blog ? "Update Blog" : "Publish Blog"}
-          </button>
+          {/* Buttons */}
+          <div className="flex justify-end space-x-3 pt-4 border-t">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className={`px-4 py-2 rounded text-white flex items-center gap-2 ${
+                loading
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-green-700 hover:bg-green-800"
+              }`}
+            >
+              {loading ? (
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>{" "}
+                  {blog ? "Updating..." : "Publishing..."}
+                </div>
+              ) : blog ? (
+                "Update"
+              ) : (
+                "Publish"
+              )}
+            </button>
+          </div>
         </form>
       </div>
     </div>

@@ -71,7 +71,7 @@ const ProductModal = ({ product, onSave, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
+    <div className="fixed inset-0 z-52 flex items-center justify-center p-4 bg-black/30 backdrop-blur-xs">
       <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-lg">
         <div className="flex items-center justify-between p-6 border-b">
           <h3 className="text-xl font-semibold text-gray-800">
@@ -219,10 +219,10 @@ const ProductModal = ({ product, onSave, onClose }) => {
               className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 transition-colors flex items-center justify-center disabled:opacity-50"
             >
               {loading ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>{" "}
                   {product ? "Updating..." : "Saving..."}
-                </>
+                </div>
               ) : product ? (
                 "Update Product"
               ) : (
