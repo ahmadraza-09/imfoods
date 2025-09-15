@@ -4,6 +4,7 @@ import Banner from "../../components/Banner";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import ProductCard from "../../components/ProductCard";
+const API_URL = process.env.BACKEND_URL;
 
 const Coffee = () => {
   const [coffees, setCoffees] = useState([]);
@@ -14,7 +15,7 @@ const Coffee = () => {
     setLoading(true);
     try {
       const res = await axios.get(
-        `http://localhost:8000/product/getallproducts?category=coffee`
+        `${API_URL}/product/getallproducts?category=coffee`
       );
 
       const filtered = (res.data || [])

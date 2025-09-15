@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import ProductCard from "../../components/ProductCard";
 import axios from "axios";
+const API_URL = process.env.BACKEND_URL;
 
 const FreshVegetables = () => {
   const [vegetables, setVegetables] = useState([]);
@@ -12,7 +13,7 @@ const FreshVegetables = () => {
   const fetchProducts = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8000/product/getallproducts?category=vegetable`
+        `${API_URL}/product/getallproducts?category=vegetable`
       );
 
       const filtered = (res.data || [])

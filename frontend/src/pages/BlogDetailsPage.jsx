@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import { Calendar, User, Tag } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+const API_URL = process.env.BACKEND_URL;
 
 const BlogDetailsPage = () => {
   const { title } = useParams();
@@ -17,7 +18,7 @@ const BlogDetailsPage = () => {
       try {
         const decodedTitle = title.replace(/-/g, " "); // convert URL format back to normal
         const res = await axios.get(
-          `http://localhost:8000/blog/getblogbytitle?title=${encodeURIComponent(
+          `${API_URL}/blog/getblogbytitle?title=${encodeURIComponent(
             decodedTitle
           )}`
         );

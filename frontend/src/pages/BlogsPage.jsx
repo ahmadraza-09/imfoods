@@ -8,6 +8,8 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import ScrollToTop from "../components/ScrollToTop";
 
+const API_URL = process.env.BACKEND_URL;
+
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,7 +33,7 @@ const Blogs = () => {
   const fetchBlogs = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:8000/blog/getallblogs");
+      const res = await axios.get(`${API_URL}/blog/getallblogs`);
       setBlogs(res.data || []);
     } catch (error) {
       toast.error("Failed to fetch blogs.");

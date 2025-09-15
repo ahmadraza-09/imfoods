@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import ProductCard from "../../components/ProductCard";
+const API_URL = process.env.BACKEND_URL;
 
 const Grains = () => {
   const [grains, setGrains] = useState([]);
@@ -12,7 +13,7 @@ const Grains = () => {
   const fetchProducts = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8000/product/getallproducts?category=grain`
+        `${API_URL}/product/getallproducts?category=grain`
       );
 
       const filtered = (res.data || [])

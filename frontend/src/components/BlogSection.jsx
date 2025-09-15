@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { CircleChevronRight } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+const API_URL = process.env.BACKEND_URL;
 
 const BlogSection = () => {
   const [blogs, setBlogs] = useState([]);
@@ -12,7 +13,7 @@ const BlogSection = () => {
   const fetchBlogs = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:8000/blog/getallblogs");
+      const res = await axios.get(`${API_URL}/blog/getallblogs`);
       // Filter out featured blogs and take only first 3
       const regularBlogs = res.data
         .filter((blog) => !blog.featured)

@@ -4,6 +4,7 @@ import Banner from "../../components/Banner";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+const API_URL = process.env.BACKEND_URL;
 
 const Spices = () => {
   const [spices, setSpices] = useState([]);
@@ -12,7 +13,7 @@ const Spices = () => {
   const fetchProducts = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8000/product/getallproducts?category=spice`
+        `${API_URL}/product/getallproducts?category=spice`
       );
 
       // ✅ Ensure only spice category comes in state

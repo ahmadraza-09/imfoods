@@ -5,6 +5,8 @@ import Banner from "../components/Banner";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
+const API_URL = process.env.BACKEND_URL;
+
 const ContactUs = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -47,10 +49,7 @@ const ContactUs = () => {
     }
 
     try {
-      const res = await axios.post(
-        "http://localhost:8000/contact/addcontact",
-        formData
-      );
+      const res = await axios.post(`${API_URL}/contact/addcontact`, formData);
 
       if (res.data.status === 200) {
         toast.success("Message Sent Successfully");
