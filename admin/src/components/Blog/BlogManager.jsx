@@ -4,6 +4,7 @@ import BlogModal from "./BlogModal";
 import ConfirmModal from "../Modal/ConfirmModal";
 import axios from "axios";
 import toast from "react-hot-toast";
+const API_URL = process.env.BACKEND_URL;
 
 const BlogManager = () => {
   const [blogs, setBlogs] = useState([]);
@@ -24,7 +25,7 @@ const BlogManager = () => {
   const fetchBlogs = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:8000/blog/getallblogs");
+      const res = await axios.get(`${API_URL}/blog/getallblogs`);
       setBlogs(
         (res.data || []).map((p) => ({
           ...p,
@@ -45,13 +46,13 @@ const BlogManager = () => {
       if (editingBlog) {
         // Update blog
         await axios.put(
-          `http://localhost:8000/blog/updateblog/${editingBlog.id}`,
+          `${API_URL}/blog/updateblog/${editingBlog.id}`,
           blogData
         );
         toast.success("Blog updated successfully!");
       } else {
         // Add blog
-        await axios.post("http://localhost:8000/blog/addblog", blogData);
+        await axios.post(`${API_URL}/blog/addblog`, blogData);
         toast.success("Blog added successfully!");
       }
       fetchBlogs(); // refresh list
@@ -74,9 +75,7 @@ const BlogManager = () => {
     if (!selectedBlogId) return;
     try {
       setDeletingId(selectedBlogId); // start loading
-      await axios.delete(
-        `http://localhost:8000/blog/deleteblog/${selectedBlogId}`
-      );
+      await axios.delete(`${API_URL}/blog/deleteblog/${selectedBlogId}`);
       toast.success("Blog deleted successfully!");
       fetchBlogs(); // refresh list
     } catch (error) {

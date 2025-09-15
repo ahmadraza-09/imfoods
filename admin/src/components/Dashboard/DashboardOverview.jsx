@@ -4,6 +4,7 @@ import StatsCard from "./StatsCard";
 import { storage } from "../../utils/storage";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+const API_URL = process.env.BACKEND_URL;
 
 const DashboardOverview = () => {
   // const contacts = storage.getContacts();
@@ -39,9 +40,7 @@ const DashboardOverview = () => {
   // 📌 Fetch products
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:8000/product/getallproducts"
-      );
+      const res = await axios.get(`${API_URL}/product/getallproducts`);
       setProducts(res.data);
     } catch (error) {
       toast.error("Failed to fetch product listings.");
@@ -52,9 +51,7 @@ const DashboardOverview = () => {
   // 📌 Fetch products
   const fetchContacts = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:8000/contact/getallcontacts"
-      );
+      const res = await axios.get(`${API_URL}/contact/getallcontacts`);
       setContacts(res.data);
     } catch (error) {
       toast.error("Failed to fetch contact listings.");
@@ -65,7 +62,7 @@ const DashboardOverview = () => {
   // 📌 Fetch blogs
   const fetchBlogs = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/blog/getallblogs");
+      const res = await axios.get(`${API_URL}/blog/getallblogs`);
       setBlogs(res.data);
     } catch (error) {
       toast.error("Failed to fetch blog listings.");
@@ -76,7 +73,7 @@ const DashboardOverview = () => {
   // 📌 Fetch recent activities
   const fetchActivities = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/activity/");
+      const res = await axios.get(`${API_URL}/activity/`);
       setRecentActivities(res.data.slice(0, 5)); // show latest 5
       // console.log(res.data);
     } catch (error) {

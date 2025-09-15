@@ -3,6 +3,8 @@ import { Search, Edit, Trash2, Shield, User } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
+const API_URL = process.env.BACKEND_URL;
+
 const UsersManager = () => {
   const [admin, setAdmin] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,7 +21,7 @@ const UsersManager = () => {
 
   const loadAdmin = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/auth/getalladmin");
+      const res = await axios.get(`${API_URL}/auth/getalladmin`);
       if (res.data && res.data.length > 0) {
         setAdmin(res.data[0]);
       }
@@ -47,7 +49,7 @@ const UsersManager = () => {
       };
 
       const res = await axios.put(
-        `http://localhost:8000/auth/updateadmin/${admin._id}`,
+        `${API_URL}/auth/updateadmin/${admin._id}`,
         payload
       );
 

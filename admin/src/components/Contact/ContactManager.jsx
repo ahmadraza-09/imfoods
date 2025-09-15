@@ -10,6 +10,7 @@ import {
   CheckCircle,
   MessageSquare,
 } from "lucide-react";
+const API_URL = process.env.BACKEND_URL;
 
 const ContactManager = () => {
   const [contacts, setContacts] = useState([]);
@@ -24,9 +25,7 @@ const ContactManager = () => {
   // Fetch contacts from backend
   const fetchContacts = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:8000/contact/getallcontacts"
-      );
+      const res = await axios.get(`${API_URL}/contact/getallcontacts`);
       setContacts(res.data);
     } catch (error) {
       toast.error("Failed to fetch contact listings.");
@@ -37,12 +36,9 @@ const ContactManager = () => {
   // Update status in backend
   const updateContactStatus = async (contactId, newStatus) => {
     try {
-      await axios.put(
-        `http://localhost:8000/contact/updatecontact/${contactId}`,
-        {
-          status: newStatus,
-        }
-      );
+      await axios.put(`${API_URL}/contact/updatecontact/${contactId}`, {
+        status: newStatus,
+      });
 
       const updatedContacts = contacts.map((contact) =>
         contact._id === contactId
@@ -69,9 +65,7 @@ const ContactManager = () => {
   // Delete contact in backend
   const deleteContact = async (contactId) => {
     try {
-      await axios.delete(
-        `http://localhost:8000/contact/deletecontact/${contactId}`
-      );
+      await axios.delete(`${API_URL}/contact/deletecontact/${contactId}`);
 
       const updatedContacts = contacts.filter(
         (contact) => contact._id !== contactId

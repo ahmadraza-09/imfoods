@@ -13,6 +13,8 @@ import { toast } from "react-hot-toast";
 import ProductModal from "./ProductModal";
 import ConfirmModal from "../Modal/ConfirmModal"; // 🔥 add confirm modal
 
+const API_URL = process.env.BACKEND_URL;
+
 const ProductsManager = () => {
   const [products, setProducts] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,9 +36,7 @@ const ProductsManager = () => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(
-        "http://localhost:8000/product/getallproducts"
-      );
+      const res = await axios.get(`${API_URL}/product/getallproducts`);
       setProducts((res.data || []).map((p) => ({ ...p, id: p._id })));
     } catch (error) {
       toast.error("Failed to fetch product listings.");
@@ -60,13 +60,13 @@ const ProductsManager = () => {
 
       if (editingProduct) {
         await axios.put(
-          `http://localhost:8000/product/updateproduct/${editingProduct.id}`,
+          `${API_URL}/product/updateproduct/${editingProduct.id}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
         toast.success("Product updated successfully!");
       } else {
-        await axios.post("http://localhost:8000/product/addproduct", formData, {
+        await axios.post(`${API_URL}/product/addproduct`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         toast.success("Product added successfully!");
@@ -97,9 +97,7 @@ const ProductsManager = () => {
   const confirmDelete = async () => {
     try {
       setDeletingId(productToDelete);
-      await axios.delete(
-        `http://localhost:8000/product/deleteproduct/${productToDelete}`
-      );
+      await axios.delete(`${API_URL}/product/deleteproduct/${productToDelete}`);
       setProducts(products.filter((p) => p.id !== productToDelete));
       toast.success("Product deleted successfully!");
     } catch (error) {

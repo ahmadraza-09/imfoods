@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Menu, Bell, Search, X } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+const API_URL = process.env.BACKEND_URL;
 
 const Header = ({ onMenuClick, title }) => {
   const [notifications, setNotifications] = useState(() => {
@@ -13,9 +14,7 @@ const Header = ({ onMenuClick, title }) => {
 
   const fetchNotifications = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:8000/contact/getallcontacts"
-      );
+      const res = await axios.get(`${API_URL}/contact/getallcontacts`);
       const newQueries = res.data
         .filter((q) => q.status === "new")
         .map((q) => {
