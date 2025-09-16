@@ -9,6 +9,7 @@ const API_URL = process.env.REACT_APP_BACKEND_URL;
 const BlogSection = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
+  console.log("Backend URL:", API_URL);
 
   const fetchBlogs = async () => {
     setLoading(true);
