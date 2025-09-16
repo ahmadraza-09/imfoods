@@ -8,7 +8,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import ScrollToTop from "../components/ScrollToTop";
 
-const API_URL = process.env.BACKEND_URL;
+const API_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);

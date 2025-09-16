@@ -5,7 +5,7 @@ import Banner from "../components/Banner";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
-const API_URL = process.env.BACKEND_URL;
+const API_URL = process.env.REACT_APP_BACKEND_URL;
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({

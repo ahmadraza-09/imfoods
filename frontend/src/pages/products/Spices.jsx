@@ -4,7 +4,7 @@ import Banner from "../../components/Banner";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-const API_URL = process.env.BACKEND_URL;
+const API_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Spices = () => {
   const [spices, setSpices] = useState([]);

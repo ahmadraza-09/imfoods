@@ -4,7 +4,7 @@ import Banner from "../../components/Banner";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import ProductCard from "../../components/ProductCard";
-const API_URL = process.env.BACKEND_URL;
+const API_URL = process.env.REACT_APP_BACKEND_URL;
 
 const HouseholdProducts = () => {
   const [householdProducts, setHouseholdProducts] = useState([]);
