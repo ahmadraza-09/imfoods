@@ -13,7 +13,7 @@ import { toast } from "react-hot-toast";
 import ProductModal from "./ProductModal";
 import ConfirmModal from "../Modal/ConfirmModal"; // 🔥 add confirm modal
 
-const API_URL = process.env.REACT_APP_BACKEND_URL;
+const API_URL = "https://api.razawebs.com";
 
 const ProductsManager = () => {
   const [products, setProducts] = useState([]);

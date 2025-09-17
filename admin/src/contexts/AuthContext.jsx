@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode"; // <-- note named import
 import { useNavigate } from "react-router-dom";
-const API_URL = process.env.REACT_APP_BACKEND_URL;
+const API_URL = "https://api.razawebs.com";
 
 const AuthContext = createContext();
 
