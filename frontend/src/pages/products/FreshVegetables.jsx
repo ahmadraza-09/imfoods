@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import ProductCard from "../../components/ProductCard";
 import axios from "axios";
-const API_URL = process.env.REACT_APP_BACKEND_URL;
+const API_URL = "https://api.razawebs.com";
 
 const FreshVegetables = () => {
   const [vegetables, setVegetables] = useState([]);

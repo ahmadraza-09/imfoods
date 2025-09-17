@@ -4,7 +4,7 @@ import Banner from "../../components/Banner";
 import ProductCard from "../../components/ProductCard";
 import axios from "axios";
 import toast from "react-hot-toast";
-const API_URL = process.env.REACT_APP_BACKEND_URL;
+const API_URL = "https://api.razawebs.com";
 
 const FreshFruits = () => {
   const [fruits, setFruits] = useState([]);
