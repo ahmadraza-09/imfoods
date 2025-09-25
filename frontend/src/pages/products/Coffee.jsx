@@ -5,6 +5,8 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import ProductCard from "../../components/ProductCard";
 const API_URL = "https://api.razawebs.com";
+import CoffeeImg from "../../assets/category-img/coffee.jpeg";
+import CoffeeBeans from "../../assets/products/coffee/coffee-beans.jpg";
 
 const Coffee = () => {
   const [coffees, setCoffees] = useState([]);
@@ -53,7 +55,7 @@ const Coffee = () => {
       {/* Banner */}
       <Banner
         title="Premium Coffee"
-        bgImage="https://images.pexels.com/photos/1695052/pexels-photo-1695052.jpeg?auto=compress&cs=tinysrgb&w=400"
+        bgImage={CoffeeImg}
         breadcrumbs={[
           { label: "Home", path: "/" },
           { label: "Products", path: "/products" },
@@ -146,7 +148,7 @@ const Coffee = () => {
             </div>
             <div className="text-center">
               <img
-                src="https://images.pexels.com/photos/34085/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=800"
+                src={CoffeeBeans}
                 alt="Coffee beans collection"
                 className="rounded-2xl shadow-2xl mx-auto transform hover:scale-105 transition-transform duration-300"
               />

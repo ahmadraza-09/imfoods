@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import CommitmentSectionImg from "../assets/commitment-section-img.jpeg";
 
 const CommitmentSection = () => {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ const CommitmentSection = () => {
           {/* Right Image */}
           <div className="relative">
             <img
-              src="https://images.pexels.com/photos/1458694/pexels-photo-1458694.jpeg?auto=compress&cs=tinysrgb&w=800"
+              src={CommitmentSectionImg}
               alt="Fresh vegetables"
               className="rounded-2xl shadow-2xl w-full"
             />

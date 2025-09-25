@@ -42,7 +42,7 @@ const ProductCard = ({ name, image, description, badge, inStock = true }) => {
         </p>
 
         {/* Price */}
-        <div className="flex items-center justify-between">
+        {/* <div className="flex items-center justify-between">
           <button
             disabled={!inStock}
             className={`flex items-center px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
@@ -54,7 +54,7 @@ const ProductCard = ({ name, image, description, badge, inStock = true }) => {
             <ShoppingCart className="mr-2 h-4 w-4" />
             {inStock ? "Order Now" : "Out of Stock"}
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

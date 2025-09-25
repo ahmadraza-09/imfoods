@@ -4,6 +4,7 @@ import Banner from "../../components/Banner";
 import { Helmet } from "react-helmet";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import BannerImg from "../../assets/products/spices/spices.jpeg";
 const API_URL = "https://api.razawebs.com";
 
 const Spices = () => {
@@ -53,7 +54,7 @@ const Spices = () => {
       {/* Banner */}
       <Banner
         title="Premium Spices"
-        bgImage="https://images.pexels.com/photos/277253/pexels-photo-277253.jpeg?auto=compress&cs=tinysrgb&w=400"
+        bgImage={BannerImg}
         breadcrumbs={[
           { label: "Home", path: "/" },
           { label: "Products", path: "/products" },
@@ -141,7 +142,7 @@ const Spices = () => {
             <div className="text-center">
               {" "}
               <img
-                src="https://images.pexels.com/photos/277253/pexels-photo-277253.jpeg?auto=compress&cs=tinysrgb&w=800"
+                src={BannerImg}
                 alt="Spice collection"
                 className="rounded-2xl shadow-2xl mx-auto transform hover:scale-105 transition-transform duration-300"
               />{" "}

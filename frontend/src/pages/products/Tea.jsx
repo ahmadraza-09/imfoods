@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import ProductCard from "../../components/ProductCard";
+import BannerImg from "../../assets/products/tea/tea.jpeg";
 const API_URL = "https://api.razawebs.com";
 
 const Tea = () => {
@@ -52,13 +53,13 @@ const Tea = () => {
           name="keywords"
           content="Tea exporter India, Organic Green Tea export, Masala Chai exporter, Black Tea India, Oolong Tea supplier, White Tea export, Herbal Tea exporter, imFoods Tea collection"
         />
-        <link rel="canonical" href="https://www.imfoods.com/products/tea" />
+        <link rel="canonical" href="https://www.imfoodss.com/products/tea" />
       </Helmet>
 
       {/* Banner */}
       <Banner
         title="Premium Tea Collection"
-        bgImage="https://images.pexels.com/photos/1793035/pexels-photo-1793035.jpeg?auto=compress&cs=tinysrgb&w=400"
+        bgImage={BannerImg}
         breadcrumbs={[
           { label: "Home", path: "/" },
           { label: "Products", path: "/products" },
@@ -136,7 +137,7 @@ const Tea = () => {
             </div>
             <div className="text-center">
               <img
-                src="https://images.pexels.com/photos/1793035/pexels-photo-1793035.jpeg?auto=compress&cs=tinysrgb&w=800"
+                src={BannerImg}
                 alt="Premium Tea"
                 className="rounded-2xl shadow-2xl mx-auto transform hover:scale-105 transition-transform duration-300"
               />

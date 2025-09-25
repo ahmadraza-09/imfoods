@@ -2,6 +2,7 @@ import React from "react";
 import { Users, Award, Leaf, Heart } from "lucide-react";
 import Banner from "../components/Banner";
 import { Helmet } from "react-helmet";
+import AboutSectionImg from "../assets/about-section-img.jpeg";
 
 const AboutUs = () => {
   const values = [
@@ -27,7 +28,7 @@ const AboutUs = () => {
     },
   ];
 
-  const pageUrl = "https://yourwebsite.com/about";
+  const pageUrl = "https://imfoodss.com/about";
 
   return (
     <div className="min-h-screen ">
@@ -62,7 +63,7 @@ const AboutUs = () => {
       {/* Banner */}
       <Banner
         title="About Im Foods"
-        bgImage="https://images.pexels.com/photos/1092730/pexels-photo-1092730.jpeg"
+        bgImage={AboutSectionImg}
         breadcrumbs={[{ label: "Home", path: "/" }, { label: "About" }]}
       />
 
@@ -107,7 +108,7 @@ const AboutUs = () => {
           </div>
           <div>
             <img
-              src="https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=600"
+              src={AboutSectionImg}
               alt="Fresh produce"
               className="rounded-lg shadow-lg"
             />

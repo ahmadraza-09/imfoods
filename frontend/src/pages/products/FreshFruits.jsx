@@ -4,6 +4,8 @@ import Banner from "../../components/Banner";
 import ProductCard from "../../components/ProductCard";
 import axios from "axios";
 import toast from "react-hot-toast";
+import BannerImg from "../../assets/hero-img/hero-img1.jpeg";
+import Apple from "../../assets/products/fruits/apple.jpeg";
 const API_URL = "https://api.razawebs.com";
 
 const FreshFruits = () => {
@@ -54,14 +56,14 @@ const FreshFruits = () => {
         <meta name="author" content="IM Foods" />
         <link
           rel="canonical"
-          href="https://www.imfoods.com/products/fresh-fruits"
+          href="https://www.imfoodss.com/products/fresh-fruits"
         />
       </Helmet>
 
       {/* Banner */}
       <Banner
         title="Fresh Fruits"
-        bgImage="https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=400"
+        bgImage={BannerImg}
         breadcrumbs={[
           { label: "Home", path: "/" },
           { label: "Products", path: "/products" },
@@ -141,7 +143,7 @@ const FreshFruits = () => {
             </div>
             <div className="text-center">
               <img
-                src="https://images.pexels.com/photos/102104/pexels-photo-102104.jpeg?auto=compress&cs=tinysrgb&w=800"
+                src={Apple}
                 alt="Fresh fruits basket"
                 className="rounded-2xl shadow-2xl mx-auto transform hover:scale-105 transition-transform duration-300"
               />

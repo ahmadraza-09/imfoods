@@ -7,6 +7,7 @@ import Banner from "../components/Banner";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import ScrollToTop from "../components/ScrollToTop";
+import BgImage from "../assets/contact-section-img.jpeg";
 
 const API_URL = "https://api.razawebs.com";
 
@@ -97,7 +98,7 @@ const Blogs = () => {
         {/* Banner */}
         <Banner
           title="Food & Wellness Blog"
-          bgImage="https://images.pexels.com/photos/1092730/pexels-photo-1092730.jpeg"
+          bgImage={BgImage}
           breadcrumbs={[{ label: "Home", path: "/" }, { label: "Blogs" }]}
         />
 

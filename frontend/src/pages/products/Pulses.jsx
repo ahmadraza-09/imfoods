@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import ProductCard from "../../components/ProductCard";
+import BannerImg from "../../assets/category-img/pulses.jpeg";
 const API_URL = "https://api.razawebs.com";
 
 const Pulses = () => {
@@ -50,16 +51,13 @@ const Pulses = () => {
           name="keywords"
           content="pulses, lentils, kidney beans, chickpeas, moong dal, masoor dal, black lentils, split peas, vegetarian protein, organic pulses, healthy legumes"
         />
-        <link
-          rel="canonical"
-          href="https://www.imfoods.com/premium-pulses-lentils"
-        />
+        <link rel="canonical" href="https://www.imfoodss.com/products/pulses" />
       </Helmet>
 
       {/* Banner */}
       <Banner
         title="Premium Pulses & Lentils"
-        bgImage="https://images.pexels.com/photos/1393382/pexels-photo-1393382.jpeg?auto=compress&cs=tinysrgb&w=400"
+        bgImage={BannerImg}
         breadcrumbs={[
           { label: "Home", path: "/" },
           { label: "Products", path: "/products" },
@@ -135,7 +133,7 @@ const Pulses = () => {
             </div>
             <div className="text-center">
               <img
-                src="https://images.pexels.com/photos/1393382/pexels-photo-1393382.jpeg?auto=compress&cs=tinysrgb&w=800"
+                src={BannerImg}
                 alt="Premium Pulses"
                 className="rounded-2xl shadow-2xl mx-auto transform hover:scale-105 transition-transform duration-300"
               />

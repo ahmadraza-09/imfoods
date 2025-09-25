@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import ProductCard from "../../components/ProductCard";
+import BannerImg from "../../assets/category-img/oil.jpg";
 const API_URL = "https://api.razawebs.com";
 
 const Oil = () => {
@@ -47,16 +48,13 @@ const Oil = () => {
           name="keywords"
           content="IMFoods, oil exporter India, olive oil export, coconut oil supplier, avocado oil India, sesame oil exporter, sunflower oil wholesale, mustard oil supplier, cooking oil export"
         />
-        <link
-          rel="canonical"
-          href="https://www.imfoods.com/premium-cooking-oils"
-        />
+        <link rel="canonical" href="https://www.imfoodss.com/products/oil" />
       </Helmet>
 
       {/* Banner */}
       <Banner
         title="Premium Cooking Oils"
-        bgImage="https://images.pexels.com/photos/33783/olive-oil-salad-dressing-cooking-olive.jpg?auto=compress&cs=tinysrgb&w=400"
+        bgImage={BannerImg}
         breadcrumbs={[
           { label: "Home", path: "/" },
           { label: "Products", path: "/products" },
@@ -128,7 +126,7 @@ const Oil = () => {
             </div>
             <div className="text-center">
               <img
-                src="https://images.pexels.com/photos/33783/olive-oil-salad-dressing-cooking-olive.jpg?auto=compress&cs=tinysrgb&w=800"
+                src={BannerImg}
                 alt="Premium Oils"
                 className="rounded-2xl shadow-2xl mx-auto transform hover:scale-105 transition-transform duration-300"
               />

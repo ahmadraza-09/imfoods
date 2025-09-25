@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { SquareArrowRight } from "lucide-react";
+import ContactSectionImg from "../assets/contact-section-img.jpeg";
 
 const ContactUsSection = () => {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ const ContactUsSection = () => {
         {/* Right Side Food Image */}
         <div className="w-full h-[350px] md:h-[450px]">
           <img
-            src="https://images.pexels.com/photos/1092730/pexels-photo-1092730.jpeg"
+            src={ContactSectionImg}
             alt="Delicious food"
             className="w-full h-full object-cover rounded-2xl shadow-lg"
           />

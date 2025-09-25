@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { CircleChevronRight } from "lucide-react";
+import AboutSectionImg from "../assets/about-section-img.jpeg";
 
 const AboutSection = () => {
   return (
@@ -41,7 +42,7 @@ const AboutSection = () => {
           </div>
           <div>
             <img
-              src="https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=600"
+              src={AboutSectionImg}
               alt="Fresh produce"
               className="rounded-lg shadow-lg"
             />

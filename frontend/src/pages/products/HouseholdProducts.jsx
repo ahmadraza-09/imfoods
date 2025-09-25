@@ -4,6 +4,7 @@ import Banner from "../../components/Banner";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import ProductCard from "../../components/ProductCard";
+import Household from "../../assets/products/household-products/household.jpg";
 const API_URL = "https://api.razawebs.com";
 
 const HouseholdProducts = () => {
@@ -52,7 +53,7 @@ const HouseholdProducts = () => {
       {/* Banner */}
       <Banner
         title="Household Products"
-        bgImage="https://images.pexels.com/photos/4487779/pexels-photo-4487779.jpeg?auto=compress&cs=tinysrgb&w=400"
+        bgImage={Household}
         breadcrumbs={[
           { label: "Home", path: "/" },
           { label: "Products", path: "/products" },
@@ -130,7 +131,7 @@ const HouseholdProducts = () => {
             </div>
             <div className="text-center">
               <img
-                src="https://images.pexels.com/photos/374074/pexels-photo-374074.jpeg?auto=compress&cs=tinysrgb&w=800"
+                src={Household}
                 alt="Household products"
                 className="rounded-2xl shadow-2xl mx-auto transform hover:scale-105 transition-transform duration-300"
               />

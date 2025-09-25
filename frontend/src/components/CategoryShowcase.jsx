@@ -1,64 +1,78 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import Spices from "../assets/category-img/spices.jpeg";
+import Pulses from "../assets/category-img/pulses.jpeg";
+import Fruits from "../assets/category-img/fruits.jpeg";
+import Oil from "../assets/category-img/oil.jpg";
+import Vegetables from "../assets/category-img/vegetables.jpeg";
+import Grains from "../assets/category-img/grains.jpeg";
+import Tea from "../assets/category-img/tea.jpeg";
+import Coffee from "../assets/category-img/coffee.jpeg";
+import Household from "../assets/category-img/household.jpg";
+import Dairy from "../assets/category-img/dairy.avif";
 
 const CategoryShowcase = () => {
   const categories = [
     {
       name: "Spices",
       path: "/products/spices",
-      image:
-        "https://images.pexels.com/photos/277253/pexels-photo-277253.jpeg?auto=compress&cs=tinysrgb&w=400",
+      image: Spices,
       description: "Authentic spices from around the world",
     },
     {
       name: "Pulses",
       path: "/products/pulses",
-      image:
-        "https://images.pexels.com/photos/4224259/pexels-photo-4224259.jpeg?auto=compress&cs=tinysrgb&w=400",
+      image: Pulses,
       description: "Protein-rich lentils and legumes",
     },
     {
       name: "Fresh Fruits",
       path: "/products/fresh-fruits",
-      image:
-        "https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=400",
+      image: Fruits,
       description: "Farm-fresh seasonal fruits",
     },
     {
       name: "Fresh Vegetables",
       path: "/products/fresh-vegetables",
-      image:
-        "https://images.pexels.com/photos/1458694/pexels-photo-1458694.jpeg?auto=compress&cs=tinysrgb&w=400",
+      image: Vegetables,
       description: "Garden-fresh organic vegetables",
     },
     {
       name: "Tea",
       path: "/products/tea",
-      image:
-        "https://images.pexels.com/photos/1638280/pexels-photo-1638280.jpeg?auto=compress&cs=tinysrgb&w=400",
+      image: Tea,
       description: "Premium tea blends and varieties",
     },
     {
       name: "Coffee",
       path: "/products/coffee",
-      image:
-        "https://images.pexels.com/photos/894695/pexels-photo-894695.jpeg?auto=compress&cs=tinysrgb&w=400",
+      image: Coffee,
       description: "Expertly roasted coffee beans",
     },
     {
       name: "Grains",
       path: "/products/grains",
-      image:
-        "https://images.pexels.com/photos/1192037/pexels-photo-1192037.jpeg?auto=compress&cs=tinysrgb&w=400",
+      image: Grains,
       description: "Wholesome ancient and modern grains",
     },
     {
       name: "Oil",
       path: "/products/oil",
-      image:
-        "https://images.pexels.com/photos/33783/olive-oil-salad-dressing-cooking-olive.jpg?auto=compress&cs=tinysrgb&w=400",
+      image: Oil,
       description: "Pure, cold-pressed cooking oils",
+    },
+    {
+      name: "Dairy",
+      path: "/products/dairy-products",
+      image: Dairy,
+      description: "Milk, Fresh Curd, Fresh Paneer",
+    },
+    {
+      name: "Household",
+      path: "/products/household-products",
+      image: Household,
+      description: "Pure, Detergent Powder, Appliances",
     },
   ];
   return (

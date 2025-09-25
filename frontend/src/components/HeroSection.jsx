@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ShoppingCart, Star } from "lucide-react";
+import HeroImg1 from "../assets//hero-img/hero-img1.jpeg";
+import HeroImg2 from "../assets//hero-img/hero-img2.jpeg";
+import HeroImg3 from "../assets//hero-img/hero-img3.jpeg";
+import HeroImg4 from "../assets//hero-img/hero-img4.jpeg";
 
 const HeroSection = () => {
-  const images = [
-    "https://images.pexels.com/photos/1132047/pexels-photo-1132047.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.pexels.com/photos/1132040/pexels-photo-1132040.jpeg?auto=compress&cs=tinysrgb&w=800",
-    "https://images.pexels.com/photos/1213710/pexels-photo-1213710.jpeg?auto=compress&cs=tinysrgb&w=800",
-  ];
+  const images = [HeroImg1, HeroImg2, HeroImg3, HeroImg4];
 
   const [currentIndex, setCurrentIndex] = useState(0);
 

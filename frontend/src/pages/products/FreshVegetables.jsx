@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useState, useEffect } from "react";
 import ProductCard from "../../components/ProductCard";
 import axios from "axios";
+import BannerImg from "../../assets/products/vegetables/vegetable.jpeg";
 const API_URL = "https://api.razawebs.com";
 
 const FreshVegetables = () => {
@@ -47,13 +48,15 @@ const FreshVegetables = () => {
           name="keywords"
           content="IMFoods, fresh vegetables export, organic vegetables India, vegetable exporter India, wholesale vegetables, broccoli, tomatoes, spinach, carrots, onions, bell peppers, farm fresh vegetables"
         />
-        <link rel="canonical" href="https://www.imfoods.com/fresh-vegetables" />
+        <link
+          rel="canonical"
+          href="https://www.imfoodss.com/products/fresh-vegetables"
+        />
       </Helmet>
 
       {/* Banner */}
       <Banner
-        title="Fresh Vegetables"
-        bgImage="https://images.pexels.com/photos/128536/pexels-photo-128536.jpeg?auto=compress&cs=tinysrgb&w=400"
+        title={BannerImg}
         breadcrumbs={[
           { label: "Home", path: "/" },
           { label: "Products", path: "/products" },
@@ -125,7 +128,7 @@ const FreshVegetables = () => {
             </div>
             <div className="text-center">
               <img
-                src="https://images.pexels.com/photos/128536/pexels-photo-128536.jpeg?auto=compress&cs=tinysrgb&w=800"
+                src={BannerImg}
                 alt="Fresh Vegetables"
                 className="rounded-2xl shadow-2xl mx-auto transform hover:scale-105 transition-transform duration-300"
               />

@@ -41,7 +41,7 @@ const BlogDetailsPage = () => {
   if (!blog) {
     return <p className="text-center mt-10 text-red-500">Blog not found!</p>;
   }
-  const pageUrl = `https://imfoods.com/blog/${blog._id}`;
+  const pageUrl = `https://imfoodss.com/blog/${blog._id}`;
 
   return (
     <div className="bg-gray-50 min-h-screen py-30">

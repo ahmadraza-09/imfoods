@@ -4,6 +4,7 @@ import { MapPin, Phone, Mail, Clock, MessageSquare } from "lucide-react";
 import Banner from "../components/Banner";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import BannerBg from "../assets/contact-section-img.jpeg";
 
 const API_URL = "https://api.razawebs.com";
 
@@ -82,13 +83,13 @@ const ContactUs = () => {
           name="description"
           content="Get in touch with IMFoods Pvt. Ltd. for inquiries about exporting Indian spices, fruits, vegetables, pulses, grains, oils, tea & coffee worldwide."
         />
-        <link rel="canonical" href="https://imfoods.com/contact" />
+        <link rel="canonical" href="https://imfoodss.com/contact" />
       </Helmet>
 
       {/* Banner */}
       <Banner
         title="Contact Us"
-        bgImage="https://images.pexels.com/photos/1092730/pexels-photo-1092730.jpeg"
+        bgImage={BannerBg}
         breadcrumbs={[{ label: "Home", path: "/" }, { label: "Contact" }]}
       />
 
