@@ -10,7 +10,7 @@ import {
   CheckCircle,
   MessageSquare,
 } from "lucide-react";
-const API_URL = "https://api.razawebs.com";
+const API_URL = "https://api.imfoodss.com";
 
 const ContactManager = () => {
   const [contacts, setContacts] = useState([]);

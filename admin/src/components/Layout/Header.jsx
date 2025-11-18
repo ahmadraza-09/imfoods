@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Menu, Bell, Search, X } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-const API_URL = "https://api.razawebs.com";
+const API_URL = "https://api.imfoodss.com";
 
 const Header = ({ onMenuClick, title }) => {
   const [notifications, setNotifications] = useState(() => {

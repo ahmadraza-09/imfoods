@@ -3,7 +3,7 @@ import { Search, Edit, Trash2, Shield, User } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 
-const API_URL = "https://api.razawebs.com";
+const API_URL = "https://api.imfoodss.com";
 
 const UsersManager = () => {
   const [admin, setAdmin] = useState(null);
