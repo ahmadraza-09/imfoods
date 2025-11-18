@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import BannerImg from "../../assets/products/spices/spices.jpeg";
-const API_URL = "https://api.razawebs.com";
+const API_URL = "https://api.imfoodss.com";
 
 const Spices = () => {
   const [spices, setSpices] = useState([]);

@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import { Calendar, User, Tag } from "lucide-react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-const API_URL = "https://api.razawebs.com";
+const API_URL = "https://api.imfoodss.com";
 
 const BlogDetailsPage = () => {
   const { title } = useParams();

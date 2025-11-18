@@ -6,7 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import ProductCard from "../../components/ProductCard";
 import BannerImg from "../../assets/products/grains-and-cereal/rice.png";
-const API_URL = "https://api.razawebs.com";
+const API_URL = "https://api.imfoodss.com";
 
 const Grains = () => {
   const [grains, setGrains] = useState([]);

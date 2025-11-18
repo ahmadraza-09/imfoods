@@ -9,7 +9,7 @@ import { toast } from "react-hot-toast";
 import ScrollToTop from "../components/ScrollToTop";
 import BgImage from "../assets/contact-section-img.jpeg";
 
-const API_URL = "https://api.razawebs.com";
+const API_URL = "https://api.imfoodss.com";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
