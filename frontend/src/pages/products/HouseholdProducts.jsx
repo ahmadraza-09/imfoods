@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import ProductCard from "../../components/ProductCard";
 import Household from "../../assets/products/household-products/household.jpg";
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = "https://api.imfoodss.com";
 
 const HouseholdProducts = () => {
   const [householdProducts, setHouseholdProducts] = useState([]);

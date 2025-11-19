@@ -6,7 +6,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import BannerBg from "../assets/contact-section-img.jpeg";
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = "https://api.imfoodss.com";
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({

@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import ProductCard from "../../components/ProductCard";
 import Dairy from "../../assets/category-img/dairy.avif";
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = "https://api.imfoodss.com";
 
 const DairyProducts = () => {
   const [dairyProducts, setDairyProducts] = useState([]);

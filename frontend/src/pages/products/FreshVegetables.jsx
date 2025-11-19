@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import ProductCard from "../../components/ProductCard";
 import axios from "axios";
 import BannerImg from "../../assets/products/vegetables/vegetable.jpeg";
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = "https://api.imfoodss.com";
 
 const FreshVegetables = () => {
   const [vegetables, setVegetables] = useState([]);

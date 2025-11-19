@@ -6,7 +6,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import BannerImg from "../../assets/hero-img/hero-img1.jpeg";
 import Apple from "../../assets/products/fruits/apple.jpeg";
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = "https://api.imfoodss.com";
 
 const FreshFruits = () => {
   const [fruits, setFruits] = useState([]);
