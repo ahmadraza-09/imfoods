@@ -4,7 +4,7 @@ import StatsCard from "./StatsCard";
 import { storage } from "../../utils/storage";
 import { toast } from "react-hot-toast";
 import axios from "axios";
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = "https://api.imfoodss.com";
 
 const DashboardOverview = () => {
   // const contacts = storage.getContacts();
