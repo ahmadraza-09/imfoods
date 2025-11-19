@@ -37,7 +37,7 @@ const HomePage = () => {
         />
         <meta
           property="og:image"
-          content="https://imfoods.com/images/og-image.jpg"
+          content="https://imfoodss.com/images/og-image.jpg"
         />
         <meta property="og:url" content="https://imfoodss.com/" />
         <meta property="og:type" content="website" />

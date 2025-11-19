@@ -9,7 +9,7 @@ const API_URL = "https://api.imfoodss.com";
 const BlogSection = () => {
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(false);
-  console.log("Backend URL:", API_URL);
+  // console.log("Backend URL:", API_URL);
 
   const fetchBlogs = async () => {
     setLoading(true);
