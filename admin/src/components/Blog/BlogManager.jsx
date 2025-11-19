@@ -4,7 +4,7 @@ import BlogModal from "./BlogModal";
 import ConfirmModal from "../Modal/ConfirmModal";
 import axios from "axios";
 import toast from "react-hot-toast";
-const API_URL = "https://api.imfoodss.com";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const BlogManager = () => {
   const [blogs, setBlogs] = useState([]);

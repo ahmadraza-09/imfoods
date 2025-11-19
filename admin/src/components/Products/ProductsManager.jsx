@@ -13,7 +13,7 @@ import { toast } from "react-hot-toast";
 import ProductModal from "./ProductModal";
 import ConfirmModal from "../Modal/ConfirmModal"; // 🔥 add confirm modal
 
-const API_URL = "https://api.imfoodss.com";
+const API_URL = process.env.REACT_APP_API_URL;
 
 const ProductsManager = () => {
   const [products, setProducts] = useState([]);
