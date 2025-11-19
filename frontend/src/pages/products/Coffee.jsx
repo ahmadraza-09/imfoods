@@ -4,7 +4,7 @@ import Banner from "../../components/Banner";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import ProductCard from "../../components/ProductCard";
-const API_URL = "https://api.imfoodss.com";
+const API_URL = process.env.REACT_APP_API_URL;
 import CoffeeImg from "../../assets/category-img/coffee.jpeg";
 import CoffeeBeans from "../../assets/products/coffee/coffee-beans.jpg";
 
